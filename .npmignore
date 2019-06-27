@@ -1,0 +1,9 @@
+/.idea
+/src
+/tests
+
+/.babelrc.js
+/.eslintrc
+/.prettierrc.js
+/jasmine.json
+/jasmine.run.js

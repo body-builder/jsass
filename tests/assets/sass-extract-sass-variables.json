@@ -1,0 +1,516 @@
+{
+  "global": {
+    "$null": {
+      "type": "SassNull",
+      "value": null,
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "null",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 1,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$bool": {
+      "type": "SassBoolean",
+      "value": true,
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "true",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 2,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$string_unquoted": {
+      "type": "SassString",
+      "value": "string",
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "string",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 3,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$string_quoted": {
+      "type": "SassString",
+      "value": "string",
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "'string'",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 4,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$number_without_unit": {
+      "type": "SassNumber",
+      "value": 1,
+      "unit": "",
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "1",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 5,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$number_with_unit": {
+      "type": "SassNumber",
+      "value": 1,
+      "unit": "px",
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "1px",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 6,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$color_without_alpha": {
+      "type": "SassColor",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 1,
+        "hex": "#000000"
+      },
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "#000",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 7,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$color_with_alpha": {
+      "type": "SassColor",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 0.5,
+        "hex": "#000000"
+      },
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "rgba(#000, 0.5)",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 8,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$list_space": {
+      "type": "SassList",
+      "value": [
+        {
+          "type": "SassString",
+          "value": "a"
+        },
+        {
+          "type": "SassString",
+          "value": "b"
+        },
+        {
+          "type": "SassString",
+          "value": "c"
+        }
+      ],
+      "separator": " ",
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "a b c",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 9,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$list_comma": {
+      "type": "SassList",
+      "value": [
+        {
+          "type": "SassString",
+          "value": "a"
+        },
+        {
+          "type": "SassString",
+          "value": "b"
+        },
+        {
+          "type": "SassString",
+          "value": "c"
+        }
+      ],
+      "separator": ",",
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "a, b, c",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 10,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$list_mixed": {
+      "type": "SassList",
+      "value": [
+        {
+          "type": "SassNull",
+          "value": null
+        },
+        {
+          "type": "SassBoolean",
+          "value": true
+        },
+        {
+          "type": "SassString",
+          "value": "string"
+        },
+        {
+          "type": "SassString",
+          "value": "string"
+        },
+        {
+          "type": "SassNumber",
+          "value": 1,
+          "unit": ""
+        },
+        {
+          "type": "SassNumber",
+          "value": 1,
+          "unit": "px"
+        },
+        {
+          "type": "SassColor",
+          "value": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1,
+            "hex": "#000000"
+          }
+        },
+        {
+          "type": "SassColor",
+          "value": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.5,
+            "hex": "#000000"
+          }
+        },
+        {
+          "type": "SassList",
+          "value": [
+            {
+              "type": "SassString",
+              "value": "a"
+            },
+            {
+              "type": "SassString",
+              "value": "b"
+            },
+            {
+              "type": "SassString",
+              "value": "c"
+            }
+          ],
+          "separator": " "
+        },
+        {
+          "type": "SassList",
+          "value": [
+            {
+              "type": "SassString",
+              "value": "a"
+            },
+            {
+              "type": "SassString",
+              "value": "b"
+            },
+            {
+              "type": "SassString",
+              "value": "c"
+            }
+          ],
+          "separator": ","
+        },
+        {
+          "type": "SassMap",
+          "value": {
+            "a": {
+              "type": "SassString",
+              "value": "a"
+            },
+            "b": {
+              "type": "SassString",
+              "value": "b"
+            },
+            "c": {
+              "type": "SassString",
+              "value": "c"
+            }
+          }
+        }
+      ],
+      "separator": ",",
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "null, true, string, 'string', 1, 1px, #000, rgba(#000, 0.5), a b c, (a, b, c), (a: a, b: b, c: c)",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 11,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$map": {
+      "type": "SassMap",
+      "value": {
+        "a": {
+          "type": "SassString",
+          "value": "a"
+        },
+        "b": {
+          "type": "SassString",
+          "value": "b"
+        },
+        "c": {
+          "type": "SassString",
+          "value": "c"
+        }
+      },
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "(a: a, b: b, c: c)",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 12,
+            "column": 1
+          }
+        }
+      ]
+    },
+    "$map_mixed": {
+      "type": "SassMap",
+      "value": {
+        "null": {
+          "type": "SassNull",
+          "value": null
+        },
+        "bool": {
+          "type": "SassBoolean",
+          "value": true
+        },
+        "string_unquoted": {
+          "type": "SassString",
+          "value": "string"
+        },
+        "string_quoted": {
+          "type": "SassString",
+          "value": "string"
+        },
+        "number_without_unit": {
+          "type": "SassNumber",
+          "value": 1,
+          "unit": ""
+        },
+        "number_with_unit": {
+          "type": "SassNumber",
+          "value": 1,
+          "unit": "px"
+        },
+        "color_without_alpha": {
+          "type": "SassColor",
+          "value": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1,
+            "hex": "#000000"
+          }
+        },
+        "color_with_alpha": {
+          "type": "SassColor",
+          "value": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 0.5,
+            "hex": "#000000"
+          }
+        },
+        "list_space": {
+          "type": "SassList",
+          "value": [
+            {
+              "type": "SassString",
+              "value": "a"
+            },
+            {
+              "type": "SassString",
+              "value": "b"
+            },
+            {
+              "type": "SassString",
+              "value": "c"
+            }
+          ],
+          "separator": " "
+        },
+        "list_comma": {
+          "type": "SassList",
+          "value": [
+            {
+              "type": "SassString",
+              "value": "a"
+            },
+            {
+              "type": "SassString",
+              "value": "b"
+            },
+            {
+              "type": "SassString",
+              "value": "c"
+            }
+          ],
+          "separator": ","
+        }
+      },
+      "sources": [
+        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
+      ],
+      "declarations": [
+        {
+          "expression": "(\n\tnull: null,\n\tbool: true,\n\tstring_unquoted: string,\n\tstring_quoted: 'string',\n\tnumber_without_unit: 1,\n\tnumber_with_unit: 1px,\n\n\tcolor_without_alpha: #000,\n\tcolor_with_alpha: rgba(#000, 0.5),\n\tlist_space: a b c,\n\tlist_comma: (a, b, c)\n)",
+          "flags": {
+            "default": false,
+            "global": false
+          },
+          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
+          "position": {
+            "line": 13,
+            "column": 1
+          }
+        }
+      ]
+    }
+  }
+}

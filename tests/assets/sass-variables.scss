@@ -1,0 +1,25 @@
+$null: null;
+$bool: true;
+$string_unquoted: string;
+$string_quoted: 'string';
+$number_without_unit: 1;
+$number_with_unit: 1px;
+$color_without_alpha: #000;
+$color_with_alpha: rgba(#000, 0.5);
+$list_space: a b c;
+$list_comma: a, b, c;
+$list_mixed: null, true, string, 'string', 1, 1px, #000, rgba(#000, 0.5), a b c, (a, b, c), (a: a, b: b, c: c);
+$map: (a: a, b: b, c: c);
+$map_mixed: (
+	null: null,
+	bool: true,
+	string_unquoted: string,
+	string_quoted: 'string',
+	number_without_unit: 1,
+	number_with_unit: 1px,
+
+	color_without_alpha: #000,
+	color_with_alpha: rgba(#000, 0.5),
+	list_space: a b c,
+	list_comma: (a, b, c)
+);

@@ -1,0 +1,55 @@
+{
+  "name": "jsass",
+  "version": "1.0.0-alpha.1",
+  "description": "Pass and convert data between JS and node-sass",
+  "homepage": "https://github.com/body-builder/jsass#readme",
+  "repository": "https://github.com/body-builder/jsass",
+  "bugs": {
+    "url": "https://github.com/body-builder/jsass/issues"
+  },
+  "author": "Benedek Káldi",
+  "license": "ISC",
+  "main": "index.js",
+  "scripts": {
+    "watch": "npx babel src --watch --out-dir dist",
+    "build": "npx babel src --out-dir dist",
+    "jasmine": "babel-node ./jasmine.run.js",
+    "eslint": "eslint 'src/**/*.js'",
+    "test": "npm run eslint && npm run jasmine",
+    "prepack": "npm run test && npm run build"
+  },
+  "keywords": [
+    "node-sass",
+    "scss",
+    "sass",
+    "convert",
+    "converter",
+    "scss-functions",
+    "sass-functions",
+    "scss-variables",
+    "sass-variables",
+    "sass-extract"
+  ],
+  "dependencies": {
+    "color-string": "^1.5.3",
+    "kind-of": "^6.0.2"
+  },
+  "peerDependencies": {
+    "node-sass": "3 || 4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.0.1",
+    "eslint-plugin-jasmine": "^2.10.1",
+    "eslint-plugin-prettier": "^3.1.0",
+    "jasmine": "^3.4.0",
+    "jasmine-spec-reporter": "^4.2.1",
+    "node-sass": "^4.12.0",
+    "prettier": "^1.18.2"
+  }
+}
