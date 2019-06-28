@@ -45,6 +45,12 @@ Object.defineProperty(exports, "NodeSassVarsToJs", {
     return _NodeSassVarsToJs["default"];
   }
 });
+Object.defineProperty(exports, "jsVarsToDefinePlugin", {
+  enumerable: true,
+  get: function get() {
+    return _jsVarsToDefinePlugin["default"];
+  }
+});
 
 var _JSass = _interopRequireWildcard(require("./JSass"));
 
@@ -57,6 +63,8 @@ var _JSVarsToNodeSass = _interopRequireDefault(require("./JSVarsToNodeSass"));
 var _JSVarsToSassString = _interopRequireDefault(require("./JSVarsToSassString"));
 
 var _NodeSassVarsToJs = _interopRequireDefault(require("./NodeSassVarsToJs"));
+
+var _jsVarsToDefinePlugin = _interopRequireDefault(require("./jsVarsToDefinePlugin"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
