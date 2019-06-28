@@ -3,6 +3,7 @@ const sass = require('node-sass');
 const Deferred = require('./helpers/Deferred');
 const sync_test = require('./assets/jsFunctionsToNodeSass').sync;
 const async_test = require('./assets/jsFunctionsToNodeSass').async;
+const async_es6_test = require('./assets/jsFunctionsToNodeSass').async_es6;
 
 const JSFunctionsToNodeSass = require('../src/JSFunctionsToNodeSass');
 const jsFunctionsToNodeSass = new JSFunctionsToNodeSass();
@@ -186,15 +187,28 @@ describe('jsFunctionsToNodeSass', function() {
 		expect(value.getValue()).toEqual(sass.types.String('sync sync').getValue());
 	});
 
-	it('Should handle asynchronous functions', async function() {
-		// Mocking node-sass's `done()` with a promise
-		const done = new Deferred();
+	describe('Should handle asynchronous functions', function() {
+		it('Returning promise', async function() {
+			// Mocking node-sass's `done()` with a promise
+			const done = new Deferred();
 
-		jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', async_test, [sass.types.String('async'), sass.types.Number(3), done.resolve]);
+			jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', async_test, [sass.types.String('async'), sass.types.Number(3), done.resolve]);
 
-		const value = await done;
+			const value = await done;
 
-		expect(value.getValue()).toEqual(sass.types.String('async async async').getValue());
+			expect(value.getValue()).toEqual(sass.types.String('async async async').getValue());
+		});
+
+		it('Async function', async function() {
+			// Mocking node-sass's `done()` with a promise
+			const done = new Deferred();
+
+			jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', async_es6_test, [sass.types.String('async'), sass.types.Number(4), done.resolve]);
+
+			const value = await done;
+
+			expect(value.getValue()).toEqual(sass.types.String('async async async async').getValue());
+		});
 	});
 
 	it('Should convert incoming node-sass type arguments to JS', function() {
