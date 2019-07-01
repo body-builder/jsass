@@ -56,8 +56,12 @@ function (_JSVarsToNodeSass) {
       quotedKeys: true,
       // Though Sass allows map keys to be of any Sass type, it is recommended to use quoted strings to avoid confusing problems (see https://sass-lang.com/documentation/values/maps)
       listSeparator: ', ',
-      quote: "'" // prettier-ignore
-
+      quote: "'",
+      flags: {
+        important: false,
+        "default": false,
+        global: false
+      }
     }, options)));
     _this.convert = _this._iterator;
     _this._nodeSassVarsToJs = new NodeSassVarsToJs();
@@ -84,12 +88,18 @@ function (_JSVarsToNodeSass) {
   }, {
     key: "_convert_null",
     value: function _convert_null(value, options) {
-      return null;
+      return JSON.stringify(null);
     }
   }, {
     key: "_convert_boolean",
     value: function _convert_boolean(value, options) {
-      return value;
+      return JSON.stringify(value);
+    } // _convert_error is implemented only because of JSFunctionsToNodeSass, we "skip" it here.
+
+  }, {
+    key: "_convert_error",
+    value: function _convert_error(value, options) {
+      throw value;
     }
   }, {
     key: "_convert_number",
@@ -151,9 +161,12 @@ function (_JSVarsToNodeSass) {
 
       var sassValue = this._convert(value, options);
 
-      if (sassValue === undefined) throw new Error('JSVarsToSass could not convert the following variable: ' + key);
       returnData.push(sassKey + ': ' + sassValue);
-      if (options.flags) options.flags.map(returnData.push());
+      Object.keys(options.flags).forEach(function (flag) {
+        if (options.flags[flag] === true) {
+          returnData.push('!' + flag);
+        }
+      });
       if (options.syntax === 'scss') returnData.push(';');
       return returnData.join(''); // We are joining the Array without commas
     }

@@ -157,6 +157,9 @@ function () {
         case 'object':
           return this._convert_object(value, options);
 
+        case 'error':
+          return this._convert_error(value, options);
+
         default:
           if (this._options.strict === false) {
             return sass.types.String("[JS ".concat(type.replace(/./, function (x) {
@@ -177,6 +180,11 @@ function () {
     key: "_convert_boolean",
     value: function _convert_boolean(value, options) {
       return sass.types.Boolean(value);
+    }
+  }, {
+    key: "_convert_error",
+    value: function _convert_error(value, options) {
+      return sass.types.Error(value.message);
     }
     /**
      * Converts a JS Number or a { value: Number, unit: String } object to a SassNumber instance

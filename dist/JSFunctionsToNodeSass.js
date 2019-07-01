@@ -67,6 +67,19 @@ function () {
         return null;
       }
     }
+    /**
+     * Converts String `error` to an Error, or if it is already an Error, returns it as-is
+     * @param {String|Error} error
+     * @returns {Error}
+     * @private
+     */
+
+  }, {
+    key: "_createError",
+    value: function _createError(error) {
+      // prettier-ignore
+      return error instanceof Error ? error : new Error(error);
+    }
   }, {
     key: "_wrapFunction",
     value: function _wrapFunction(sass_decl, fn) {
@@ -106,14 +119,24 @@ function () {
         }
       }); // Calling the given function with the transformed arguments
 
-      var value = fn.apply(null, jsTypeArgs); // Returning JS values in node-sass types
+      var value;
+
+      try {
+        value = fn.apply(null, jsTypeArgs);
+      } catch (error) {
+        return this._jsVarsToNodeSass._convert(this._createError(error), options);
+      } // Returning JS values in node-sass types
+
 
       if (value instanceof Promise) {
         if (kindOf(done) !== 'function') {
           throw new Error('JSFunctionsToSass - no callback provided from node-sass!');
-        }
+        } // TODO Finish error handling tests
 
-        value.then(function (resolved) {
+
+        value["catch"](function (error) {
+          return done(_this._jsVarsToNodeSass._convert(_this._createError(error), options));
+        }).then(function (resolved) {
           return done(_this._jsVarsToNodeSass._convert(resolved, options));
         });
       } else {

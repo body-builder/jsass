@@ -170,7 +170,7 @@ function jSass_resolve(selector) {
   if (typeof jSass.get !== 'function') throw new Error('jSass: jSass instance not found'); // Return the resolved value, if it's a variable
 
   if (typeof selector === 'string' && selector.substring(0, 1) === '$') {
-    var resolved = window.jSass.get(selector);
+    var resolved = jSass.get(selector);
 
     if (!isValidSelector(resolved)) {
       throw new Error('jSass: requested variable `' + resolved + '` doesn\'t seem to be a valid selector'); // prettier-ignore
@@ -182,19 +182,21 @@ function jSass_resolve(selector) {
   return selector;
 }
 /**
- * JSass 'plugin' for jQuery to return the value of the given Sass variable (or a jQuery collection, if the value is a CSS selector)
+ * JSass patch for jQuery to return the value of the given Sass variable (or a jQuery collection, if the value is a CSS selector)
  * Extends jQuery's init method so it checks for '$' at the beginning of the selector value. If found, tries to resolve it with jSass, and if it's a real selector, passes it to jQuery.
  * Anything else untouched, so jQuery works as expected (tested with jQuery 2.2.4 and 3.4.1).
+ * @param jSass The jSass instance
  * @param jQuery The jQuery instance
  */
 
 
 function JSass_mod_jQuery() {
-  var jQuery = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window.jQuery;
+  var jSass = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window.jSass;
+  var jQuery = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : window.jQuery;
   jQuery.fn.extend({
     initCore: jQuery.fn.init,
     init: function init(selector, context, root) {
-      return this.initCore(jSass_resolve(selector), jSass_resolve(context), root);
+      return this.initCore(jSass_resolve(selector, jSass), jSass_resolve(context, jSass), root);
     }
   });
   jQuery.fn.init.prototype = jQuery.fn;
