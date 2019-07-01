@@ -43,11 +43,11 @@ class JSVarsToSassString extends JSVarsToNodeSass {
 	}
 
 	_convert_null(value, options) {
-		return null;
+		return JSON.stringify(null);
 	}
 
 	_convert_boolean(value, options) {
-		return value;
+		return JSON.stringify(value);
 	}
 
 	// _convert_error is implemented only because of JSFunctionsToNodeSass, we "skip" it here.
