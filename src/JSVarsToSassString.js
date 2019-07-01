@@ -18,7 +18,12 @@ class JSVarsToSassString extends JSVarsToNodeSass {
 			syntax: 'scss',
 			quotedKeys: true, // Though Sass allows map keys to be of any Sass type, it is recommended to use quoted strings to avoid confusing problems (see https://sass-lang.com/documentation/values/maps)
 			listSeparator: ', ',
-			quote: "'" // prettier-ignore
+			quote: "'",
+			flags: {
+				important: false,
+				default: false,
+				global: false
+			}
 		}, options));
 
 		this.convert = this._iterator;
@@ -107,7 +112,12 @@ class JSVarsToSassString extends JSVarsToNodeSass {
 
 		returnData.push(sassKey + ': ' + sassValue);
 
-		if (options.flags) options.flags.map(returnData.push());
+		Object.keys(options.flags).forEach((flag) => {
+			if (options.flags[flag] === true) {
+				returnData.push('!' + flag);
+			}
+		});
+
 		if (options.syntax === 'scss') returnData.push(';');
 
 		return returnData.join(''); // We are joining the Array without commas

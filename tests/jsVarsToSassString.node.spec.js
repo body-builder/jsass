@@ -137,6 +137,14 @@ describe('jsVarsToSassString', function() {
 		jsVarsToSassString.setOption('syntax', 'scss');
 	});
 
+	it('Should handle flags correctly', function() {
+		expect(jsVarsToSassString.convert('string', 'string', { flags: { important: true } })).toEqual(`$string: 'string'!important;`);
+		expect(jsVarsToSassString.convert('string', 'string', { flags: { global: true, default: true } })).toEqual(`$string: 'string'!global!default;`);
+
+		expect(jsVarsToSassString.convert('string', 'string', { syntax: 'sass', flags: { important: true } })).toEqual(`$string: 'string'!important`);
+		expect(jsVarsToSassString.convert('string', 'string', { syntax: 'sass', flags: { global: true, default: true } })).toEqual(`$string: 'string'!global!default`);
+	});
+
 	it('`_hasUnit` should detect numbers with units', function() {
 		expect(jsVarsToSassString._hasUnit('12px')).toEqual({ value: 12, unit: 'px' });
 		expect(jsVarsToSassString._hasUnit('12px_')).toEqual(false);
