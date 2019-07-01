@@ -159,16 +159,17 @@ function jSass_resolve(selector, jSass = window.jSass) {
 }
 
 /**
- * JSass 'plugin' for jQuery to return the value of the given Sass variable (or a jQuery collection, if the value is a CSS selector)
+ * JSass patch for jQuery to return the value of the given Sass variable (or a jQuery collection, if the value is a CSS selector)
  * Extends jQuery's init method so it checks for '$' at the beginning of the selector value. If found, tries to resolve it with jSass, and if it's a real selector, passes it to jQuery.
  * Anything else untouched, so jQuery works as expected (tested with jQuery 2.2.4 and 3.4.1).
+ * @param jSass The jSass instance
  * @param jQuery The jQuery instance
  */
-function JSass_mod_jQuery(jQuery = window.jQuery) {
+function JSass_mod_jQuery(jSass = window.jSass, jQuery = window.jQuery) {
 	jQuery.fn.extend({
 		initCore: jQuery.fn.init,
 		init: function(selector, context, root) {
-			return this.initCore(jSass_resolve(selector), jSass_resolve(context), root);
+			return this.initCore(jSass_resolve(selector, jSass), jSass_resolve(context, jSass), root);
 		}
 	});
 
