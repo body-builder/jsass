@@ -111,6 +111,9 @@ class JSVarsToNodeSass {
 			case 'object':
 				return this._convert_object(value, options);
 
+			case 'error':
+				return this._convert_error(value, options);
+
 			default:
 				if (this._options.strict === false) {
 					return sass.types.String(`[JS ${type.replace(/./, (x) => x.toUpperCase())}]`);
@@ -126,6 +129,10 @@ class JSVarsToNodeSass {
 
 	_convert_boolean(value, options) {
 		return sass.types.Boolean(value);
+	}
+
+	_convert_error(value, options) {
+		return sass.types.Error(value.message);
 	}
 
 	/**

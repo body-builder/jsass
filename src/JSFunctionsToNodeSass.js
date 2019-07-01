@@ -46,6 +46,17 @@ class JSFunctionsToNodeSass {
 		}
 	}
 
+	/**
+	 * Converts String `error` to an Error, or if it is already an Error, returns it as-is
+	 * @param {String|Error} error
+	 * @returns {Error}
+	 * @private
+	 */
+	_createError(error) {
+		// prettier-ignore
+		return (error instanceof Error) ? error : new Error(error);
+	}
+
 	_wrapFunction(sass_decl, fn, args = [], options) {
 		if (kindOf(sass_decl) !== 'string') {
 			throw new Error('JSFunctionsToSass - pass the Sass function declaration to wrapFunction!');
@@ -81,7 +92,12 @@ class JSFunctionsToNodeSass {
 		});
 
 		// Calling the given function with the transformed arguments
-		let value = fn.apply(null, jsTypeArgs);
+		let value;
+		try {
+			value = fn.apply(null, jsTypeArgs);
+		} catch (error) {
+			return this._jsVarsToNodeSass._convert(this._createError(error), options);
+		}
 
 		// Returning JS values in node-sass types
 		if (value instanceof Promise) {
@@ -89,7 +105,10 @@ class JSFunctionsToNodeSass {
 				throw new Error('JSFunctionsToSass - no callback provided from node-sass!');
 			}
 
-			value.then((resolved) => done(this._jsVarsToNodeSass._convert(resolved, options)));
+			// TODO Finish error handling tests
+			value
+				.catch((error) => done(this._jsVarsToNodeSass._convert(this._createError(error), options)))
+				.then((resolved) => done(this._jsVarsToNodeSass._convert(resolved, options)));
 		} else {
 			return this._jsVarsToNodeSass._convert(value, options);
 		}

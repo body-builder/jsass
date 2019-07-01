@@ -50,6 +50,11 @@ class JSVarsToSassString extends JSVarsToNodeSass {
 		return value;
 	}
 
+	// _convert_error is implemented only because of JSFunctionsToNodeSass, we "skip" it here.
+	_convert_error(value, options) {
+		throw value;
+	}
+
 	_convert_number(value, options) {
 		return value;
 	}

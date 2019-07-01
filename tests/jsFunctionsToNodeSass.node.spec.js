@@ -43,6 +43,9 @@ describe('jsFunctionsToNodeSass', function() {
 		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => true)).toEqual(sass.types.Boolean.TRUE);
 		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => false)).toEqual(sass.types.Boolean.FALSE);
 
+		// Error (note that we cannot compare their message)
+		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => { throw new Error('Some strange error happened') })).toEqual(sass.types.Error('Some strange error happened'));
+
 		// String
 		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => 'string')).toEqual(sass.types.String('string'));
 		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '1')).toEqual(sass.types.String('1'));
@@ -68,6 +71,9 @@ describe('jsFunctionsToNodeSass', function() {
 		// Boolean
 		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => true).getValue()).toEqual(sass.types.Boolean.TRUE.getValue());
 		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => false).getValue()).toEqual(sass.types.Boolean.FALSE.getValue());
+
+		// Error (note that we cannot compare their message)
+		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => { throw new Error('Some strange error happened') })).toEqual(sass.types.Error('Some strange error happened'));
 
 		// String
 		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => 'string').getValue()).toEqual(sass.types.String('string').getValue());
