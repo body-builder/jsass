@@ -1,5 +1,14 @@
 const kindOf = require('kind-of');
+const _ = require('lodash');
 const sass = require('node-sass');
+const util = require('util');
+
+const promisified = {
+	sass: {
+		render: util.promisify(sass.render)
+	}
+};
+
 const Deferred = require('./helpers/Deferred');
 const sync_test = require('./assets/jsFunctionsToNodeSass').sync;
 const async_test = require('./assets/jsFunctionsToNodeSass').async;
@@ -263,6 +272,20 @@ describe('jsFunctionsToNodeSass', function() {
 			expect(spy_no_spread_args[0][0]).toEqual('string');
 			expect(kindOf(spy_no_spread_args[0][1])).toEqual('string');
 			expect(spy_no_spread_args[0][1]).toEqual('#000000');
+		});
+	});
+
+	describe('node-sass', function() {
+		it('Should pick the function and use it during build-time', async function() {
+			const result = await promisified.sass.render({
+				file: 'tests/assets/map-get-super.scss',
+				functions: jsFunctionsToNodeSass.convert({
+					'map-get-super($object, $string)': _.get
+				}),
+				outputStyle: 'compact'
+			});
+
+			expect(result.css.toString()).toEqual('.resolved { content: jSass; }\n');
 		});
 	});
 });
