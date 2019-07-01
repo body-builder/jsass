@@ -100,8 +100,6 @@ class JSVarsToSassString extends JSVarsToNodeSass {
 		const sassKey = '$' + key;
 		const sassValue = this._convert(value, options);
 
-		if (sassValue === undefined) throw new Error('JSVarsToSass could not convert the following variable: ' + key);
-
 		returnData.push(sassKey + ': ' + sassValue);
 
 		if (options.flags) options.flags.map(returnData.push());

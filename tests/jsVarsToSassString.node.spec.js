@@ -7,6 +7,11 @@ describe('jsVarsToSassString', function() {
 		expect(jsVarsToSassString.convert({ number: 0.454 })).toEqual('$number: 0.454;');
 	});
 
+	it('Should throw error if the given value cannot be converted', function() {
+		// TODO A JS Map may be converted to a Sass Map, isn't it?
+		expect(() => jsVarsToSassString.convert('js-map', new Map([['a', 'a'], ['b', 'b'], ['c', 'c']]))).toThrow(new Error('JSVarsToNodeSass - Unexpected variable type `map`'));
+	});
+
 	it('Should create a Sass variable with value `null` if no value given', function() {
 		// TODO Should it? Shouldn't it rather throw error?
 		expect(jsVarsToSassString.convert('undefined')).toEqual('$undefined: null;');
