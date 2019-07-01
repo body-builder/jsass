@@ -44,7 +44,7 @@ describe('jsVarsToSassString', function() {
 		expect(
 			jsVarsToSassString.convert('map', {
 				bool: true,
-				string: 'fsfdf',
+				string: 'string',
 				variable: '$variable',
 				color: 'rgb(100, 110, 100)',
 				unit: '12px',
@@ -52,7 +52,7 @@ describe('jsVarsToSassString', function() {
 				map: { prop1: 'mappropelem1', prop2: 'mappropelem2', prop3: 'mappropelem3' }
 			})
 		).toEqual(
-			`$map: ('bool': true, 'string': 'fsfdf', 'variable': $variable, 'color': rgb(100, 110, 100), 'unit': 12px, 'array': ('arrelem1', 'arrelem2', 'arrelem3'), 'map': ('prop1': 'mappropelem1', 'prop2': 'mappropelem2', 'prop3': 'mappropelem3'));`
+			`$map: ('bool': true, 'string': 'string', 'variable': $variable, 'color': rgb(100, 110, 100), 'unit': 12px, 'array': ('arrelem1', 'arrelem2', 'arrelem3'), 'map': ('prop1': 'mappropelem1', 'prop2': 'mappropelem2', 'prop3': 'mappropelem3'));`
 		);
 	});
 
@@ -62,7 +62,7 @@ describe('jsVarsToSassString', function() {
 				undefined: null,
 				map: {
 					bool: true,
-					string: 'fsfdf',
+					string: 'string',
 					variable: '$variable',
 					color: 'rgb(100, 110, 100)',
 					unit: '12px',
@@ -71,7 +71,7 @@ describe('jsVarsToSassString', function() {
 				}
 			})
 		).toEqual(
-			`$undefined: null;\n$map: ('bool': true, 'string': 'fsfdf', 'variable': $variable, 'color': rgb(100, 110, 100), 'unit': 12px, 'array': ('arrelem1', 'arrelem2', 'arrelem3'), 'map': ('prop1': 'mappropelem1', 'prop2': 'mappropelem2', 'prop3': 'mappropelem3'));`
+			`$undefined: null;\n$map: ('bool': true, 'string': 'string', 'variable': $variable, 'color': rgb(100, 110, 100), 'unit': 12px, 'array': ('arrelem1', 'arrelem2', 'arrelem3'), 'map': ('prop1': 'mappropelem1', 'prop2': 'mappropelem2', 'prop3': 'mappropelem3'));`
 		);
 	});
 
@@ -96,7 +96,7 @@ describe('jsVarsToSassString', function() {
 				'map',
 				{
 					bool: true,
-					string: 'fsfdf',
+					string: 'string',
 					variable: '$variable',
 					color: 'rgb(100, 110, 100)',
 					unit: '12px',
@@ -106,7 +106,7 @@ describe('jsVarsToSassString', function() {
 				{ syntax: 'scss' }
 			)
 		).toEqual(
-			`$map: ('bool': true, 'string': 'fsfdf', 'variable': $variable, 'color': rgb(100, 110, 100), 'unit': 12px, 'array': ('arrelem1', 'arrelem2', 'arrelem3'), 'map': ('prop1': 'mappropelem1', 'prop2': 'mappropelem2', 'prop3': 'mappropelem3'));`
+			`$map: ('bool': true, 'string': 'string', 'variable': $variable, 'color': rgb(100, 110, 100), 'unit': 12px, 'array': ('arrelem1', 'arrelem2', 'arrelem3'), 'map': ('prop1': 'mappropelem1', 'prop2': 'mappropelem2', 'prop3': 'mappropelem3'));`
 		);
 		expect(jsVarsToSassString.convert('name', 'value')).toEqual(`$name: 'value';`);
 
@@ -118,7 +118,7 @@ describe('jsVarsToSassString', function() {
 				number: 0.454,
 				map: {
 					bool: true,
-					string: 'fsfdf',
+					string: 'string',
 					variable: '$variable',
 					color: 'rgb(100, 110, 100)',
 					unit: '12px',
@@ -127,7 +127,7 @@ describe('jsVarsToSassString', function() {
 				}
 			})
 		).toEqual(
-			`$number: 0.454\n$map: ('bool': true, 'string': 'fsfdf', 'variable': $variable, 'color': rgb(100, 110, 100), 'unit': 12px, 'array': ('arrelem1', 'arrelem2', 'arrelem3'), 'map': ('prop1': 'mappropelem1', 'prop2': 'mappropelem2', 'prop3': 'mappropelem3'))`
+			`$number: 0.454\n$map: ('bool': true, 'string': 'string', 'variable': $variable, 'color': rgb(100, 110, 100), 'unit': 12px, 'array': ('arrelem1', 'arrelem2', 'arrelem3'), 'map': ('prop1': 'mappropelem1', 'prop2': 'mappropelem2', 'prop3': 'mappropelem3'))`
 		);
 		jsVarsToSassString.setOption('syntax', 'scss');
 	});
