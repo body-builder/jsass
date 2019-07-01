@@ -147,7 +147,7 @@ function jSass_resolve(selector, jSass = window.jSass) {
 
 	// Return the resolved value, if it's a variable
 	if (typeof selector === 'string' && selector.substring(0, 1) === '$') {
-		const resolved = window.jSass.get(selector);
+		const resolved = jSass.get(selector);
 
 		if (!isValidSelector(resolved)) {
 			throw new Error('jSass: requested variable `' + resolved + '` doesn\'t seem to be a valid selector'); // prettier-ignore
