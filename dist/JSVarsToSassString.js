@@ -24,7 +24,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var kinfOf = require('kind-of');
+var kindOf = require('kind-of');
 
 var JSVarsToNodeSass = require('./JSVarsToNodeSass');
 
@@ -79,7 +79,7 @@ function (_JSVarsToNodeSass) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this._options;
       value = _get(_getPrototypeOf(JSVarsToSassString.prototype), "_convert", this).call(this, value, options); // The super function may itself return value in edge-cases, and those values are in Sass types. We need to resolve it.
 
-      if (kinfOf(value).startsWith('sass')) {
+      if (kindOf(value).startsWith('sass')) {
         return this._convert(this._nodeSassVarsToJs.convert(value), options);
       }
 

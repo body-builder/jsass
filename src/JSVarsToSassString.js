@@ -1,4 +1,4 @@
-const kinfOf = require('kind-of');
+const kindOf = require('kind-of');
 const JSVarsToNodeSass = require('./JSVarsToNodeSass');
 const NodeSassVarsToJs = require('./NodeSassVarsToJs');
 
@@ -40,7 +40,7 @@ class JSVarsToSassString extends JSVarsToNodeSass {
 		value = super._convert(value, options);
 
 		// The super function may itself return value in edge-cases, and those values are in Sass types. We need to resolve it.
-		if (kinfOf(value).startsWith('sass')) {
+		if (kindOf(value).startsWith('sass')) {
 			return this._convert(this._nodeSassVarsToJs.convert(value), options);
 		}
 
