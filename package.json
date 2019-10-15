@@ -9,7 +9,8 @@
   },
   "author": "Benedek Káldi",
   "license": "ISC",
-  "main": "index.js",
+  "main": "dist/node.js",
+  "browser": "dist/browser.js",
   "scripts": {
     "watch": "npx babel src --watch --out-dir dist",
     "build": "npx babel src --out-dir dist",

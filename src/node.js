@@ -1,4 +1,6 @@
-export { default as JSass, JSass_mod_jQuery } from './JSass';
+/**
+ * Exports, that can be used in Node environment
+ */
 export { default as jSass_extract } from './jSass-extract';
 export { default as JSFunctionsToNodeSass } from './JSFunctionsToNodeSass';
 export { default as JSVarsToNodeSass } from './JSVarsToNodeSass';
