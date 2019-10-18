@@ -1,0 +1,7 @@
+.selector {
+  @if ($DEV == true) {
+    background-color: map_get($importantMap, 'color');
+  } @else {
+    background-color: white;
+  }
+}

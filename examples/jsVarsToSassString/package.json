@@ -1,0 +1,17 @@
+{
+  "name": "jsass-demo",
+  "version": "1.0.0-alpha.1",
+  "description": "Pass and convert data between JS and node-sass",
+  "homepage": "https://github.com/body-builder/jsass#readme",
+  "repository": "https://github.com/body-builder/jsass",
+  "bugs": {
+    "url": "https://github.com/body-builder/jsass/issues"
+  },
+  "author": "Benedek Káldi",
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "start": "node node_sass.js",
+    "dev": "NODE_ENV=development node node_sass.js"
+  }
+}

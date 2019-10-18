@@ -1,4 +1,5 @@
 /.idea
+/examples
 /tests
 
 /.babelrc.js

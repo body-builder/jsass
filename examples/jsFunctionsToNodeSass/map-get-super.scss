@@ -1,0 +1,13 @@
+$map: (
+  'deeply': (
+    'nested': (
+      'value': 'jSass'
+    )
+  )
+);
+
+.resolved {
+  map: '#{$map}';
+  path: 'deeply.nested.value';
+  content: '#{map-get-super($map, 'deeply.nested.value')}';
+}
