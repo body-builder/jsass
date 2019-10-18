@@ -6,5 +6,6 @@
 /.eslintignore
 /.eslintrc
 /.prettierrc.js
+/.prettierignore
 /jasmine.json
 /jasmine.run.js
