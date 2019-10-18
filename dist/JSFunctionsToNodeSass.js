@@ -132,6 +132,7 @@ function () {
         if (kindOf(done) !== 'function') {
           throw new Error('JSFunctionsToSass - no callback provided from node-sass!');
         } // TODO Finish error handling tests
+        // eslint-disable-next-line prettier/prettier
 
 
         value["catch"](function (error) {

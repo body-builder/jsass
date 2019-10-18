@@ -106,6 +106,7 @@ class JSFunctionsToNodeSass {
 			}
 
 			// TODO Finish error handling tests
+			// eslint-disable-next-line prettier/prettier
 			value
 				.catch((error) => done(this._jsVarsToNodeSass._convert(this._createError(error), options)))
 				.then((resolved) => done(this._jsVarsToNodeSass._convert(resolved, options)));
