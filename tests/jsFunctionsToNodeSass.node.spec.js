@@ -1,6 +1,6 @@
 const kindOf = require('kind-of');
 const _ = require('lodash');
-const sass = require('sass');
+const sass = require('node-sass');
 const util = require('util');
 
 const promisified = {

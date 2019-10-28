@@ -10,7 +10,7 @@ class JSFunctionsToNodeSass {
 		};
 
 		this._options = Object.assign({}, this._default_options, options);
-		this.implementation = this._options.implementation || require('sass');
+		this.implementation = this._options.implementation || require('node-sass');
 
 		this._jsVarsToNodeSass = new JSVarsToNodeSass({ implementation: this.implementation });
 		this._nodeSassVarsToJs = new NodeSassVarsToJs();

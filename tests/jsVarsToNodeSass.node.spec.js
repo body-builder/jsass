@@ -1,4 +1,4 @@
-const sass = require('sass');
+const sass = require('node-sass');
 
 const JSVarsToNodeSass = require('../src/JSVarsToNodeSass');
 const jsVarsToNodeSass = new JSVarsToNodeSass({ implementation: sass });

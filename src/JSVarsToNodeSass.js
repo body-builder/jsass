@@ -9,7 +9,7 @@ class JSVarsToNodeSass {
 		};
 
 		this._options = Object.assign({}, _default_options, options);
-		this.implementation = this._options.implementation || require('sass');
+		this.implementation = this._options.implementation || require('node-sass');
 
 		this.unitKeywords_spec = ['cm', 'mm', 'in', 'px', 'pt', 'pc', 'em', 'ex', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax', '%'];
 		this.unitKeywords_experimental = ['Q', 'cap', 'ic', 'lh', 'rlh', 'vi', 'vb'];
