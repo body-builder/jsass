@@ -1,5 +1,4 @@
 const colorString = require('color-string');
-const sass = require('node-sass');
 const kindOf = require('kind-of');
 
 class JSVarsToNodeSass {
@@ -10,6 +9,7 @@ class JSVarsToNodeSass {
 		};
 
 		this._options = Object.assign({}, _default_options, options);
+		this.implementation = this._options.implementation || require('node-sass');
 
 		this.unitKeywords_spec = ['cm', 'mm', 'in', 'px', 'pt', 'pc', 'em', 'ex', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax', '%'];
 		this.unitKeywords_experimental = ['Q', 'cap', 'ic', 'lh', 'rlh', 'vi', 'vb'];
@@ -116,7 +116,7 @@ class JSVarsToNodeSass {
 
 			default:
 				if (this._options.strict === false) {
-					return sass.types.String(`[JS ${type.replace(/./, (x) => x.toUpperCase())}]`);
+					return this.implementation.types.String(`[JS ${type.replace(/./, (x) => x.toUpperCase())}]`);
 				} else {
 					throw new Error('JSVarsToNodeSass - Unexpected variable type `' + kindOf(value) + '`');
 				}
@@ -124,15 +124,20 @@ class JSVarsToNodeSass {
 	}
 
 	_convert_null(value, options) {
-		return sass.types.Null();
+		return this.implementation.types.Null.NULL;
 	}
 
 	_convert_boolean(value, options) {
-		return sass.types.Boolean(value);
+		switch (value) {
+			case true:
+				return this.implementation.types.Boolean.TRUE;
+			case false:
+				return this.implementation.types.Boolean.FALSE;
+		}
 	}
 
 	_convert_error(value, options) {
-		return sass.types.Error(value.message);
+		return this.implementation.types.Error(value.message);
 	}
 
 	/**
@@ -147,7 +152,7 @@ class JSVarsToNodeSass {
 			value = { value: value, unit: '' };
 		}
 
-		return sass.types.Number(value.value, value.unit);
+		return this.implementation.types.Number(value.value, value.unit);
 	}
 
 	/**
@@ -169,17 +174,17 @@ class JSVarsToNodeSass {
 			return this._convert_number(hasUnit, options);
 		}
 
-		return sass.types.String(value);
+		return this.implementation.types.String(value);
 	}
 
 	_convert_color({ r, g, b, a }, options) {
-		return new sass.types.Color(r, g, b, a);
+		return new this.implementation.types.Color(r, g, b, a);
 	}
 
 	_convert_array(value, options) {
 		if (kindOf(value) !== 'array') throw new Error('JSFunctionsToSass - _convert_array() needs an array, but got `' + kindOf(value) + '`');
 
-		const list = new sass.types.List(value.length, options.listSeparator.trim() === ',');
+		const list = new this.implementation.types.List(value.length, options.listSeparator.trim() === ',');
 
 		value.map((item, index) => list.setValue(index, this._convert(item, options)));
 
@@ -189,7 +194,7 @@ class JSVarsToNodeSass {
 	_convert_object(value, options) {
 		if (kindOf(value) !== 'object') throw new Error('JSFunctionsToSass - _convert_object() needs an array, but got `' + kindOf(value) + '`');
 
-		const map = new sass.types.Map(Object.keys(value).length);
+		const map = new this.implementation.types.Map(Object.keys(value).length);
 
 		Object.keys(value).map((key, index) => {
 			map.setKey(index, this._convert(key, options));

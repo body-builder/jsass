@@ -15,7 +15,7 @@ const async_test = require('./assets/jsFunctionsToNodeSass').async;
 const async_es6_test = require('./assets/jsFunctionsToNodeSass').async_es6;
 
 const JSFunctionsToNodeSass = require('../src/JSFunctionsToNodeSass');
-const jsFunctionsToNodeSass = new JSFunctionsToNodeSass();
+const jsFunctionsToNodeSass = new JSFunctionsToNodeSass({ implementation: sass });
 
 describe('jsFunctionsToNodeSass', function() {
 	it('Should throw error if calling with wrong arguments', function() {

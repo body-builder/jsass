@@ -1,12 +1,12 @@
 const sass = require('node-sass');
 
 const JSVarsToNodeSass = require('../src/JSVarsToNodeSass');
-const jsVarsToNodeSass = new JSVarsToNodeSass();
+const jsVarsToNodeSass = new JSVarsToNodeSass({ implementation: sass });
 
 describe('jsVarsToNodeSass', function() {
 	describe('If the converter cannot handle the given variable type', function() {
-		const jsVarsToNodeSass_strict = new JSVarsToNodeSass({ strict: true });
-		const jsVarsToNodeSass_loose = new JSVarsToNodeSass({ strict: false });
+		const jsVarsToNodeSass_strict = new JSVarsToNodeSass({ strict: true, implementation: sass });
+		const jsVarsToNodeSass_loose = new JSVarsToNodeSass({ strict: false, implementation: sass });
 
 		it('Should throw error in strict mode', function() {
 			expect(() => jsVarsToNodeSass_strict.convert(new RegExp(/.*/))).toThrow(new Error('JSVarsToNodeSass - Unexpected variable type `regexp`'));
