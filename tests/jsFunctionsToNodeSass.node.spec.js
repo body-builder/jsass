@@ -27,12 +27,12 @@ describe('jsFunctionsToNodeSass', function() {
 	});
 
 	it('Should throw error if the `done()` function is not available in case of an async call', function() {
-		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => Promise.resolve(), [new sass.types.String('a'), new sass.types.String('b'), new sass.types.String('c')])).toThrow(new Error('JSFunctionsToSass - no callback provided from node-sass!'));
+		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => Promise.resolve(), [new sass.types.String('a'), new sass.types.String('b'), new sass.types.String('c')])).toThrow(new Error('JSFunctionsToSass - no callback provided from Sass!'));
 	});
 
 	it('Should throw error if the converter cannot handle the given variable type', function() {
-		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => {}, ['string', () => 'done'])).toThrow(new Error('NodeSassVarsToJs - Unexpected node-sass variable type `string`'));
-		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => {}, [2, () => 'done'])).toThrow(new Error('NodeSassVarsToJs - Unexpected node-sass variable type `number`'));
+		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => {}, ['string', () => 'done'])).toThrow(new Error('NodeSassVarsToJs - Unexpected Sass variable type `string`'));
+		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => {}, [2, () => 'done'])).toThrow(new Error('NodeSassVarsToJs - Unexpected Sass variable type `number`'));
 	});
 
 	it('Should return the values in the equivalent Sass type', function() {
@@ -209,7 +209,7 @@ describe('jsFunctionsToNodeSass', function() {
 
 	describe('Should handle asynchronous functions', function() {
 		it('Returning promise', async function() {
-			// Mocking node-sass's `done()` with a promise
+			// Mocking Sass's `done()` with a promise
 			const done = new Deferred();
 
 			jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', async_test, [new sass.types.String('async'), new sass.types.Number(3), done.resolve]);
@@ -220,7 +220,7 @@ describe('jsFunctionsToNodeSass', function() {
 		});
 
 		it('Async function', async function() {
-			// Mocking node-sass's `done()` with a promise
+			// Mocking Sass's `done()` with a promise
 			const done = new Deferred();
 
 			jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', async_es6_test, [new sass.types.String('async'), new sass.types.Number(4), done.resolve]);
@@ -231,7 +231,7 @@ describe('jsFunctionsToNodeSass', function() {
 		});
 	});
 
-	it('Should convert incoming node-sass type arguments to JS', function() {
+	it('Should convert incoming Sass type arguments to JS', function() {
 		let spy_arg1, spy_arg2;
 
 		const bla = jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', (arg1, arg2) => { spy_arg1 = arg1; spy_arg2 = arg2 }, [new sass.types.String('string'), new sass.types.Color(0, 0, 0, 1), () => 'done']);
@@ -286,7 +286,7 @@ describe('jsFunctionsToNodeSass', function() {
 		});
 	});
 
-	describe('node-sass', function() {
+	describe('Sass', function() {
 		it('Should pick the function and use it during build-time', async function() {
 			const result = await promisified.sass.render({
 				file: 'tests/assets/map-get-super.scss',

@@ -105,7 +105,7 @@ class NodeSassVarsToJs {
 				return this._convert_object(value, options);
 
 			default:
-				throw new Error('NodeSassVarsToJs - Unexpected node-sass variable type `' + kindOfValue + '`');
+				throw new Error('NodeSassVarsToJs - Unexpected Sass variable type `' + kindOfValue + '`');
 		}
 	}
 }

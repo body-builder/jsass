@@ -4,7 +4,7 @@ const NodeSassVarsToJs = require('./NodeSassVarsToJs');
 
 /**
  * Converts JS variables (Bool, Number, String, Array, Object) to the 'corresponding' Sass variable definitions (Array -> List, Object -> Map, String -> String|Color|Unit, etc...)
- * Important: This Class outputs string data, which can be passed to the `data` option of node-sass (see https://github.com/sass/node-sass#data)
+ * Important: This Class outputs string data, which can be passed to the `data` option of Sass (see https://github.com/sass/node-sass#data)
  */
 class JSVarsToSassString extends JSVarsToNodeSass {
 	/**

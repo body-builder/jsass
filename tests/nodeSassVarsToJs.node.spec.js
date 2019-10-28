@@ -5,8 +5,8 @@ const nodeSassVarsToJs = new NodeSassVarsToJs();
 
 describe('nodeSassVarsToJs', function() {
 	it('Should throw error if the converter cannot handle the given variable type', function() {
-		expect(() => nodeSassVarsToJs.convert(new RegExp(/.*/))).toThrow(new Error('NodeSassVarsToJs - Unexpected node-sass variable type `regexp`'));
-		expect(() => nodeSassVarsToJs.convert(() => {})).toThrow(new Error('NodeSassVarsToJs - Unexpected node-sass variable type `function`'));
+		expect(() => nodeSassVarsToJs.convert(new RegExp(/.*/))).toThrow(new Error('NodeSassVarsToJs - Unexpected Sass variable type `regexp`'));
+		expect(() => nodeSassVarsToJs.convert(() => {})).toThrow(new Error('NodeSassVarsToJs - Unexpected Sass variable type `function`'));
 	});
 	it('Should return the values in the equivalent JS type', function() {
 		// Null
