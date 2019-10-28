@@ -1,4 +1,4 @@
-const sass = require('node-sass');
+const sass = require('sass');
 
 const NodeSassVarsToJs = require('../src/NodeSassVarsToJs');
 const nodeSassVarsToJs = new NodeSassVarsToJs();
@@ -17,24 +17,24 @@ describe('nodeSassVarsToJs', function() {
 		expect(nodeSassVarsToJs.convert(sass.types.Boolean.FALSE)).toEqual(false);
 
 		// String
-		expect(nodeSassVarsToJs.convert(sass.types.String('string'))).toEqual('string');
-		expect(nodeSassVarsToJs.convert(sass.types.String('1'))).toEqual('1');
+		expect(nodeSassVarsToJs.convert(new sass.types.String('string'))).toEqual('string');
+		expect(nodeSassVarsToJs.convert(new sass.types.String('1'))).toEqual('1');
 
 		// Number
-		expect(nodeSassVarsToJs.convert(sass.types.Number(1))).toEqual(1);
-		expect(nodeSassVarsToJs.convert(sass.types.Number(50, '%'))).toEqual('50%');
+		expect(nodeSassVarsToJs.convert(new sass.types.Number(1))).toEqual(1);
+		expect(nodeSassVarsToJs.convert(new sass.types.Number(50, '%'))).toEqual('50%');
 
 		// Color
-		expect(nodeSassVarsToJs.convert(sass.types.Color(0, 0, 0, 1))).toEqual('#000000');
+		expect(nodeSassVarsToJs.convert(new sass.types.Color(0, 0, 0, 1))).toEqual('#000000');
 
 		// List
-		const list = sass.types.List(1);
+		const list = new sass.types.List(1);
 		list.setValue(0, new sass.types.String('string'));
 
 		expect(nodeSassVarsToJs.convert(list)).toEqual(['string']);
 
 		// Map
-		const map = sass.types.Map(1);
+		const map = new sass.types.Map(1);
 		map.setKey(0, new sass.types.String('a'));
 		map.setValue(0, new sass.types.String('a'));
 
@@ -49,28 +49,28 @@ describe('nodeSassVarsToJs', function() {
 		expect(nodeSassVarsToJs.convert(sass.types.Boolean.FALSE)).toEqual(false);
 
 		// String
-		expect(nodeSassVarsToJs.convert(sass.types.String('string'))).toEqual('string');
-		expect(nodeSassVarsToJs.convert(sass.types.String('1'))).toEqual('1');
+		expect(nodeSassVarsToJs.convert(new sass.types.String('string'))).toEqual('string');
+		expect(nodeSassVarsToJs.convert(new sass.types.String('1'))).toEqual('1');
 
 		// Number
-		expect(nodeSassVarsToJs.convert(sass.types.Number(1))).toEqual(1);
-		expect(nodeSassVarsToJs.convert(sass.types.Number(0))).toEqual(0);
-		expect(nodeSassVarsToJs.convert(sass.types.Number(-1))).toEqual(-1);
-		expect(nodeSassVarsToJs.convert(sass.types.Number(0, 'px'))).toEqual('0px');
-		expect(nodeSassVarsToJs.convert(sass.types.Number(0, 'px'))).toEqual('0px');
-		expect(nodeSassVarsToJs.convert(sass.types.Number(10, 'em'))).toEqual('10em');
-		expect(nodeSassVarsToJs.convert(sass.types.Number(50, '%'))).toEqual('50%');
+		expect(nodeSassVarsToJs.convert(new sass.types.Number(1))).toEqual(1);
+		expect(nodeSassVarsToJs.convert(new sass.types.Number(0))).toEqual(0);
+		expect(nodeSassVarsToJs.convert(new sass.types.Number(-1))).toEqual(-1);
+		expect(nodeSassVarsToJs.convert(new sass.types.Number(0, 'px'))).toEqual('0px');
+		expect(nodeSassVarsToJs.convert(new sass.types.Number(0, 'px'))).toEqual('0px');
+		expect(nodeSassVarsToJs.convert(new sass.types.Number(10, 'em'))).toEqual('10em');
+		expect(nodeSassVarsToJs.convert(new sass.types.Number(50, '%'))).toEqual('50%');
 
 		// Color
-		expect(nodeSassVarsToJs.convert(sass.types.Color(0, 0, 0, 1))).toEqual('#000000');
-		expect(nodeSassVarsToJs.convert(sass.types.Color(0, 0, 0, 0.5))).toEqual('rgba(0, 0, 0, 0.5)');
+		expect(nodeSassVarsToJs.convert(new sass.types.Color(0, 0, 0, 1))).toEqual('#000000');
+		expect(nodeSassVarsToJs.convert(new sass.types.Color(0, 0, 0, 0.5))).toEqual('rgba(0, 0, 0, 0.5)');
 	});
 
 	it('Should handle Arrays correctly', function() {
 		const list = new sass.types.List(11);
-		list.setValue(0, sass.types.Null());
-		list.setValue(1, sass.types.Boolean(true));
-		list.setValue(2, sass.types.Boolean(false));
+		list.setValue(0, sass.types.Null.NULL);
+		list.setValue(1, sass.types.Boolean.TRUE);
+		list.setValue(2, sass.types.Boolean.FALSE);
 		list.setValue(3, new sass.types.String('string'));
 		list.setValue(4, new sass.types.String('1'));
 		list.setValue(5, new sass.types.Number(1));
@@ -102,31 +102,31 @@ describe('nodeSassVarsToJs', function() {
 
 	it('Should handle Objects correctly', function() {
 		const map = new sass.types.Map(15);
-		map.setKey(0, sass.types.String('null'));
-		map.setValue(0, sass.types.Null());
-		map.setKey(1, sass.types.String('true'));
-		map.setValue(1, sass.types.Boolean(true));
-		map.setKey(2, sass.types.String('false'));
-		map.setValue(2, sass.types.Boolean(false));
-		map.setKey(3, sass.types.String('string'));
+		map.setKey(0, new sass.types.String('null'));
+		map.setValue(0, sass.types.Null.NULL);
+		map.setKey(1, new sass.types.String('true'));
+		map.setValue(1, sass.types.Boolean.TRUE);
+		map.setKey(2, new sass.types.String('false'));
+		map.setValue(2, sass.types.Boolean.FALSE);
+		map.setKey(3, new sass.types.String('string'));
 		map.setValue(3, new sass.types.String('string'));
-		map.setKey(4, sass.types.String('string_number'));
+		map.setKey(4, new sass.types.String('string_number'));
 		map.setValue(4, new sass.types.String('1'));
-		map.setKey(5, sass.types.String('positive'));
+		map.setKey(5, new sass.types.String('positive'));
 		map.setValue(5, new sass.types.Number(1));
-		map.setKey(6, sass.types.String('zero'));
+		map.setKey(6, new sass.types.String('zero'));
 		map.setValue(6, new sass.types.Number(0));
-		map.setKey(7, sass.types.String('negative'));
+		map.setKey(7, new sass.types.String('negative'));
 		map.setValue(7, new sass.types.Number(-1));
-		map.setKey(8, sass.types.String('zero_px'));
+		map.setKey(8, new sass.types.String('zero_px'));
 		map.setValue(8, new sass.types.Number(0, 'px'));
-		map.setKey(9, sass.types.String('ten_em'));
+		map.setKey(9, new sass.types.String('ten_em'));
 		map.setValue(9, new sass.types.Number(10, 'em'));
-		map.setKey(10, sass.types.String('fifty_percent'));
+		map.setKey(10, new sass.types.String('fifty_percent'));
 		map.setValue(10, new sass.types.Number(50, '%'));
-		map.setKey(11, sass.types.String('color_without_alpha'));
+		map.setKey(11, new sass.types.String('color_without_alpha'));
 		map.setValue(11, new sass.types.Color(0, 0, 0, 1));
-		map.setKey(12, sass.types.String('color_with_alpha'));
+		map.setKey(12, new sass.types.String('color_with_alpha'));
 		map.setValue(12, new sass.types.Color(100, 110, 100, 0.5));
 
 		const sublist = new sass.types.List(3);
@@ -134,7 +134,7 @@ describe('nodeSassVarsToJs', function() {
 		sublist.setValue(1, new sass.types.String('listelem2'));
 		sublist.setValue(2, new sass.types.String('listelem3'));
 
-		map.setKey(13, sass.types.String('list'));
+		map.setKey(13, new sass.types.String('list'));
 		map.setValue(13, sublist);
 
 		const submap = new sass.types.Map(3);
@@ -145,7 +145,7 @@ describe('nodeSassVarsToJs', function() {
 		submap.setKey(2, new sass.types.String('prop3'));
 		submap.setValue(2, new sass.types.String('mappropelem3'));
 
-		map.setKey(14, sass.types.String('map'));
+		map.setKey(14, new sass.types.String('map'));
 		map.setValue(14, submap);
 
 		// map.setKey(15, sass.types.String('variable')); TODO?

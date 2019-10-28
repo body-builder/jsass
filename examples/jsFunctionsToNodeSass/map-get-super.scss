@@ -7,7 +7,8 @@ $map: (
 );
 
 .resolved {
-  map: '#{$map}';
+  /* We need to stringify the map in the demo CSS to prevent Dart Sass from throwing `Error: ("deeply": ("nested": ("value": "jSass"))) isn't a valid CSS value.` */
+  map_stringified: '#{stringify($map)}';
   path: 'deeply.nested.value';
   content: '#{map-get-super($map, 'deeply.nested.value')}';
 }

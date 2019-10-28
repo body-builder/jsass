@@ -9,7 +9,7 @@ class JSVarsToNodeSass {
 		};
 
 		this._options = Object.assign({}, _default_options, options);
-		this.implementation = this._options.implementation || require('node-sass');
+		this.implementation = this._options.implementation || require('sass');
 
 		this.unitKeywords_spec = ['cm', 'mm', 'in', 'px', 'pt', 'pc', 'em', 'ex', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax', '%'];
 		this.unitKeywords_experimental = ['Q', 'cap', 'ic', 'lh', 'rlh', 'vi', 'vb'];
@@ -116,7 +116,7 @@ class JSVarsToNodeSass {
 
 			default:
 				if (this._options.strict === false) {
-					return this.implementation.types.String(`[JS ${type.replace(/./, (x) => x.toUpperCase())}]`);
+					return new this.implementation.types.String(`[JS ${type.replace(/./, (x) => x.toUpperCase())}]`);
 				} else {
 					throw new Error('JSVarsToNodeSass - Unexpected variable type `' + kindOf(value) + '`');
 				}
@@ -137,7 +137,7 @@ class JSVarsToNodeSass {
 	}
 
 	_convert_error(value, options) {
-		return this.implementation.types.Error(value.message);
+		return new this.implementation.types.Error(value.message);
 	}
 
 	/**
@@ -152,7 +152,7 @@ class JSVarsToNodeSass {
 			value = { value: value, unit: '' };
 		}
 
-		return this.implementation.types.Number(value.value, value.unit);
+		return new this.implementation.types.Number(value.value, value.unit);
 	}
 
 	/**
@@ -174,7 +174,7 @@ class JSVarsToNodeSass {
 			return this._convert_number(hasUnit, options);
 		}
 
-		return this.implementation.types.String(value);
+		return new this.implementation.types.String(value);
 	}
 
 	_convert_color({ r, g, b, a }, options) {

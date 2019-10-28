@@ -1,7 +1,7 @@
 const path = require('path');
-const sass = require('node-sass');
+const sass = require('sass');
 const JSFunctionsToNodeSass = require('../../src/JSFunctionsToNodeSass');
-const jsFunctionsToNodeSass = new JSFunctionsToNodeSass();
+const jsFunctionsToNodeSass = new JSFunctionsToNodeSass({ implementation: sass });
 
 console.log('\nAdding a `str-replace` function to Sass\n');
 

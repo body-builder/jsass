@@ -1,5 +1,4 @@
 const colorString = require('color-string');
-const kindOf = require('kind-of');
 
 class NodeSassVarsToJs {
 	constructor(options) {
@@ -73,7 +72,16 @@ class NodeSassVarsToJs {
 	}
 
 	_convert(value, options = this._options) {
-		switch (kindOf(value)) {
+		let kindOfValue;
+
+		if (value.dartValue) {
+			kindOfValue = value.dartValue.constructor.name.toLowerCase();
+		} else {
+			// This does not rule it out that we are using _not_ a Dart Sass implementation. For example, `types.Null.NULL` in `Dart Sass` doesn't have a `dartValue` property.
+			kindOfValue = value.constructor.name.toLowerCase();
+		}
+
+		switch (kindOfValue) {
 			case 'sassnull':
 				return this._convert_null(value, options);
 
@@ -90,13 +98,14 @@ class NodeSassVarsToJs {
 				return this._convert_string(value, options);
 
 			case 'sasslist':
+			case 'sassargumentlist':
 				return this._convert_array(value, options);
 
 			case 'sassmap':
 				return this._convert_object(value, options);
 
 			default:
-				throw new Error('NodeSassVarsToJs - Unexpected node-sass variable type `' + kindOf(value) + '`');
+				throw new Error('NodeSassVarsToJs - Unexpected node-sass variable type `' + kindOfValue + '`');
 		}
 	}
 }

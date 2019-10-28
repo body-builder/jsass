@@ -1,4 +1,4 @@
-const sass = require('node-sass');
+const sass = require('sass');
 
 const JSVarsToNodeSass = require('../src/JSVarsToNodeSass');
 const jsVarsToNodeSass = new JSVarsToNodeSass({ implementation: sass });
@@ -14,8 +14,8 @@ describe('jsVarsToNodeSass', function() {
 		});
 
 		it('Should return the type of the variable in loose mode', function() {
-			expect(jsVarsToNodeSass_loose.convert(new RegExp(/.*/))).toEqual(sass.types.String('[JS Regexp]'));
-			expect(jsVarsToNodeSass_loose.convert(() => {})).toEqual(sass.types.String('[JS Function]'));
+			expect(jsVarsToNodeSass_loose.convert(new RegExp(/.*/))).toEqual(new sass.types.String('[JS Regexp]'));
+			expect(jsVarsToNodeSass_loose.convert(() => {})).toEqual(new sass.types.String('[JS Function]'));
 		});
 	});
 
@@ -28,21 +28,26 @@ describe('jsVarsToNodeSass', function() {
 		expect(jsVarsToNodeSass.convert(false)).toEqual(sass.types.Boolean.FALSE);
 
 		// String
-		expect(jsVarsToNodeSass.convert('string')).toEqual(sass.types.String('string'));
-		expect(jsVarsToNodeSass.convert('1')).toEqual(sass.types.String('1'));
+		expect(jsVarsToNodeSass.convert('string')).toEqual(new sass.types.String('string'));
+		expect(jsVarsToNodeSass.convert('1')).toEqual(new sass.types.String('1'));
 
 		// Number
-		expect(jsVarsToNodeSass.convert(1)).toEqual(sass.types.Number(1));
-		expect(jsVarsToNodeSass.convert('50%')).toEqual(sass.types.Number(50, '%'));
+		expect(jsVarsToNodeSass.convert(1)).toEqual(new sass.types.Number(1));
+		expect(jsVarsToNodeSass.convert('50%')).toEqual(new sass.types.Number(50, '%'));
 
 		// Color
-		expect(jsVarsToNodeSass.convert('#000000')).toEqual(sass.types.Color(0, 0, 0, 1));
+		expect(jsVarsToNodeSass.convert('#000000')).toEqual(new sass.types.Color(0, 0, 0, 1));
 
 		// List
-		expect(jsVarsToNodeSass.convert(['string'])).toEqual(sass.types.List(1));
+		const sassList = new sass.types.List(1);
+		sassList.setValue(0, new sass.types.String('string'));
+		expect(jsVarsToNodeSass.convert(['string'])).toEqual(sassList);
 
 		// Map
-		expect(jsVarsToNodeSass.convert({ a: 'a' })).toEqual(sass.types.Map(1));
+		const sassMap = new sass.types.Map(1);
+		sassMap.setKey(0, new sass.types.String('a'));
+		sassMap.setValue(0, new sass.types.String('a'));
+		expect(jsVarsToNodeSass.convert({ a: 'a' })).toEqual(sassMap);
 	});
 
 	it('Should return the same value', function() {
@@ -54,24 +59,24 @@ describe('jsVarsToNodeSass', function() {
 		expect(jsVarsToNodeSass.convert(false).getValue()).toEqual(sass.types.Boolean.FALSE.getValue());
 
 		// String
-		expect(jsVarsToNodeSass.convert('string').getValue()).toEqual(sass.types.String('string').getValue());
-		expect(jsVarsToNodeSass.convert('1').getValue()).toEqual(sass.types.String('1').getValue());
+		expect(jsVarsToNodeSass.convert('string').getValue()).toEqual(new sass.types.String('string').getValue());
+		expect(jsVarsToNodeSass.convert('1').getValue()).toEqual(new sass.types.String('1').getValue());
 
 		// Number
-		expect(jsVarsToNodeSass.convert(1).getValue()).toEqual(sass.types.Number(1).getValue());
-		expect(jsVarsToNodeSass.convert(0).getValue()).toEqual(sass.types.Number(0).getValue());
-		expect(jsVarsToNodeSass.convert(-1).getValue()).toEqual(sass.types.Number(-1).getValue());
-		expect(jsVarsToNodeSass.convert('0px').getValue()).toEqual(sass.types.Number(0, 'px').getValue());
-		expect(jsVarsToNodeSass.convert('0px').getUnit()).toEqual(sass.types.Number(0, 'px').getUnit());
-		expect(jsVarsToNodeSass.convert('10em').getUnit()).toEqual(sass.types.Number(10, 'em').getUnit());
-		expect(jsVarsToNodeSass.convert('50%').getUnit()).toEqual(sass.types.Number(50, '%').getUnit());
+		expect(jsVarsToNodeSass.convert(1).getValue()).toEqual(new sass.types.Number(1).getValue());
+		expect(jsVarsToNodeSass.convert(0).getValue()).toEqual(new sass.types.Number(0).getValue());
+		expect(jsVarsToNodeSass.convert(-1).getValue()).toEqual(new sass.types.Number(-1).getValue());
+		expect(jsVarsToNodeSass.convert('0px').getValue()).toEqual(new sass.types.Number(0, 'px').getValue());
+		expect(jsVarsToNodeSass.convert('0px').getUnit()).toEqual(new sass.types.Number(0, 'px').getUnit());
+		expect(jsVarsToNodeSass.convert('10em').getUnit()).toEqual(new sass.types.Number(10, 'em').getUnit());
+		expect(jsVarsToNodeSass.convert('50%').getUnit()).toEqual(new sass.types.Number(50, '%').getUnit());
 
 		// Color
-		expect(jsVarsToNodeSass.convert('#000000').getR()).toEqual(sass.types.Color(0, 0, 0, 1).getR());
-		expect(jsVarsToNodeSass.convert('#000000').getG()).toEqual(sass.types.Color(0, 0, 0, 1).getG());
-		expect(jsVarsToNodeSass.convert('#000000').getB()).toEqual(sass.types.Color(0, 0, 0, 1).getB());
-		expect(jsVarsToNodeSass.convert('#000000').getA()).toEqual(sass.types.Color(0, 0, 0, 1).getA());
-		expect(jsVarsToNodeSass.convert('rgba(0, 0, 0, 0.5)').getA()).toEqual(sass.types.Color(0, 0, 0, 0.5).getA());
+		expect(jsVarsToNodeSass.convert('#000000').getR()).toEqual(new sass.types.Color(0, 0, 0, 1).getR());
+		expect(jsVarsToNodeSass.convert('#000000').getG()).toEqual(new sass.types.Color(0, 0, 0, 1).getG());
+		expect(jsVarsToNodeSass.convert('#000000').getB()).toEqual(new sass.types.Color(0, 0, 0, 1).getB());
+		expect(jsVarsToNodeSass.convert('#000000').getA()).toEqual(new sass.types.Color(0, 0, 0, 1).getA());
+		expect(jsVarsToNodeSass.convert('rgba(0, 0, 0, 0.5)').getA()).toEqual(new sass.types.Color(0, 0, 0, 0.5).getA());
 	});
 
 	it('Should handle Arrays correctly', function() {
@@ -82,19 +87,19 @@ describe('jsVarsToNodeSass', function() {
 
 		expect(list.getValue(0)).toEqual(sass.types.Null.NULL);
 
-		expect(list.getValue(1).getValue()).toEqual(sass.types.Boolean(true).getValue());
-		expect(list.getValue(2).getValue()).toEqual(sass.types.Boolean(false).getValue());
+		expect(list.getValue(1).getValue()).toEqual(sass.types.Boolean.TRUE.getValue());
+		expect(list.getValue(2).getValue()).toEqual(sass.types.Boolean.FALSE.getValue());
 
-		expect(list.getValue(3).getValue()).toEqual(sass.types.String('string').getValue());
-		expect(list.getValue(4).getValue()).toEqual(sass.types.String('1').getValue());
+		expect(list.getValue(3).getValue()).toEqual(new sass.types.String('string').getValue());
+		expect(list.getValue(4).getValue()).toEqual(new sass.types.String('1').getValue());
 
-		expect(list.getValue(5).getValue()).toEqual(sass.types.Number(1).getValue());
-		expect(list.getValue(6).getValue()).toEqual(sass.types.Number(0).getValue());
-		expect(list.getValue(7).getValue()).toEqual(sass.types.Number(-1).getValue());
-		expect(list.getValue(8).getValue()).toEqual(sass.types.Number(0, 'px').getValue());
-		expect(list.getValue(8).getUnit()).toEqual(sass.types.Number(0, 'px').getUnit());
-		expect(list.getValue(9).getUnit()).toEqual(sass.types.Number(10, 'em').getUnit());
-		expect(list.getValue(10).getUnit()).toEqual(sass.types.Number(50, '%').getUnit());
+		expect(list.getValue(5).getValue()).toEqual(new sass.types.Number(1).getValue());
+		expect(list.getValue(6).getValue()).toEqual(new sass.types.Number(0).getValue());
+		expect(list.getValue(7).getValue()).toEqual(new sass.types.Number(-1).getValue());
+		expect(list.getValue(8).getValue()).toEqual(new sass.types.Number(0, 'px').getValue());
+		expect(list.getValue(8).getUnit()).toEqual(new sass.types.Number(0, 'px').getUnit());
+		expect(list.getValue(9).getUnit()).toEqual(new sass.types.Number(10, 'em').getUnit());
+		expect(list.getValue(10).getUnit()).toEqual(new sass.types.Number(50, '%').getUnit());
 	});
 
 	it('Should handle Objects correctly', function() {
@@ -126,42 +131,42 @@ describe('jsVarsToNodeSass', function() {
 
 		// Boolean
 		expect(map.getKey(1).getValue()).toEqual('true');
-		expect(map.getValue(1).getValue()).toEqual(sass.types.Boolean(true).getValue());
+		expect(map.getValue(1).getValue()).toEqual(sass.types.Boolean.TRUE.getValue());
 		expect(map.getKey(2).getValue()).toEqual('false');
-		expect(map.getValue(2).getValue()).toEqual(sass.types.Boolean(false).getValue());
+		expect(map.getValue(2).getValue()).toEqual(sass.types.Boolean.FALSE.getValue());
 
 		// String
 		expect(map.getKey(3).getValue()).toEqual('string');
-		expect(map.getValue(3).getValue()).toEqual(sass.types.String('string').getValue());
+		expect(map.getValue(3).getValue()).toEqual(new sass.types.String('string').getValue());
 		expect(map.getKey(4).getValue()).toEqual('string_number');
-		expect(map.getValue(4).getValue()).toEqual(sass.types.String('1').getValue());
+		expect(map.getValue(4).getValue()).toEqual(new sass.types.String('1').getValue());
 
 		// Number
 		expect(map.getKey(5).getValue()).toEqual('positive');
-		expect(map.getValue(5).getValue()).toEqual(sass.types.Number(1).getValue());
+		expect(map.getValue(5).getValue()).toEqual(new sass.types.Number(1).getValue());
 		expect(map.getKey(6).getValue()).toEqual('zero');
-		expect(map.getValue(6).getValue()).toEqual(sass.types.Number(0).getValue());
+		expect(map.getValue(6).getValue()).toEqual(new sass.types.Number(0).getValue());
 		expect(map.getKey(7).getValue()).toEqual('negative');
-		expect(map.getValue(7).getValue()).toEqual(sass.types.Number(-1).getValue());
+		expect(map.getValue(7).getValue()).toEqual(new sass.types.Number(-1).getValue());
 		expect(map.getKey(8).getValue()).toEqual('zero_px');
-		expect(map.getValue(8).getValue()).toEqual(sass.types.Number(0, 'px').getValue());
-		expect(map.getValue(8).getUnit()).toEqual(sass.types.Number(0, 'px').getUnit());
+		expect(map.getValue(8).getValue()).toEqual(new sass.types.Number(0, 'px').getValue());
+		expect(map.getValue(8).getUnit()).toEqual(new sass.types.Number(0, 'px').getUnit());
 		expect(map.getKey(9).getValue()).toEqual('ten_em');
-		expect(map.getValue(9).getUnit()).toEqual(sass.types.Number(10, 'em').getUnit());
+		expect(map.getValue(9).getUnit()).toEqual(new sass.types.Number(10, 'em').getUnit());
 		expect(map.getKey(10).getValue()).toEqual('fifty_percent');
-		expect(map.getValue(10).getUnit()).toEqual(sass.types.Number(50, '%').getUnit());
+		expect(map.getValue(10).getUnit()).toEqual(new sass.types.Number(50, '%').getUnit());
 
 		// Color
 		expect(map.getKey(11).getValue()).toEqual('color_without_alpha');
-		expect(map.getValue(11).getR()).toEqual(sass.types.Color(0, 0, 0, 1).getR());
-		expect(map.getValue(11).getG()).toEqual(sass.types.Color(0, 0, 0, 1).getG());
-		expect(map.getValue(11).getB()).toEqual(sass.types.Color(0, 0, 0, 1).getB());
-		expect(map.getValue(11).getA()).toEqual(sass.types.Color(0, 0, 0, 1).getA());
+		expect(map.getValue(11).getR()).toEqual(new sass.types.Color(0, 0, 0, 1).getR());
+		expect(map.getValue(11).getG()).toEqual(new sass.types.Color(0, 0, 0, 1).getG());
+		expect(map.getValue(11).getB()).toEqual(new sass.types.Color(0, 0, 0, 1).getB());
+		expect(map.getValue(11).getA()).toEqual(new sass.types.Color(0, 0, 0, 1).getA());
 		expect(map.getKey(12).getValue()).toEqual('color_with_alpha');
-		expect(map.getValue(12).getR()).toEqual(sass.types.Color(100, 110, 100, 0.5).getR());
-		expect(map.getValue(12).getG()).toEqual(sass.types.Color(100, 110, 100, 0.5).getG());
-		expect(map.getValue(12).getB()).toEqual(sass.types.Color(100, 110, 100, 0.5).getB());
-		expect(map.getValue(12).getA()).toEqual(sass.types.Color(100, 110, 100, 0.5).getA());
+		expect(map.getValue(12).getR()).toEqual(new sass.types.Color(100, 110, 100, 0.5).getR());
+		expect(map.getValue(12).getG()).toEqual(new sass.types.Color(100, 110, 100, 0.5).getG());
+		expect(map.getValue(12).getB()).toEqual(new sass.types.Color(100, 110, 100, 0.5).getB());
+		expect(map.getValue(12).getA()).toEqual(new sass.types.Color(100, 110, 100, 0.5).getA());
 
 		// List
 		expect(map.getKey(13).getValue()).toEqual('array');
