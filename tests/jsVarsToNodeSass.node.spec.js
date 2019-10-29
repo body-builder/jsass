@@ -1,9 +1,10 @@
-const sass = require('node-sass');
+const describe_implementation = require('./helpers/describe_implementation');
 
 const JSVarsToNodeSass = require('../src/JSVarsToNodeSass');
-const jsVarsToNodeSass = new JSVarsToNodeSass({ implementation: sass });
 
-describe('jsVarsToNodeSass', function() {
+describe_implementation('jsVarsToNodeSass', function(sass) {
+	const jsVarsToNodeSass = new JSVarsToNodeSass({ implementation: sass });
+
 	describe('If the converter cannot handle the given variable type', function() {
 		const jsVarsToNodeSass_strict = new JSVarsToNodeSass({ strict: true, implementation: sass });
 		const jsVarsToNodeSass_loose = new JSVarsToNodeSass({ strict: false, implementation: sass });

@@ -1,9 +1,10 @@
-const sass = require('node-sass');
+const describe_implementation = require('./helpers/describe_implementation');
 
 const NodeSassVarsToJs = require('../src/NodeSassVarsToJs');
-const nodeSassVarsToJs = new NodeSassVarsToJs();
 
-describe('nodeSassVarsToJs', function() {
+describe_implementation('nodeSassVarsToJs', function(sass) {
+	const nodeSassVarsToJs = new NodeSassVarsToJs();
+
 	it('Should throw error if the converter cannot handle the given variable type', function() {
 		expect(() => nodeSassVarsToJs.convert(new RegExp(/.*/))).toThrow(new Error('NodeSassVarsToJs - Unexpected Sass variable type `regexp`'));
 		expect(() => nodeSassVarsToJs.convert(() => {})).toThrow(new Error('NodeSassVarsToJs - Unexpected Sass variable type `function`'));

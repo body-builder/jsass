@@ -1,23 +1,23 @@
 const kindOf = require('kind-of');
 const _ = require('lodash');
-const sass = require('node-sass');
 const util = require('util');
 
-const promisified = {
-	sass: {
-		render: util.promisify(sass.render)
-	}
-};
-
 const Deferred = require('./helpers/Deferred');
+const describe_implementation = require('./helpers/describe_implementation');
 const sync_test = require('./assets/jsFunctionsToNodeSass').sync;
 const async_test = require('./assets/jsFunctionsToNodeSass').async;
 const async_es6_test = require('./assets/jsFunctionsToNodeSass').async_es6;
 
 const JSFunctionsToNodeSass = require('../src/JSFunctionsToNodeSass');
-const jsFunctionsToNodeSass = new JSFunctionsToNodeSass({ implementation: sass });
 
-describe('jsFunctionsToNodeSass', function() {
+describe_implementation('jsFunctionsToNodeSass', function(sass) {
+	const promisified = {
+		sass: {
+			render: util.promisify(sass.render)
+		}
+	};
+	const jsFunctionsToNodeSass = new JSFunctionsToNodeSass({ implementation: sass });
+
 	it('Should throw error if calling with wrong arguments', function() {
 		expect(() => jsFunctionsToNodeSass._wrapFunction()).toThrow(new Error('JSFunctionsToSass - pass the Sass function declaration to wrapFunction!'));
 		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)')).toThrow(new Error('JSFunctionsToSass - pass a function to wrapFunction!'));
