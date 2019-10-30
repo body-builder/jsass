@@ -5,7 +5,7 @@
 [![devDependencies Status](https://david-dm.org/body-builder/jsass/dev-status.svg)](https://david-dm.org/body-builder/jsass?type=dev)
 [![peerDependencies Status](https://david-dm.org/body-builder/jsass/peer-status.svg)](https://david-dm.org/body-builder/jsass?type=peer)
 
-Pass and convert data and functions between JavaScript and Sass.
+Pass and convert data and functions between JavaScript and Sass. Supports both [Node Sass](https://github.com/sass/node-sass) and [Dart Sass](https://github.com/sass/dart-sass)
 
 ------
 
@@ -88,11 +88,10 @@ Output:
 }
 ```
 
-##### Getting nested map value by key
+##### Getting nested map value by key (example with Dart Sass **implementation**)
 
 ```js
 const path = require('path');
-const sass = require('node-sass');
 const { JSFunctionsToSass } = require('jsass/dist/node');
 const jsFunctionsToSass = new JSFunctionsToSass();
 
@@ -102,6 +101,7 @@ const _ = require('lodash');
  * This example implements an advanced `map-get` function in Sass, using lodash's `get()`, making it possible to get the value of a nested Map (or List) by its path (eg. `deeply.nested.value`).
  */
 sass.render({
+  implementation: require('sass'), // Now we are using `dart-sass`
   file: path.resolve(__dirname, './map-get-super.scss'),
   functions: jsFunctionsToSass.convert({
     'map-get-super($map, $path)': _.get
