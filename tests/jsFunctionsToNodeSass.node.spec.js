@@ -3,7 +3,6 @@ const _ = require('lodash');
 const util = require('util');
 
 const Deferred = require('./helpers/Deferred');
-const describe_implementation = require('./helpers/describe_implementation');
 const sync_test = require('./assets/jsFunctionsToNodeSass').sync;
 const async_test = require('./assets/jsFunctionsToNodeSass').async;
 const async_es6_test = require('./assets/jsFunctionsToNodeSass').async_es6;

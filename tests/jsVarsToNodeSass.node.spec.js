@@ -1,5 +1,3 @@
-const describe_implementation = require('./helpers/describe_implementation');
-
 const JSVarsToNodeSass = require('../src/JSVarsToNodeSass');
 
 describe_implementation('jsVarsToNodeSass', function(sass) {
