@@ -1,3 +1,4 @@
+const sass = require('node-sass');
 const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
@@ -10,7 +11,12 @@ module.exports = {
         use: [
           { loader: 'style-loader' },
           { loader: 'css-loader' },
-          { loader: 'sass-loader'}
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: sass
+            }
+          }
         ]
       },
       {

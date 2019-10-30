@@ -1,8 +1,8 @@
 const kindOf = require('kind-of');
-const JSVarsToNodeSass = require('./JSVarsToNodeSass');
-const NodeSassVarsToJs = require('./NodeSassVarsToJs');
+const JSVarsToSass = require('./JSVarsToSass');
+const SassVarsToJS = require('./SassVarsToJS');
 
-class JSFunctionsToNodeSass {
+class JSFunctionsToSass {
 	constructor(options) {
 		this._default_options = {
 			listSeparator: ', ',
@@ -10,16 +10,17 @@ class JSFunctionsToNodeSass {
 		};
 
 		this._options = Object.assign({}, this._default_options, options);
+		this.implementation = this._options.implementation || require('node-sass');
 
-		this._jsVarsToNodeSass = new JSVarsToNodeSass();
-		this._nodeSassVarsToJs = new NodeSassVarsToJs();
+		this._jsVarsToSass = new JSVarsToSass({ implementation: this.implementation });
+		this._sassVarsToJS = new SassVarsToJS();
 
 		this.convert = this._wrapObject;
 	}
 
 	/**
 	 * Parses the Sass function declaration string and returns the extracted information in an Object
-	 * @param key The Sass function declaration string (the `key` of the node-sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
+	 * @param key The Sass function declaration string (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
 	 * @returns {null|{name: string, args: string[], spreadArgs: number[]}}
 	 */
 	_getSassFunctionData(key) {
@@ -67,7 +68,7 @@ class JSFunctionsToNodeSass {
 		}
 
 		if (kindOf(args) !== 'array') {
-			throw new Error('JSFunctionsToSass - do not forget to pass the arguments from node-sass!');
+			throw new Error('JSFunctionsToSass - do not forget to pass the arguments from Sass!');
 		}
 
 		options = Object.assign({}, this._options, options);
@@ -77,11 +78,11 @@ class JSFunctionsToNodeSass {
 		const done = args.slice(-1)[0];
 		const sassTypeArgs = args.slice(0, -1);
 
-		// Converting raw node-sass type arguments to JS
+		// Converting raw Sass type arguments to JS
 		const jsTypeArgs = [];
 
 		sassTypeArgs.forEach((sassTypeArg, index) => {
-			const jsTypeArg = this._nodeSassVarsToJs._convert(sassTypeArg, options);
+			const jsTypeArg = this._sassVarsToJS._convert(sassTypeArg, options);
 
 			// If the Sass function expects the data to be spread for the current argument, we spread the arguments also for the JS function.
 			if (kindOf(jsTypeArg) === 'array' && sassFunctionData.spreadArgs.indexOf(index) !== -1) {
@@ -96,22 +97,22 @@ class JSFunctionsToNodeSass {
 		try {
 			value = fn.apply(null, jsTypeArgs);
 		} catch (error) {
-			return this._jsVarsToNodeSass._convert(this._createError(error), options);
+			return this._jsVarsToSass._convert(this._createError(error), options);
 		}
 
-		// Returning JS values in node-sass types
+		// Returning JS values in Sass types
 		if (value instanceof Promise) {
 			if (kindOf(done) !== 'function') {
-				throw new Error('JSFunctionsToSass - no callback provided from node-sass!');
+				throw new Error('JSFunctionsToSass - no callback provided from Sass!');
 			}
 
 			// TODO Finish error handling tests
 			// eslint-disable-next-line prettier/prettier
 			value
-				.catch((error) => done(this._jsVarsToNodeSass._convert(this._createError(error), options)))
-				.then((resolved) => done(this._jsVarsToNodeSass._convert(resolved, options)));
+				.catch((error) => done(this._jsVarsToSass._convert(this._createError(error), options)))
+				.then((resolved) => done(this._jsVarsToSass._convert(resolved, options)));
 		} else {
-			return this._jsVarsToNodeSass._convert(value, options);
+			return this._jsVarsToSass._convert(value, options);
 		}
 	}
 
@@ -138,4 +139,4 @@ class JSFunctionsToNodeSass {
 	}
 }
 
-module.exports = JSFunctionsToNodeSass;
+module.exports = JSFunctionsToSass;

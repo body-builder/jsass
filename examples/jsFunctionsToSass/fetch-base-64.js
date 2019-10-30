@@ -1,16 +1,16 @@
 const path = require('path');
 const sass = require('node-sass');
-const JSFunctionsToNodeSass = require('../../src/JSFunctionsToNodeSass');
-const jsFunctionsToNodeSass = new JSFunctionsToNodeSass();
+const JSFunctionsToSass = require('../../src/JSFunctionsToSass');
+const jsFunctionsToSass = new JSFunctionsToSass({ implementation: sass });
 
-console.log('\nUsing an async JS function in JSFunctionsToNodeSass\n');
+console.log('\nUsing an async JS function in JSFunctionsToSass\n');
 
 /**
- * This example demonstrates how to use an async JS function in JSFunctionsToNodeSass
+ * This example demonstrates how to use an async JS function in JSFunctionsToSass
  */
 sass.render({
   file: path.resolve(__dirname, './fetch-base-64.scss'),
-  functions: jsFunctionsToNodeSass.convert({
+  functions: jsFunctionsToSass.convert({
     'fetch-base-64($url, $contentType: null)': function (url, contentType) {
       return new Promise((resolve, reject) => {
         // Credits for original function to Dan Kohn (https://stackoverflow.com/a/17133012/3111787)

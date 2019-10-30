@@ -1,15 +1,15 @@
 const kindOf = require('kind-of');
-const JSVarsToNodeSass = require('./JSVarsToNodeSass');
-const NodeSassVarsToJs = require('./NodeSassVarsToJs');
+const JSVarsToSass = require('./JSVarsToSass');
+const SassVarsToJS = require('./SassVarsToJS');
 
 /**
  * Converts JS variables (Bool, Number, String, Array, Object) to the 'corresponding' Sass variable definitions (Array -> List, Object -> Map, String -> String|Color|Unit, etc...)
- * Important: This Class outputs string data, which can be passed to the `data` option of node-sass (see https://github.com/sass/node-sass#data)
+ * Important: This Class outputs string data, which can be passed to the `data` option of Sass (see https://github.com/sass/node-sass#data)
  */
-class JSVarsToSassString extends JSVarsToNodeSass {
+class JSVarsToSassData extends JSVarsToSass {
 	/**
 	 * @param options
-	 * @returns {{setOption: JSVarsToSassString.setOption|*, convert: JSVarsToSassString._iterator|*}}
+	 * @returns {{setOption: JSVarsToSassData.setOption|*, convert: JSVarsToSassData._iterator|*}}
 	 * @constructor
 	 */
 	constructor(options) {
@@ -23,11 +23,14 @@ class JSVarsToSassString extends JSVarsToNodeSass {
 				important: false,
 				default: false,
 				global: false
-			}
+			},
+			implementation: options.implementation || require('node-sass')
 		}, options));
 
 		this.convert = this._iterator;
-		this._nodeSassVarsToJs = new NodeSassVarsToJs();
+		this._sassVarsToJS = new SassVarsToJS({
+			implementation: this._options.implementation
+		});
 
 		return this;
 	}
@@ -41,7 +44,7 @@ class JSVarsToSassString extends JSVarsToNodeSass {
 
 		// The super function may itself return value in edge-cases, and those values are in Sass types. We need to resolve it.
 		if (kindOf(value).startsWith('sass')) {
-			return this._convert(this._nodeSassVarsToJs.convert(value), options);
+			return this._convert(this._sassVarsToJS.convert(value), options);
 		}
 
 		return value;
@@ -55,7 +58,7 @@ class JSVarsToSassString extends JSVarsToNodeSass {
 		return JSON.stringify(value);
 	}
 
-	// _convert_error is implemented only because of JSFunctionsToNodeSass, we "skip" it here.
+	// _convert_error is implemented only because of JSFunctionsToSass, we "skip" it here.
 	_convert_error(value, options) {
 		throw value;
 	}
@@ -149,4 +152,4 @@ class JSVarsToSassString extends JSVarsToNodeSass {
 	}
 }
 
-module.exports = JSVarsToSassString;
+module.exports = JSVarsToSassData;
