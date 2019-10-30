@@ -8,13 +8,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var colorString = require('color-string');
 
-var kindOf = require('kind-of');
-
-var NodeSassVarsToJs =
+var SassVarsToJS =
 /*#__PURE__*/
 function () {
-  function NodeSassVarsToJs(options) {
-    _classCallCheck(this, NodeSassVarsToJs);
+  function SassVarsToJS(options) {
+    _classCallCheck(this, SassVarsToJS);
 
     this._default_options = {};
     this._options = Object.assign({}, this._default_options, options);
@@ -22,7 +20,7 @@ function () {
     return this;
   }
 
-  _createClass(NodeSassVarsToJs, [{
+  _createClass(SassVarsToJS, [{
     key: "_convert_null",
     value: function _convert_null(value, options) {
       return null;
@@ -93,8 +91,16 @@ function () {
     key: "_convert",
     value: function _convert(value) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this._options;
+      var kindOfValue;
 
-      switch (kindOf(value)) {
+      if (value.dartValue) {
+        kindOfValue = value.dartValue.constructor.name.toLowerCase();
+      } else {
+        // This does not rule it out that we are using _not_ a Dart Sass implementation. For example, `types.Null.NULL` in `Dart Sass` doesn't have a `dartValue` property.
+        kindOfValue = value.constructor.name.toLowerCase();
+      }
+
+      switch (kindOfValue) {
         case 'sassnull':
           return this._convert_null(value, options);
 
@@ -111,18 +117,19 @@ function () {
           return this._convert_string(value, options);
 
         case 'sasslist':
+        case 'sassargumentlist':
           return this._convert_array(value, options);
 
         case 'sassmap':
           return this._convert_object(value, options);
 
         default:
-          throw new Error('NodeSassVarsToJs - Unexpected node-sass variable type `' + kindOf(value) + '`');
+          throw new Error('SassVarsToJS - Unexpected Sass variable type `' + kindOfValue + '`');
       }
     }
   }]);
 
-  return NodeSassVarsToJs;
+  return SassVarsToJS;
 }();
 
-module.exports = NodeSassVarsToJs;
+module.exports = SassVarsToJS;

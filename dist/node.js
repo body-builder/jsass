@@ -9,28 +9,28 @@ Object.defineProperty(exports, "jSass_extract", {
     return _jSassExtract["default"];
   }
 });
-Object.defineProperty(exports, "JSFunctionsToNodeSass", {
+Object.defineProperty(exports, "JSFunctionsToSass", {
   enumerable: true,
   get: function get() {
-    return _JSFunctionsToNodeSass["default"];
+    return _JSFunctionsToSass["default"];
   }
 });
-Object.defineProperty(exports, "JSVarsToNodeSass", {
+Object.defineProperty(exports, "JSVarsToSass", {
   enumerable: true,
   get: function get() {
-    return _JSVarsToNodeSass["default"];
+    return _JSVarsToSass["default"];
   }
 });
-Object.defineProperty(exports, "JSVarsToSassString", {
+Object.defineProperty(exports, "JSVarsToSassData", {
   enumerable: true,
   get: function get() {
-    return _JSVarsToSassString["default"];
+    return _JSVarsToSassData["default"];
   }
 });
-Object.defineProperty(exports, "NodeSassVarsToJs", {
+Object.defineProperty(exports, "SassVarsToJS", {
   enumerable: true,
   get: function get() {
-    return _NodeSassVarsToJs["default"];
+    return _SassVarsToJS["default"];
   }
 });
 Object.defineProperty(exports, "jsVarsToDefinePlugin", {
@@ -42,13 +42,13 @@ Object.defineProperty(exports, "jsVarsToDefinePlugin", {
 
 var _jSassExtract = _interopRequireDefault(require("./jSass-extract"));
 
-var _JSFunctionsToNodeSass = _interopRequireDefault(require("./JSFunctionsToNodeSass"));
+var _JSFunctionsToSass = _interopRequireDefault(require("./JSFunctionsToSass"));
 
-var _JSVarsToNodeSass = _interopRequireDefault(require("./JSVarsToNodeSass"));
+var _JSVarsToSass = _interopRequireDefault(require("./JSVarsToSass"));
 
-var _JSVarsToSassString = _interopRequireDefault(require("./JSVarsToSassString"));
+var _JSVarsToSassData = _interopRequireDefault(require("./JSVarsToSassData"));
 
-var _NodeSassVarsToJs = _interopRequireDefault(require("./NodeSassVarsToJs"));
+var _SassVarsToJS = _interopRequireDefault(require("./SassVarsToJS"));
 
 var _jsVarsToDefinePlugin = _interopRequireDefault(require("./jsVarsToDefinePlugin"));
 

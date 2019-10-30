@@ -26,32 +26,32 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var kindOf = require('kind-of');
 
-var JSVarsToNodeSass = require('./JSVarsToNodeSass');
+var JSVarsToSass = require('./JSVarsToSass');
 
-var NodeSassVarsToJs = require('./NodeSassVarsToJs');
+var SassVarsToJS = require('./SassVarsToJS');
 /**
  * Converts JS variables (Bool, Number, String, Array, Object) to the 'corresponding' Sass variable definitions (Array -> List, Object -> Map, String -> String|Color|Unit, etc...)
- * Important: This Class outputs string data, which can be passed to the `data` option of node-sass (see https://github.com/sass/node-sass#data)
+ * Important: This Class outputs string data, which can be passed to the `data` option of Sass (see https://github.com/sass/node-sass#data)
  */
 
 
-var JSVarsToSassString =
+var JSVarsToSassData =
 /*#__PURE__*/
-function (_JSVarsToNodeSass) {
-  _inherits(JSVarsToSassString, _JSVarsToNodeSass);
+function (_JSVarsToSass) {
+  _inherits(JSVarsToSassData, _JSVarsToSass);
 
   /**
    * @param options
-   * @returns {{setOption: JSVarsToSassString.setOption|*, convert: JSVarsToSassString._iterator|*}}
+   * @returns {{setOption: JSVarsToSassData.setOption|*, convert: JSVarsToSassData._iterator|*}}
    * @constructor
    */
-  function JSVarsToSassString(options) {
+  function JSVarsToSassData(options) {
     var _this;
 
-    _classCallCheck(this, JSVarsToSassString);
+    _classCallCheck(this, JSVarsToSassData);
 
     // prettier-ignore
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(JSVarsToSassString).call(this, Object.assign({}, {
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(JSVarsToSassData).call(this, Object.assign({}, {
       syntax: 'scss',
       quotedKeys: true,
       // Though Sass allows map keys to be of any Sass type, it is recommended to use quoted strings to avoid confusing problems (see https://sass-lang.com/documentation/values/maps)
@@ -61,14 +61,17 @@ function (_JSVarsToNodeSass) {
         important: false,
         "default": false,
         global: false
-      }
+      },
+      implementation: options.implementation || require('node-sass')
     }, options)));
     _this.convert = _this._iterator;
-    _this._nodeSassVarsToJs = new NodeSassVarsToJs();
+    _this._sassVarsToJS = new SassVarsToJS({
+      implementation: _this._options.implementation
+    });
     return _possibleConstructorReturn(_this, _assertThisInitialized(_this));
   }
 
-  _createClass(JSVarsToSassString, [{
+  _createClass(JSVarsToSassData, [{
     key: "_stringify",
     value: function _stringify(value, options) {
       return options.quote + value + options.quote;
@@ -77,10 +80,10 @@ function (_JSVarsToNodeSass) {
     key: "_convert",
     value: function _convert(value) {
       var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this._options;
-      value = _get(_getPrototypeOf(JSVarsToSassString.prototype), "_convert", this).call(this, value, options); // The super function may itself return value in edge-cases, and those values are in Sass types. We need to resolve it.
+      value = _get(_getPrototypeOf(JSVarsToSassData.prototype), "_convert", this).call(this, value, options); // The super function may itself return value in edge-cases, and those values are in Sass types. We need to resolve it.
 
       if (kindOf(value).startsWith('sass')) {
-        return this._convert(this._nodeSassVarsToJs.convert(value), options);
+        return this._convert(this._sassVarsToJS.convert(value), options);
       }
 
       return value;
@@ -94,7 +97,7 @@ function (_JSVarsToNodeSass) {
     key: "_convert_boolean",
     value: function _convert_boolean(value, options) {
       return JSON.stringify(value);
-    } // _convert_error is implemented only because of JSFunctionsToNodeSass, we "skip" it here.
+    } // _convert_error is implemented only because of JSFunctionsToSass, we "skip" it here.
 
   }, {
     key: "_convert_error",
@@ -201,7 +204,7 @@ function (_JSVarsToNodeSass) {
     }
   }]);
 
-  return JSVarsToSassString;
-}(JSVarsToNodeSass);
+  return JSVarsToSassData;
+}(JSVarsToSass);
 
-module.exports = JSVarsToSassString;
+module.exports = JSVarsToSassData;
