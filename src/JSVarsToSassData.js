@@ -23,11 +23,14 @@ class JSVarsToSassData extends JSVarsToSass {
 				important: false,
 				default: false,
 				global: false
-			}
+			},
+			implementation: options.implementation || require('node-sass')
 		}, options));
 
 		this.convert = this._iterator;
-		this._sassVarsToJS = new SassVarsToJS();
+		this._sassVarsToJS = new SassVarsToJS({
+			implementation: this._options.implementation
+		});
 
 		return this;
 	}

@@ -1,7 +1,10 @@
 const JSVarsToSassData = require('../src/JSVarsToSassData');
-const jsVarsToSassData = new JSVarsToSassData();
 
-describe('jsVarsToSassData', function() {
+describe_implementation('jsVarsToSassData', function(sass) {
+	const jsVarsToSassData = new JSVarsToSassData({
+		implementation: sass
+	});
+
 	it('Should handle both the 3-parameters and the 2-parameters syntax', function() {
 		expect(jsVarsToSassData.convert('number', 0.454)).toEqual('$number: 0.454;');
 		expect(jsVarsToSassData.convert({ number: 0.454 })).toEqual('$number: 0.454;');
