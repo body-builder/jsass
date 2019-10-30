@@ -1,7 +1,7 @@
 const path = require('path');
 const sass = require('node-sass');
-const JSFunctionsToNodeSass = require('../../src/JSFunctionsToNodeSass');
-const jsFunctionsToNodeSass = new JSFunctionsToNodeSass({ implementation: sass });
+const JSFunctionsToSass = require('../../src/JSFunctionsToSass');
+const jsFunctionsToSass = new JSFunctionsToSass({ implementation: sass });
 
 const urljoin = require('url-join');
 
@@ -12,7 +12,7 @@ console.log('\nAdding a `url-join` function to Sass, using the `url-join` NPM pa
  */
 sass.render({
   file: path.resolve(__dirname, './url-join.scss'),
-  functions: jsFunctionsToNodeSass.convert({
+  functions: jsFunctionsToSass.convert({
     'url-join($paths...)': urljoin
   })
 }, (err, result) => {

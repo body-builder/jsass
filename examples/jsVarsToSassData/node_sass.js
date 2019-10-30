@@ -2,15 +2,15 @@ const fs = require('fs');
 const path = require('path');
 const sass = require('node-sass');
 
-const JSVarsToSassString = require('../../src/JSVarsToSassString');
-const jsVarsToSassString = new JSVarsToSassString();
+const JSVarsToSassData = require('../../src/JSVarsToSassData');
+const jsVarsToSassData = new JSVarsToSassData();
 
 console.log('\nInjecting JS variables to Sass using the `data` option of `sass.render()`\n');
 
 /**
  * This example demonstrates how to inject JS variables to Sass using the `data` option of `sass.render()`
  */
-const data = jsVarsToSassString.convert({
+const data = jsVarsToSassData.convert({
   ENV: process.env.NODE_ENV,
   DEV: process.env.NODE_ENV === 'development',
   variable: 'variable',

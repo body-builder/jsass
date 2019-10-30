@@ -1,7 +1,7 @@
 const path = require('path');
 const sass = require('node-sass');
-const JSFunctionsToNodeSass = require('../../src/JSFunctionsToNodeSass');
-const jsFunctionsToNodeSass = new JSFunctionsToNodeSass({ implementation: sass });
+const JSFunctionsToSass = require('../../src/JSFunctionsToSass');
+const jsFunctionsToSass = new JSFunctionsToSass({ implementation: sass });
 
 const _ = require('lodash');
 
@@ -12,7 +12,7 @@ console.log('\nAdvanced `map-get` function for Sass, using lodash\'s `get()`, ma
  */
 sass.render({
   file: path.resolve(__dirname, './map-get-super.scss'),
-  functions: jsFunctionsToNodeSass.convert({
+  functions: jsFunctionsToSass.convert({
     // We need to stringify the map in the demo CSS to prevent Dart Sass from throwing `Error: ("deeply": ("nested": ("value": "jSass"))) isn't a valid CSS value.`
     'stringify($map)': JSON.stringify,
     'map-get-super($map, $path)': _.get

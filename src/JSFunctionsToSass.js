@@ -1,8 +1,8 @@
 const kindOf = require('kind-of');
-const JSVarsToNodeSass = require('./JSVarsToNodeSass');
-const NodeSassVarsToJs = require('./NodeSassVarsToJs');
+const JSVarsToSass = require('./JSVarsToSass');
+const SassVarsToJS = require('./SassVarsToJS');
 
-class JSFunctionsToNodeSass {
+class JSFunctionsToSass {
 	constructor(options) {
 		this._default_options = {
 			listSeparator: ', ',
@@ -12,8 +12,8 @@ class JSFunctionsToNodeSass {
 		this._options = Object.assign({}, this._default_options, options);
 		this.implementation = this._options.implementation || require('node-sass');
 
-		this._jsVarsToNodeSass = new JSVarsToNodeSass({ implementation: this.implementation });
-		this._nodeSassVarsToJs = new NodeSassVarsToJs();
+		this._jsVarsToSass = new JSVarsToSass({ implementation: this.implementation });
+		this._sassVarsToJS = new SassVarsToJS();
 
 		this.convert = this._wrapObject;
 	}
@@ -82,7 +82,7 @@ class JSFunctionsToNodeSass {
 		const jsTypeArgs = [];
 
 		sassTypeArgs.forEach((sassTypeArg, index) => {
-			const jsTypeArg = this._nodeSassVarsToJs._convert(sassTypeArg, options);
+			const jsTypeArg = this._sassVarsToJS._convert(sassTypeArg, options);
 
 			// If the Sass function expects the data to be spread for the current argument, we spread the arguments also for the JS function.
 			if (kindOf(jsTypeArg) === 'array' && sassFunctionData.spreadArgs.indexOf(index) !== -1) {
@@ -97,7 +97,7 @@ class JSFunctionsToNodeSass {
 		try {
 			value = fn.apply(null, jsTypeArgs);
 		} catch (error) {
-			return this._jsVarsToNodeSass._convert(this._createError(error), options);
+			return this._jsVarsToSass._convert(this._createError(error), options);
 		}
 
 		// Returning JS values in Sass types
@@ -109,10 +109,10 @@ class JSFunctionsToNodeSass {
 			// TODO Finish error handling tests
 			// eslint-disable-next-line prettier/prettier
 			value
-				.catch((error) => done(this._jsVarsToNodeSass._convert(this._createError(error), options)))
-				.then((resolved) => done(this._jsVarsToNodeSass._convert(resolved, options)));
+				.catch((error) => done(this._jsVarsToSass._convert(this._createError(error), options)))
+				.then((resolved) => done(this._jsVarsToSass._convert(resolved, options)));
 		} else {
-			return this._jsVarsToNodeSass._convert(value, options);
+			return this._jsVarsToSass._convert(value, options);
 		}
 	}
 
@@ -139,4 +139,4 @@ class JSFunctionsToNodeSass {
 	}
 }
 
-module.exports = JSFunctionsToNodeSass;
+module.exports = JSFunctionsToSass;

@@ -41,15 +41,15 @@ Both **sync** and **async** functions are supported.
 ```js
 const path = require('path');
 const sass = require('node-sass');
-const JSFunctionsToNodeSass = require('../../src/JSFunctionsToNodeSass');
-const jsFunctionsToNodeSass = new JSFunctionsToNodeSass();
+const { JSFunctionsToSass } = require('jsass/dist/node');
+const jsFunctionsToSass = new JSFunctionsToSass();
 
 /**
- * This example demonstrates the simplest usage of JSFunctionsToNodeSass, adding a `str-replace` function to Sass
+ * This example demonstrates the simplest usage of JSFunctionsToSass, adding a `str-replace` function to Sass
  */
 sass.render({
   file: path.resolve(__dirname, './str-replace.scss'),
-  functions: jsFunctionsToNodeSass.convert({
+  functions: jsFunctionsToSass.convert({
     'str-replace($string, $search, $replace: "")': function (string, search, replace) {
       if (typeof string !== 'string') {
         throw new Error('str-replace needs `$string` to be typeof string!');
@@ -93,8 +93,8 @@ Output:
 ```js
 const path = require('path');
 const sass = require('node-sass');
-const JSFunctionsToNodeSass = require('../../src/JSFunctionsToNodeSass');
-const jsFunctionsToNodeSass = new JSFunctionsToNodeSass();
+const { JSFunctionsToSass } = require('jsass/dist/node');
+const jsFunctionsToSass = new JSFunctionsToSass();
 
 const _ = require('lodash');
 
@@ -103,7 +103,7 @@ const _ = require('lodash');
  */
 sass.render({
   file: path.resolve(__dirname, './map-get-super.scss'),
-  functions: jsFunctionsToNodeSass.convert({
+  functions: jsFunctionsToSass.convert({
     'map-get-super($map, $path)': _.get
   })
 }, (err, result) => {
@@ -142,8 +142,8 @@ Output:
 ```js
 const path = require('path');
 const sass = require('node-sass');
-const JSFunctionsToNodeSass = require('../../src/JSFunctionsToNodeSass');
-const jsFunctionsToNodeSass = new JSFunctionsToNodeSass();
+const { JSFunctionsToSass } = require('jsass/dist/node');
+const jsFunctionsToSass = new JSFunctionsToSass();
 
 const urljoin = require('url-join');
 
@@ -152,7 +152,7 @@ const urljoin = require('url-join');
  */
 sass.render({
   file: path.resolve(__dirname, './url-join.scss'),
-  functions: jsFunctionsToNodeSass.convert({
+  functions: jsFunctionsToSass.convert({
     'url-join($paths...)': urljoin
   })
 }, (err, result) => {
@@ -190,12 +190,12 @@ Node-sass accepts a `data` option as the source code to compile (check `node-sas
 #### Example
 
 ```js
-const JSVarsToSassString = require('../../src/JSVarsToSassString');
-const jsVarsToSassString = new JSVarsToSassString();
+const { JSVarsToSassData } = require('jsass/dist/node');
+const jsVarsToSassData = new JSVarsToSassData();
 
 process.env.NODE_ENV = 'development';
 
-const data = jsVarsToSassString.convert({
+const data = jsVarsToSassData.convert({
   ENV: process.env.NODE_ENV,
   DEV: process.env.NODE_ENV === 'development',
   variable: 'variable',
@@ -239,13 +239,13 @@ const fs = require('fs');
 const path = require('path');
 const sass = require('node-sass');
 
-const JSVarsToSassString = require('../../src/JSVarsToSassString');
-const jsVarsToSassString = new JSVarsToSassString();
+const { JSVarsToSassData } = require('jsass/dist/node');
+const jsVarsToSassData = new JSVarsToSassData();
 
 /**
  * This example demonstrates how to inject JS variables to Sass using the `data` option of `sass.render()`
  */
-const data = jsVarsToSassString.convert({
+const data = jsVarsToSassData.convert({
   ENV: process.env.NODE_ENV,
   DEV: process.env.NODE_ENV === 'development',
   variable: 'variable',

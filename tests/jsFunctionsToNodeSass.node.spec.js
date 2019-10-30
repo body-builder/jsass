@@ -3,106 +3,106 @@ const _ = require('lodash');
 const util = require('util');
 
 const Deferred = require('./helpers/Deferred');
-const sync_test = require('./assets/jsFunctionsToNodeSass').sync;
-const async_test = require('./assets/jsFunctionsToNodeSass').async;
-const async_es6_test = require('./assets/jsFunctionsToNodeSass').async_es6;
+const sync_test = require('./assets/jsFunctionsToSass').sync;
+const async_test = require('./assets/jsFunctionsToSass').async;
+const async_es6_test = require('./assets/jsFunctionsToSass').async_es6;
 
-const JSFunctionsToNodeSass = require('../src/JSFunctionsToNodeSass');
+const JSFunctionsToSass = require('../src/JSFunctionsToSass');
 
-describe_implementation('jsFunctionsToNodeSass', function(sass) {
+describe_implementation('jsFunctionsToSass', function(sass) {
 	const promisified = {
 		sass: {
 			render: util.promisify(sass.render)
 		}
 	};
-	const jsFunctionsToNodeSass = new JSFunctionsToNodeSass({ implementation: sass });
+	const jsFunctionsToSass = new JSFunctionsToSass({ implementation: sass });
 
 	it('Should throw error if calling with wrong arguments', function() {
-		expect(() => jsFunctionsToNodeSass._wrapFunction()).toThrow(new Error('JSFunctionsToSass - pass the Sass function declaration to wrapFunction!'));
-		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)')).toThrow(new Error('JSFunctionsToSass - pass a function to wrapFunction!'));
-		expect(() => jsFunctionsToNodeSass._wrapObject()).toThrow(new Error('JSFunctionsToSass - pass an object in the following format:\n{\n  \'sass-fn-name($arg1: 0, $arg2: 6)\': function(arg1, arg2) {\n    ...\n  }\n}'));
-		expect(() => jsFunctionsToNodeSass.convert()).toThrow(new Error('JSFunctionsToSass - pass an object in the following format:\n{\n  \'sass-fn-name($arg1: 0, $arg2: 6)\': function(arg1, arg2) {\n    ...\n  }\n}'));
-		expect(() => jsFunctionsToNodeSass.convert({ 'sass-fn($arg)': null })).toThrow(new Error('JSFunctionsToSass - pass a function to wrapObject!'));
+		expect(() => jsFunctionsToSass._wrapFunction()).toThrow(new Error('JSFunctionsToSass - pass the Sass function declaration to wrapFunction!'));
+		expect(() => jsFunctionsToSass._wrapFunction('sass-fn($arg)')).toThrow(new Error('JSFunctionsToSass - pass a function to wrapFunction!'));
+		expect(() => jsFunctionsToSass._wrapObject()).toThrow(new Error('JSFunctionsToSass - pass an object in the following format:\n{\n  \'sass-fn-name($arg1: 0, $arg2: 6)\': function(arg1, arg2) {\n    ...\n  }\n}'));
+		expect(() => jsFunctionsToSass.convert()).toThrow(new Error('JSFunctionsToSass - pass an object in the following format:\n{\n  \'sass-fn-name($arg1: 0, $arg2: 6)\': function(arg1, arg2) {\n    ...\n  }\n}'));
+		expect(() => jsFunctionsToSass.convert({ 'sass-fn($arg)': null })).toThrow(new Error('JSFunctionsToSass - pass a function to wrapObject!'));
 	});
 
 	it('Should throw error if the `done()` function is not available in case of an async call', function() {
-		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => Promise.resolve(), [new sass.types.String('a'), new sass.types.String('b'), new sass.types.String('c')])).toThrow(new Error('JSFunctionsToSass - no callback provided from Sass!'));
+		expect(() => jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => Promise.resolve(), [new sass.types.String('a'), new sass.types.String('b'), new sass.types.String('c')])).toThrow(new Error('JSFunctionsToSass - no callback provided from Sass!'));
 	});
 
 	it('Should throw error if the converter cannot handle the given variable type', function() {
-		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => {}, ['string', () => 'done'])).toThrow(new Error('NodeSassVarsToJs - Unexpected Sass variable type `string`'));
-		expect(() => jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => {}, [2, () => 'done'])).toThrow(new Error('NodeSassVarsToJs - Unexpected Sass variable type `number`'));
+		expect(() => jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => {}, ['string', () => 'done'])).toThrow(new Error('SassVarsToJS - Unexpected Sass variable type `string`'));
+		expect(() => jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => {}, [2, () => 'done'])).toThrow(new Error('SassVarsToJS - Unexpected Sass variable type `number`'));
 	});
 
 	it('Should return the values in the equivalent Sass type', function() {
 		// Null
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => null)).toEqual(sass.types.Null.NULL);
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => null)).toEqual(sass.types.Null.NULL);
 
 		// Boolean
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => true)).toEqual(sass.types.Boolean.TRUE);
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => false)).toEqual(sass.types.Boolean.FALSE);
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => true)).toEqual(sass.types.Boolean.TRUE);
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => false)).toEqual(sass.types.Boolean.FALSE);
 
 		// Error (note that we cannot compare their message)
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => { throw new Error('Some strange error happened') })).toEqual(new sass.types.Error('Some strange error happened'));
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => { throw new Error('Some strange error happened') })).toEqual(new sass.types.Error('Some strange error happened'));
 
 		// String
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => 'string')).toEqual(new sass.types.String('string'));
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '1')).toEqual(new sass.types.String('1'));
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => 'string')).toEqual(new sass.types.String('string'));
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '1')).toEqual(new sass.types.String('1'));
 
 		// Number
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => 1)).toEqual(new sass.types.Number(1));
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '50%')).toEqual(new sass.types.Number(50, '%'));
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => 1)).toEqual(new sass.types.Number(1));
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '50%')).toEqual(new sass.types.Number(50, '%'));
 
 		// Color
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '#000000')).toEqual(new sass.types.Color(0, 0, 0, 1));
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '#000000')).toEqual(new sass.types.Color(0, 0, 0, 1));
 
 		// List
 		const sassList = new sass.types.List(1);
 		sassList.setValue(0, new sass.types.String('string'));
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => ['string'])).toEqual(sassList);
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => ['string'])).toEqual(sassList);
 
 		// Map
 		const sassMap = new sass.types.Map(1);
 		sassMap.setKey(0, new sass.types.String('a'));
 		sassMap.setValue(0, new sass.types.String('a'));
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => ({ a: 'a' }))).toEqual(sassMap);
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => ({ a: 'a' }))).toEqual(sassMap);
 	});
 
 	it('Should return the same value', function() {
 		// Null
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => null)).toEqual(sass.types.Null.NULL);
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => null)).toEqual(sass.types.Null.NULL);
 
 		// Boolean
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => true).getValue()).toEqual(sass.types.Boolean.TRUE.getValue());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => false).getValue()).toEqual(sass.types.Boolean.FALSE.getValue());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => true).getValue()).toEqual(sass.types.Boolean.TRUE.getValue());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => false).getValue()).toEqual(sass.types.Boolean.FALSE.getValue());
 
 		// Error (note that we cannot compare their message)
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => { throw new Error('Some strange error happened') })).toEqual(new sass.types.Error('Some strange error happened'));
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => { throw new Error('Some strange error happened') })).toEqual(new sass.types.Error('Some strange error happened'));
 
 		// String
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => 'string').getValue()).toEqual(new sass.types.String('string').getValue());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '1').getValue()).toEqual(new sass.types.String('1').getValue());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => 'string').getValue()).toEqual(new sass.types.String('string').getValue());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '1').getValue()).toEqual(new sass.types.String('1').getValue());
 
 		// Number
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => 1).getValue()).toEqual(new sass.types.Number(1).getValue());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => 0).getValue()).toEqual(new sass.types.Number(0).getValue());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => -1).getValue()).toEqual(new sass.types.Number(-1).getValue());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '0px').getValue()).toEqual(new sass.types.Number(0, 'px').getValue());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '0px').getUnit()).toEqual(new sass.types.Number(0, 'px').getUnit());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '10em').getUnit()).toEqual(new sass.types.Number(10, 'em').getUnit());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '50%').getUnit()).toEqual(new sass.types.Number(50, '%').getUnit());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => 1).getValue()).toEqual(new sass.types.Number(1).getValue());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => 0).getValue()).toEqual(new sass.types.Number(0).getValue());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => -1).getValue()).toEqual(new sass.types.Number(-1).getValue());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '0px').getValue()).toEqual(new sass.types.Number(0, 'px').getValue());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '0px').getUnit()).toEqual(new sass.types.Number(0, 'px').getUnit());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '10em').getUnit()).toEqual(new sass.types.Number(10, 'em').getUnit());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '50%').getUnit()).toEqual(new sass.types.Number(50, '%').getUnit());
 
 		// Color
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '#000000').getR()).toEqual(new sass.types.Color(0, 0, 0, 1).getR());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '#000000').getG()).toEqual(new sass.types.Color(0, 0, 0, 1).getG());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '#000000').getB()).toEqual(new sass.types.Color(0, 0, 0, 1).getB());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => '#000000').getA()).toEqual(new sass.types.Color(0, 0, 0, 1).getA());
-		expect(jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => 'rgba(0, 0, 0, 0.5)').getA()).toEqual(new sass.types.Color(0, 0, 0, 0.5).getA());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '#000000').getR()).toEqual(new sass.types.Color(0, 0, 0, 1).getR());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '#000000').getG()).toEqual(new sass.types.Color(0, 0, 0, 1).getG());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '#000000').getB()).toEqual(new sass.types.Color(0, 0, 0, 1).getB());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => '#000000').getA()).toEqual(new sass.types.Color(0, 0, 0, 1).getA());
+		expect(jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => 'rgba(0, 0, 0, 0.5)').getA()).toEqual(new sass.types.Color(0, 0, 0, 0.5).getA());
 	});
 
 	it('Should handle Arrays correctly', function() {
 		const array = [null, true, false, 'string', '1', 1, 0, -1, '0px', '10em', '50%'];
-		const list = jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => array);
+		const list = jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => array);
 
 		expect(list.getLength()).toEqual(array.length);
 
@@ -142,7 +142,7 @@ describe_implementation('jsFunctionsToNodeSass', function(sass) {
 			map: { prop1: 'mappropelem1', prop2: 'mappropelem2', prop3: 'mappropelem3' }
 			// variable: '$variable', TODO?
 		};
-		const map = jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', () => object);
+		const map = jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => object);
 
 		expect(map.getLength()).toEqual(Object.keys(object).length);
 
@@ -201,7 +201,7 @@ describe_implementation('jsFunctionsToNodeSass', function(sass) {
 	});
 
 	it('Should handle synchronous functions', function() {
-		const value = jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', sync_test, [new sass.types.String('sync'), new sass.types.Number(2), () => 'done']);
+		const value = jsFunctionsToSass._wrapFunction('sass-fn($arg)', sync_test, [new sass.types.String('sync'), new sass.types.Number(2), () => 'done']);
 
 		expect(value.getValue()).toEqual(new sass.types.String('sync sync').getValue());
 	});
@@ -211,7 +211,7 @@ describe_implementation('jsFunctionsToNodeSass', function(sass) {
 			// Mocking Sass's `done()` with a promise
 			const done = new Deferred();
 
-			jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', async_test, [new sass.types.String('async'), new sass.types.Number(3), done.resolve]);
+			jsFunctionsToSass._wrapFunction('sass-fn($arg)', async_test, [new sass.types.String('async'), new sass.types.Number(3), done.resolve]);
 
 			const value = await done;
 
@@ -222,7 +222,7 @@ describe_implementation('jsFunctionsToNodeSass', function(sass) {
 			// Mocking Sass's `done()` with a promise
 			const done = new Deferred();
 
-			jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', async_es6_test, [new sass.types.String('async'), new sass.types.Number(4), done.resolve]);
+			jsFunctionsToSass._wrapFunction('sass-fn($arg)', async_es6_test, [new sass.types.String('async'), new sass.types.Number(4), done.resolve]);
 
 			const value = await done;
 
@@ -233,14 +233,14 @@ describe_implementation('jsFunctionsToNodeSass', function(sass) {
 	it('Should convert incoming Sass type arguments to JS', function() {
 		let spy_arg1, spy_arg2;
 
-		const bla = jsFunctionsToNodeSass._wrapFunction('sass-fn($arg)', (arg1, arg2) => { spy_arg1 = arg1; spy_arg2 = arg2 }, [new sass.types.String('string'), new sass.types.Color(0, 0, 0, 1), () => 'done']);
+		const bla = jsFunctionsToSass._wrapFunction('sass-fn($arg)', (arg1, arg2) => { spy_arg1 = arg1; spy_arg2 = arg2 }, [new sass.types.String('string'), new sass.types.Color(0, 0, 0, 1), () => 'done']);
 
 		expect(spy_arg1).toEqual('string');
 		expect(spy_arg2).toEqual('#000000');
 	});
 
 	it('Should handle Object of Functions', function() {
-		const wrappedObject = jsFunctionsToNodeSass.convert({
+		const wrappedObject = jsFunctionsToSass.convert({
 			'sync_test($str, $number)': sync_test,
 			'async_test($str, $number)': async_test
 		});
@@ -259,9 +259,9 @@ describe_implementation('jsFunctionsToNodeSass', function(sass) {
 		list.setValue(0, new sass.types.String('string'));
 		list.setValue(1, new sass.types.Color(0, 0, 0, 1));
 
-		const spread_test = jsFunctionsToNodeSass._wrapFunction('spread_test($arg...)', function () { spy_spread_args = arguments }, [list, () => 'done']);
-		const spread_string_test = jsFunctionsToNodeSass._wrapFunction('spread_string_test($arg)', function () { spy_spread_string_args = arguments }, [new sass.types.String('string'), () => 'done']);
-		const no_spread_test = jsFunctionsToNodeSass._wrapFunction('no_spread_test($arg)', function () { spy_no_spread_args = arguments }, [list, () => 'done']);
+		const spread_test = jsFunctionsToSass._wrapFunction('spread_test($arg...)', function () { spy_spread_args = arguments }, [list, () => 'done']);
+		const spread_string_test = jsFunctionsToSass._wrapFunction('spread_string_test($arg)', function () { spy_spread_string_args = arguments }, [new sass.types.String('string'), () => 'done']);
+		const no_spread_test = jsFunctionsToSass._wrapFunction('no_spread_test($arg)', function () { spy_no_spread_args = arguments }, [list, () => 'done']);
 
 		it('Should spread lists', function(){
 			expect(kindOf(spy_spread_args[0])).toEqual('string');
@@ -289,7 +289,7 @@ describe_implementation('jsFunctionsToNodeSass', function(sass) {
 		it('Should pick the function and use it during build-time', async function() {
 			const result = await promisified.sass.render({
 				file: 'tests/assets/map-get-super.scss',
-				functions: jsFunctionsToNodeSass.convert({
+				functions: jsFunctionsToSass.convert({
 					'map-get-super($object, $string)': _.get
 				}),
 				outputStyle: 'expanded'

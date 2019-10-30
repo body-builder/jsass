@@ -1,6 +1,6 @@
 const colorString = require('color-string');
 
-class NodeSassVarsToJs {
+class SassVarsToJS {
 	constructor(options) {
 		this._default_options = {};
 
@@ -105,9 +105,9 @@ class NodeSassVarsToJs {
 				return this._convert_object(value, options);
 
 			default:
-				throw new Error('NodeSassVarsToJs - Unexpected Sass variable type `' + kindOfValue + '`');
+				throw new Error('SassVarsToJS - Unexpected Sass variable type `' + kindOfValue + '`');
 		}
 	}
 }
 
-module.exports = NodeSassVarsToJs;
+module.exports = SassVarsToJS;

@@ -1,7 +1,7 @@
 const colorString = require('color-string');
 const kindOf = require('kind-of');
 
-class JSVarsToNodeSass {
+class JSVarsToSass {
 	constructor(options) {
 		const _default_options = {
 			listSeparator: ', ',
@@ -35,7 +35,7 @@ class JSVarsToNodeSass {
 			if (arguments[1] !== undefined) {
 				options = { [options]: arguments[1] };
 			} else {
-				throw new Error('JSVarsToNodeSass: setOption needs an option');
+				throw new Error('JSVarsToSass: setOption needs an option');
 			}
 		}
 
@@ -118,7 +118,7 @@ class JSVarsToNodeSass {
 				if (this._options.strict === false) {
 					return new this.implementation.types.String(`[JS ${type.replace(/./, (x) => x.toUpperCase())}]`);
 				} else {
-					throw new Error('JSVarsToNodeSass - Unexpected variable type `' + kindOf(value) + '`');
+					throw new Error('JSVarsToSass - Unexpected variable type `' + kindOf(value) + '`');
 				}
 		}
 	}
@@ -205,4 +205,4 @@ class JSVarsToNodeSass {
 	}
 }
 
-module.exports = JSVarsToNodeSass;
+module.exports = JSVarsToSass;
