@@ -5,7 +5,8 @@
 [![devDependencies Status](https://david-dm.org/body-builder/jsass/dev-status.svg)](https://david-dm.org/body-builder/jsass?type=dev)
 [![peerDependencies Status](https://david-dm.org/body-builder/jsass/peer-status.svg)](https://david-dm.org/body-builder/jsass?type=peer)
 
-Pass and convert data and functions between JavaScript and Sass. Supports both [Node Sass](https://github.com/sass/node-sass) and [Dart Sass](https://github.com/sass/dart-sass)
+Share functions and variables between JS and Sass.  
+Supports both [Node Sass](https://github.com/sass/node-sass) and [Dart Sass](https://github.com/sass/dart-sass).
 
 ------
 
