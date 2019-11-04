@@ -3,3 +3,6 @@
 
 # NODE
 /node_modules
+
+# Package-specific
+/dist
