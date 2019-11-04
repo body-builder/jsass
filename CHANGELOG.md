@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.1.1 (2019-11-04)
+
+
+### Bug Fixes
+
+* **JSVarsToSassData:** The `options` parameters should never be `undefined` ([e8a866f](https://github.com/body-builder/jsass/commit/e8a866fb43f3598c2b4bc1a0c85aadb172516dda))
+
 ## 1.1.0 (2019-10-30)
 
 ### Features
