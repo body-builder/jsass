@@ -3,7 +3,7 @@ const JSVarsToSass = require('./JSVarsToSass');
 const SassVarsToJS = require('./SassVarsToJS');
 
 class JSFunctionsToSass {
-	constructor(options) {
+	constructor(options = {}) {
 		this._default_options = {
 			listSeparator: ', ',
 			quote: "'" // prettier-ignore

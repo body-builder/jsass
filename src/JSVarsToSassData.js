@@ -12,9 +12,8 @@ class JSVarsToSassData extends JSVarsToSass {
 	 * @returns {{setOption: JSVarsToSassData.setOption|*, convert: JSVarsToSassData._iterator|*}}
 	 * @constructor
 	 */
-	constructor(options) {
-		// prettier-ignore
-		super(Object.assign({}, {
+	constructor(options = {}) {
+		const _default_options = {
 			syntax: 'scss',
 			quotedKeys: true, // Though Sass allows map keys to be of any Sass type, it is recommended to use quoted strings to avoid confusing problems (see https://sass-lang.com/documentation/values/maps)
 			listSeparator: ', ',
@@ -25,7 +24,10 @@ class JSVarsToSassData extends JSVarsToSass {
 				global: false
 			},
 			implementation: options.implementation || require('node-sass')
-		}, options));
+		};
+
+		super(Object.assign({}, _default_options, options));
+		this._default_options = Object.assign(this._default_options, _default_options);
 
 		this.convert = this._iterator;
 		this._sassVarsToJS = new SassVarsToJS({

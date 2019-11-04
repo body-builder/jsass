@@ -2,13 +2,13 @@ const colorString = require('color-string');
 const kindOf = require('kind-of');
 
 class JSVarsToSass {
-	constructor(options) {
-		const _default_options = {
+	constructor(options = {}) {
+		this._default_options = {
 			listSeparator: ', ',
 			strict: true
 		};
 
-		this._options = Object.assign({}, _default_options, options);
+		this._options = Object.assign({}, this._default_options, options);
 		this.implementation = this._options.implementation || require('node-sass');
 
 		this.unitKeywords_spec = ['cm', 'mm', 'in', 'px', 'pt', 'pc', 'em', 'ex', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax', '%'];

@@ -1,7 +1,7 @@
 const colorString = require('color-string');
 
 class SassVarsToJS {
-	constructor(options) {
+	constructor(options = {}) {
 		this._default_options = {};
 
 		this._options = Object.assign({}, this._default_options, options);
