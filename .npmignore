@@ -7,5 +7,6 @@
 /.eslintrc
 /.prettierrc.js
 /.prettierignore
+/.travis.yml
 /jasmine.json
 /jasmine.run.js
