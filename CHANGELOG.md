@@ -1,5 +1,14 @@
 # Changelog
 
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [1.1.2](https://github.com/body-builder/jsass/compare/v1.1.1...v1.1.2) (2019-11-15)
+
+
+### Bug Fixes
+
+* **JSFunctionsToSass:** Handling synchronous `renderSync()` correctly ([#3](https://github.com/body-builder/jsass/issues/3)) ([cc7581a](https://github.com/body-builder/jsass/commit/cc7581a30d19fa1eb1da5ae670b9b9e27c664728))
+
 ### 1.1.1 (2019-11-04)
 
 
