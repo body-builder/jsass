@@ -285,17 +285,47 @@ describe_implementation('jsFunctionsToSass', function(sass) {
 		});
 	});
 
-	describe('Sass', function() {
-		it('Should pick the function and use it during build-time', async function() {
-			const result = await promisified.sass.render({
-				file: 'tests/assets/map-get-super.scss',
-				functions: jsFunctionsToSass.convert({
-					'map-get-super($object, $string)': _.get
-				}),
-				outputStyle: 'expanded'
-			});
+	describe('Synchronous Sass functions', function() {
+		const sassOptions = {
+			file: 'tests/assets/test-join.scss',
+			functions: jsFunctionsToSass.convert({
+				'test-join($str, $number)': sync_test
+			}),
+			outputStyle: 'expanded'
+		};
+		const expectedOutput = '.resolved {\n  content: "test test test";\n}';
 
-			expect(result.css.toString().trim()).toEqual('.resolved {\n  content: jSass;\n}');
+		it('Should pick the function and use it during build-time in asynchronous rendering mode', async function() {
+			const result = await promisified.sass.render(sassOptions);
+
+			expect(result.css.toString().trim()).toEqual(expectedOutput);
+		});
+
+		it('Should pick the function and use it during build-time in synchronous rendering mode', function() {
+			const result = sass.renderSync(sassOptions);
+
+			expect(result.css.toString().trim()).toEqual(expectedOutput);
+		});
+	});
+
+	describe('Asynchronous Sass functions', function() {
+		const sassOptions = {
+			file: 'tests/assets/test-join.scss',
+			functions: jsFunctionsToSass.convert({
+				'test-join($str, $number)': async_test
+			}),
+			outputStyle: 'expanded'
+		};
+		const expectedOutput = '.resolved {\n  content: "test test test";\n}';
+
+		it('Should pick the function and use it during build-time in asynchronous rendering mode', async function() {
+			const result = await promisified.sass.render(sassOptions);
+
+			expect(result.css.toString().trim()).toEqual(expectedOutput);
+		});
+
+		it('Should throw error in synchronous rendering mode', function() {
+			expect(() => sass.renderSync(sassOptions)).toThrowError();
 		});
 	});
 });

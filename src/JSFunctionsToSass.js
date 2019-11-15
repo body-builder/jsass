@@ -75,8 +75,15 @@ class JSFunctionsToSass {
 
 		const sassFunctionData = this._getSassFunctionData(sass_decl);
 
-		const done = args.slice(-1)[0];
-		const sassTypeArgs = args.slice(0, -1);
+		// Sass' asynchronous `render()` provides an additional callback as the last argument, to which we can asynchronously pass the result of the function when it’s complete.
+		// We need to separate this callback from the Sass-type arguments. (`node-sass` provides a `CallbackBridge' type in synchronous mode, which we also need to separate from the Sass-type arguments.)
+		const cb = args.slice(-1)[0],
+			kindOfCb = kindOf(cb),
+			hasCb = (kindOfCb === 'function'), // eslint-disable-line prettier/prettier
+			hasFalseCb = (kindOfCb === 'callbackbridge'); // eslint-disable-line prettier/prettier
+
+		// Removing the optional callback from the Sass function arguments list
+		const sassTypeArgs = (hasCb || hasFalseCb) ? args.slice(0, -1) : args; // eslint-disable-line prettier/prettier
 
 		// Converting raw Sass type arguments to JS
 		const jsTypeArgs = [];
@@ -102,15 +109,15 @@ class JSFunctionsToSass {
 
 		// Returning JS values in Sass types
 		if (value instanceof Promise) {
-			if (kindOf(done) !== 'function') {
+			if (!hasCb) {
 				throw new Error('JSFunctionsToSass - no callback provided from Sass!');
 			}
 
 			// TODO Finish error handling tests
 			// eslint-disable-next-line prettier/prettier
 			value
-				.catch((error) => done(this._jsVarsToSass._convert(this._createError(error), options)))
-				.then((resolved) => done(this._jsVarsToSass._convert(resolved, options)));
+				.catch((error) => cb(this._jsVarsToSass._convert(this._createError(error), options)))
+				.then((resolved) => cb(this._jsVarsToSass._convert(resolved, options)));
 		} else {
 			return this._jsVarsToSass._convert(value, options);
 		}
