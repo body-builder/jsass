@@ -94,8 +94,9 @@ Output:
 
 ```js
 const path = require('path');
+const sass = require('sass'); // Now we are using `dart-sass`
 const { JSFunctionsToSass } = require('jsass/dist/node');
-const jsFunctionsToSass = new JSFunctionsToSass();
+const jsFunctionsToSass = new JSFunctionsToSass({ implementation: sass });
 
 const _ = require('lodash');
 
@@ -103,7 +104,6 @@ const _ = require('lodash');
  * This example implements an advanced `map-get` function in Sass, using lodash's `get()`, making it possible to get the value of a nested Map (or List) by its path (eg. `deeply.nested.value`).
  */
 sass.render({
-  implementation: require('sass'), // Now we are using `dart-sass`
   file: path.resolve(__dirname, './map-get-super.scss'),
   functions: jsFunctionsToSass.convert({
     'map-get-super($map, $path)': _.get
