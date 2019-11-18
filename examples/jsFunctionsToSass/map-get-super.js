@@ -18,5 +18,9 @@ sass.render({
     'map-get-super($map, $path)': _.get
   })
 }, (err, result) => {
+  if (err) {
+    throw new Error(err);
+  }
+
   console.log(result.css.toString());
 });

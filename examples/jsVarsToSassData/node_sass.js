@@ -40,6 +40,10 @@ const file = fs.readFileSync(path.resolve('./node_sass.scss'), 'utf8');
 sass.render({
   data: [data, file].join('\n'),
 }, (err, result) => {
+  if (err) {
+    throw new Error(err);
+  }
+
   console.log(result.css.toString());
 
   if (process.env.NODE_ENV !== 'development') {

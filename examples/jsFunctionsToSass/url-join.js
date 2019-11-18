@@ -16,5 +16,9 @@ sass.render({
     'url-join($paths...)': urljoin
   })
 }, (err, result) => {
+  if (err) {
+    throw new Error(err);
+  }
+
   console.log(result.css.toString());
 });

@@ -109,6 +109,10 @@ sass.render({
     'map-get-super($map, $path)': _.get
   })
 }, (err, result) => {
+  if (err) {
+    throw new Error(err);
+  }
+
   console.log(result.css.toString());
 });
 ```
@@ -158,6 +162,10 @@ sass.render({
     'url-join($paths...)': urljoin
   })
 }, (err, result) => {
+  if (err) {
+    throw new Error(err);
+  }
+
   console.log(result.css.toString());
 });
 ```
@@ -277,6 +285,10 @@ const file = fs.readFileSync(path.resolve('./node_sass.scss'), 'utf8');
 sass.render({
   data: [data, file].join('\n'),
 }, (err, result) => {
+  if (err) {
+    throw new Error(err);
+  }
+
   console.log(result.css.toString());
 });
 
