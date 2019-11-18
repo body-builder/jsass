@@ -29,11 +29,11 @@ npm install jsass
 
 ### Use JavaScript functions directly in your Sass code
 
-Since node-sass v3.0.0, the `functions` option makes it possible to pass an Object of JS functions that may be invoked by the sass files being compiled (check `node-sass` docs [here](https://github.com/sass/node-sass#functions--v300---experimental) for more information).
+Since Node Sass v3.0.0, and Dart Sass v1.0.0-beta.5.1 the `functions` option makes it possible to pass an Object of JS functions that may be invoked by the sass files being compiled (check [Node Sass docs](https://github.com/sass/node-sass#functions--v300---experimental) or [Dart Sass docs](https://sass-lang.com/documentation/js-api#functions) for more information).
 
-This gives the developers unlimited possibilities for processing Sass data during build-time, but since the connected JS functions receive their parameters and must return their return values in node-sass's own data types, this makes a bit more difficult to just use this feature *out-of-the-box*.
+This gives the developers unlimited possibilities for processing Sass data during build-time, but since the connected JS functions receive their parameters and must return their return values in Sass's own data types, this makes a bit more difficult to just use this feature *out-of-the-box*.
 
-This package contains a class (JSFunctionsToSass), which acts like a middleware between node-sass and the connected JS function. It converts the received node-sass type arguments to their JS equivalents, and applies them as pure JavaScript types to the connected JS function. When the function returned what it has to be, JSFunctionsToSass converts the returned JS value back to its node-sass equivalent, and passes back to node-sass. So simple.
+This package contains a class (JSFunctionsToSass), which acts like a middleware between Sass and the connected JS function. It converts the received Sass type arguments to their JS equivalents, and applies them as pure JavaScript types to the connected JS function. When the function returned what it has to be, JSFunctionsToSass converts the returned JS value back to its Sass equivalent, and passes back to Sass. So simple.
 
 Both **sync** and **async** functions are supported.
 
@@ -187,7 +187,7 @@ If you would like to share some of your CSS selectors with JS, `JSass_mod_jQuery
 In addition to this, jSass's [sass-extract plugin](https://github.com/body-builder/jsass/blob/master/src/jSass-extract.js) helps you to extract only the really important data to your bundle file.
 
 ### Share JS variables with Sass
-Node-sass accepts a `data` option as the source code to compile (check `node-sass` docs [here](https://github.com/sass/node-sass#data)). This also makes it possible to pass for example Node.js variables to your Sass files. However, `data` must be a string, containing syntactically valid raw Sass code. jSass helps you to stringify any general JavaScript types to their equivalent Sass variable type to raw Sass format. It supports both SCSS and SASS (indented) syntax as output type.
+Sass accepts a `data` option as the source code to compile (check [Node Sass docs here](https://github.com/sass/node-sass#data) or [Dart Sass docs here](https://sass-lang.com/documentation/js-api#data)). This also makes it possible to pass for example Node.js variables to your Sass files. However, `data` must be a string, containing syntactically valid raw Sass code. jSass helps you to stringify any general JavaScript types to their equivalent Sass variable type to raw Sass format. It supports both SCSS and SASS (indented) syntax as output type.
 
 #### Example
 
@@ -235,7 +235,7 @@ $importantMap: ('bool': true, 'string': 'string', 'variable': $variable, 'color'
 $nestedValues: ('array': ('some', 'important', 'value'), 'map': ('bool': true, 'string': 'string', 'variable': $variable, 'color': rgb(100, 110, 100), 'unit': 12px), 'thatsAll': false);
 ```
 
-Use it in `node-sass`:
+Use it in Sass:
 ```js
 const fs = require('fs');
 const path = require('path');
