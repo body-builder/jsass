@@ -3,6 +3,17 @@ const JSVarsToSass = require('./JSVarsToSass');
 const SassVarsToJS = require('./SassVarsToJS');
 
 class JSFunctionsToSass {
+	// Credits to Jack Allan (https://stackoverflow.com/a/9924463/3111787)
+	static STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+	static ARGUMENT_NAMES = /([^\s,]+)/g;
+
+	static getFunctionArgs(func) {
+		const fnStr = func.toString().replace(this.STRIP_COMMENTS, '');
+		const result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(this.ARGUMENT_NAMES);
+
+		return result || [];
+	}
+
 	constructor(options = {}) {
 		this._default_options = {
 			listSeparator: ', ',
@@ -16,6 +27,35 @@ class JSFunctionsToSass {
 		this._sassVarsToJS = new SassVarsToJS();
 
 		this.convert = this._wrapObject;
+	}
+
+	/**
+	 * Parses the Sass function declaration string and auto-fills the argument declaration block in it (only if even the parentheses are missing)
+	 * @param sass_decl The Sass function declaration string (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
+	 * @param fn
+	 * @returns {*}
+	 * @private
+	 */
+	_resolveSassDeclarationArguments(sass_decl, fn) {
+		if (kindOf(sass_decl) !== 'string') {
+			throw new Error('JSFunctionsToSass - pass the Sass function declaration to _resolveSassDeclarationArguments!');
+		}
+
+		// Do not do anything if arguments are already defined (even if the parenthesis is empty - that may be a valid, intentional use-case)
+		if (sass_decl.indexOf('(') > -1 && sass_decl.indexOf(')') > -1) {
+			return sass_decl;
+		}
+
+		const js_fn_arguments = this.constructor.getFunctionArgs(fn);
+
+		let argument_decl;
+		if (js_fn_arguments.length) {
+			argument_decl = js_fn_arguments.map((item) => `$${item}`).join(', ');
+		} else {
+			argument_decl = '$arguments...';
+		}
+
+		return `${sass_decl}(${argument_decl})`;
 	}
 
 	/**
@@ -59,10 +99,6 @@ class JSFunctionsToSass {
 	}
 
 	_wrapFunction(sass_decl, fn, args = [], options) {
-		if (kindOf(sass_decl) !== 'string') {
-			throw new Error('JSFunctionsToSass - pass the Sass function declaration to wrapFunction!');
-		}
-
 		if (kindOf(fn) !== 'function') {
 			throw new Error('JSFunctionsToSass - pass a function to wrapFunction!');
 		}
@@ -135,11 +171,13 @@ class JSFunctionsToSass {
 		Object.keys(obj).forEach((key, index) => {
 			const fn = obj[key];
 
+			const sass_decl = this._resolveSassDeclarationArguments(key, fn);
+
 			if (kindOf(fn) !== 'function') {
 				throw new Error('JSFunctionsToSass - pass a function to wrapObject!');
 			}
 
-			newObj[key] = (...args) => this._wrapFunction(key, fn, args, options);
+			newObj[sass_decl] = (...args) => this._wrapFunction(sass_decl, fn, args, options);
 		});
 
 		return newObj;

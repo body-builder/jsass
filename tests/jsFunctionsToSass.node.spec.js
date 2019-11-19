@@ -18,7 +18,7 @@ describe_implementation('jsFunctionsToSass', function(sass) {
 	const jsFunctionsToSass = new JSFunctionsToSass({ implementation: sass });
 
 	it('Should throw error if calling with wrong arguments', function() {
-		expect(() => jsFunctionsToSass._wrapFunction()).toThrow(new Error('JSFunctionsToSass - pass the Sass function declaration to wrapFunction!'));
+		expect(() => jsFunctionsToSass._resolveSassDeclarationArguments()).toThrow(new Error('JSFunctionsToSass - pass the Sass function declaration to _resolveSassDeclarationArguments!'));
 		expect(() => jsFunctionsToSass._wrapFunction('sass-fn($arg)')).toThrow(new Error('JSFunctionsToSass - pass a function to wrapFunction!'));
 		expect(() => jsFunctionsToSass._wrapObject()).toThrow(new Error('JSFunctionsToSass - pass an object in the following format:\n{\n  \'sass-fn-name($arg1: 0, $arg2: 6)\': function(arg1, arg2) {\n    ...\n  }\n}'));
 		expect(() => jsFunctionsToSass.convert()).toThrow(new Error('JSFunctionsToSass - pass an object in the following format:\n{\n  \'sass-fn-name($arg1: 0, $arg2: 6)\': function(arg1, arg2) {\n    ...\n  }\n}'));
@@ -326,6 +326,49 @@ describe_implementation('jsFunctionsToSass', function(sass) {
 
 		it('Should throw error in synchronous rendering mode', function() {
 			expect(() => sass.renderSync(sassOptions)).toThrowError();
+		});
+	});
+
+	describe('Simpler syntax for Sass function declaration', function() {
+		it('Should resolve the argument name correctly', function() {
+			const wrappedObject = jsFunctionsToSass.convert({
+				a_b_c: (a, b, c) => {}
+			});
+
+			expect(Object.keys(wrappedObject)).toContain('a_b_c($a, $b, $c)');
+		});
+
+		it('Should add a single _spread_ Sass argument if no arguments found in the JS function', function() {
+			const wrappedObject = jsFunctionsToSass.convert({
+				spread_arguments: () => {}
+			});
+
+			expect(Object.keys(wrappedObject)).toContain('spread_arguments($arguments...)');
+		});
+
+		it('Should resolve the name and the arguments only from a function reference', function() {
+			const function_reference = (a, b, c) => {},
+				function_reference_no_arguments = () => {};
+
+			const wrappedObject = jsFunctionsToSass.convert({
+				function_reference,
+				function_reference_no_arguments
+			});
+
+			expect(Object.keys(wrappedObject)).toContain('function_reference($a, $b, $c)');
+			expect(Object.keys(wrappedObject)).toContain('function_reference_no_arguments($arguments...)');
+		});
+
+		it('Should keep the already defined argument blocks untouched', function() {
+			const wrappedObject = jsFunctionsToSass.convert({
+				'has_arguments($str, $number)': (a, b, c) => {},
+				'no_arguments()': (a, b, c) => {},
+				'no_arguments_spread()': () => {}
+			});
+
+			expect(Object.keys(wrappedObject)).toContain('has_arguments($str, $number)');
+			expect(Object.keys(wrappedObject)).toContain('no_arguments()');
+			expect(Object.keys(wrappedObject)).toContain('no_arguments_spread()');
 		});
 	});
 });
