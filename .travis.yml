@@ -1,9 +1,9 @@
 language: node_js
 
 node_js:
-  - 8 # minimal
-  - 12 # current
-  - 13 # latest
+  - 8 # minimum
+  - 12 # latest
+  - 13 # next
 
 os:
   - linux
@@ -11,8 +11,11 @@ os:
   - osx
 
 env:
-  - NODE_SASS_VERSION=3 # minimal
-  - NODE_SASS_VERSION=4 # current & latest
+  - SASS_VERSION=minimal
+  - SASS_VERSION=latest
+#  - SASS_VERSION=next # We skip the `next` tags, as Dart Sass currently doesn't have a @next track, and Node Sass' @next is currently _behind_ @latest
 
 before_script:
-  - 'if [ "$NODE_SASS_VERSION" ]; then npm install node-sass@$NODE_SASS_VERSION; fi'
+  - 'if [ "$NODE_SASS_VERSION" && "$NODE_SASS_VERSION" === minimal]; then npm install node-sass@4.5.3 sass@1.0.0; fi'
+  - 'if [ "$NODE_SASS_VERSION" && "$NODE_SASS_VERSION" === latest]; then npm install node-sass sass; fi'
+  - 'if [ "$NODE_SASS_VERSION" && "$NODE_SASS_VERSION" === next]; then npm install node-sass@next sass@next; fi'
