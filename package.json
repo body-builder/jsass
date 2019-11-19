@@ -12,7 +12,7 @@
   "main": "dist/node.js",
   "browser": "dist/browser.js",
   "scripts": {
-    "postinstall": "if [ -z \"$TRAVIS_BRANCH\" ]; then npx npm-install-peers; fi",
+    "peers": "npx npm-install-peers",
     "watch": "npx babel src --watch --out-dir dist",
     "build": "npx babel src --out-dir dist",
     "jasmine": "babel-node ./jasmine.run.js",
