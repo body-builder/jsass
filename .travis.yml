@@ -1,7 +1,18 @@
 language: node_js
+
 node_js:
-  - 8
-  - 9
-  - 10
-  - 11
-  - 12
+  - 8 # minimal
+  - 12 # current
+  - 13 # latest
+
+os:
+  - linux
+  - windows
+  - osx
+
+env:
+  - NODE_SASS_VERSION=3 # minimal
+  - NODE_SASS_VERSION=4 # current & latest
+
+before_script:
+  - 'if [ "$NODE_SASS_VERSION" ]; then npm install node-sass@$NODE_SASS_VERSION; fi'
