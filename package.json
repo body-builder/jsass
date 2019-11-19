@@ -12,6 +12,7 @@
   "main": "dist/node.js",
   "browser": "dist/browser.js",
   "scripts": {
+    "postinstall": "if [ -z \"$TRAVIS_BRANCH\" ]; then npx npm-install-peers; fi",
     "watch": "npx babel src --watch --out-dir dist",
     "build": "npx babel src --out-dir dist",
     "jasmine": "babel-node ./jasmine.run.js",
@@ -38,7 +39,8 @@
     "kind-of": "^6.0.2"
   },
   "peerDependencies": {
-    "node-sass": "3 || 4"
+    "node-sass": "^4.5.3",
+    "sass": "1"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
@@ -55,9 +57,7 @@
     "jasmine": "^3.5.0",
     "jasmine-spec-reporter": "^4.2.1",
     "lodash": "^4.17.15",
-    "node-sass": "^4.12.0",
     "prettier": "^1.18.2",
-    "sass": "^1.23.1",
     "sass-extract": "^2.1.0",
     "sass-extract-loader": "^1.1.0",
     "sass-loader": "^8.0.0",
