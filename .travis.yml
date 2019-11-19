@@ -16,7 +16,7 @@ env:
 #  - SASS_VERSION=next # We skip the `next` tags, as Dart Sass currently doesn't have a @next track, and Node Sass' @next is currently _behind_ @latest
 
 before_script:
-  - 'if [ "$SASS_VERSION" = minimal ]; then npm install node-sass@4.5.3 sass@1.0.0; fi'
+  - 'if [ "$SASS_VERSION" = minimal ]; then npm install node-sass@4.5.3 sass@1.22.5; fi'
   - 'if [ "$SASS_VERSION" = latest ]; then npm install node-sass sass; fi'
   - 'if [ "$SASS_VERSION" = next ]; then npm install node-sass@next sass@next; fi'
 
