@@ -15,7 +15,7 @@
     "watch": "npx babel src --watch --out-dir dist",
     "build": "npx babel src --out-dir dist",
     "jasmine": "babel-node ./jasmine.run.js",
-    "eslint": "eslint 'src/**/*.js'",
+    "eslint": "eslint \"src/**/*.js\"",
     "test": "npm run eslint && npm run jasmine",
     "release": "standard-version --sign",
     "prepack": "npm run test && npm run build"
