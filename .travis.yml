@@ -1,7 +1,33 @@
 language: node_js
+
 node_js:
-  - 8
-  - 9
-  - 10
-  - 11
-  - 12
+  - 8 # legacy
+  - 12 # latest
+  - 13 # next
+
+os:
+  - linux
+  - windows
+  - osx
+
+env:
+  - SASS_VERSION=legacy
+  - SASS_VERSION=latest
+#  - SASS_VERSION=next # We skip the `next` tags, as Dart Sass currently doesn't have a @next track, and Node Sass' @next is currently _behind_ @latest
+
+before_script:
+  - 'if [ "$SASS_VERSION" = legacy ]; then npm install node-sass@4.5.3 sass@1.22.5; fi'
+  - 'if [ "$SASS_VERSION" = latest ]; then npm install node-sass sass; fi'
+  - 'if [ "$SASS_VERSION" = next ]; then npm install node-sass@next sass@next; fi'
+  - 'node-sass --version && sass --version'
+
+matrix:
+  exclude:
+    - node_js: 8
+      env: SASS_VERSION=latest
+    - node_js: 8
+      env: SASS_VERSION=next
+    - node_js: 12
+      env: SASS_VERSION=legacy
+    - node_js: 13
+      env: SASS_VERSION=legacy
