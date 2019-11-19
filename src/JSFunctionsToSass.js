@@ -60,11 +60,12 @@ class JSFunctionsToSass {
 
 	/**
 	 * Parses the Sass function declaration string and returns the extracted information in an Object
-	 * @param key The Sass function declaration string (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
+	 * @param sass_decl The Sass function declaration string (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
 	 * @returns {null|{name: string, args: string[], spreadArgs: number[]}}
+	 * @private
 	 */
-	_getSassFunctionData(key) {
-		const matches = key.replace(')', '').split('(');
+	_getSassFunctionData(sass_decl) {
+		const matches = sass_decl.replace(')', '').split('(');
 
 		// The name of the Sass function
 		const name = matches[0];
@@ -76,15 +77,11 @@ class JSFunctionsToSass {
 		const spreadArgs = [];
 		args.forEach((arg, index) => arg.endsWith('...') && spreadArgs.push(index));
 
-		if (name) {
-			return {
-				name,
-				args,
-				spreadArgs
-			};
-		} else {
-			return null;
-		}
+		return {
+			name,
+			args,
+			spreadArgs
+		};
 	}
 
 	/**
@@ -98,6 +95,14 @@ class JSFunctionsToSass {
 		return (error instanceof Error) ? error : new Error(error);
 	}
 
+	/**
+	 * @param sass_decl The Sass function declaration string (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
+	 * @param fn The Javascript function to be called (the `value` of the Sass `options.functions` object)
+	 * @param args The Array of the arguments which has been applied to `fn` by Sass. These are the Sass type arguments
+	 * @param options Option overrides for the current JSFunctionsToSass instance
+	 * @returns {*}
+	 * @private
+	 */
 	_wrapFunction(sass_decl, fn, args = [], options) {
 		if (kindOf(fn) !== 'function') {
 			throw new Error('JSFunctionsToSass - pass a function to wrapFunction!');
@@ -159,6 +164,12 @@ class JSFunctionsToSass {
 		}
 	}
 
+	/**
+	 * Processes the Object passed in Sass's `options.functions`. This is the main method, which will be called with the instance's `convert()` method.
+	 * @param obj The `functions` property of the Sass options, which contains the function declarations (see the Sass documentation in https://sass-lang.com/documentation/js-api#functions)
+	 * @param options Option overrides for the current JSFunctionsToSass instance
+	 * @private
+	 */
 	_wrapObject(obj, options) {
 		if (kindOf(obj) !== 'object') {
 			throw new Error('JSFunctionsToSass - pass an object in the following format:\n{\n  \'sass-fn-name($arg1: 0, $arg2: 6)\': function(arg1, arg2) {\n    ...\n  }\n}'); // prettier-ignore
