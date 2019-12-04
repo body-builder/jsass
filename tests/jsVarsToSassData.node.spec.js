@@ -5,7 +5,7 @@ describe_implementation('jsVarsToSassData', function(sass) {
 		implementation: sass
 	});
 
-	it('Should handle both the 3-parameters and the 2-parameters syntax', function() {
+	it('Should handle both the 3-arguments and the 2-arguments syntax', function() {
 		expect(jsVarsToSassData.convert('number', 0.454)).toEqual('$number: 0.454;');
 		expect(jsVarsToSassData.convert({ number: 0.454 })).toEqual('$number: 0.454;');
 	});

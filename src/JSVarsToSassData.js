@@ -132,8 +132,8 @@ class JSVarsToSassData extends JSVarsToSass {
 	 * The main query, which iterates over the values, collects the _createVariable() responses to a JS array, and returns it as string joined with newlines.
 	 *
 	 * Accepts two syntaxes:
-	 *  - 3 parameters: key, value, [options]
-	 *  - 2 parameters: { key: value }, [options]
+	 *  - 3 arguments: key, value, [options]
+	 *  - 2 arguments: { key: value }, [options]
 	 *
 	 * @param values
 	 * @param options

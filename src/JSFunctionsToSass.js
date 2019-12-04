@@ -5,11 +5,11 @@ const SassVarsToJS = require('./SassVarsToJS');
 class JSFunctionsToSass {
 	// Credits to Jack Allan (https://stackoverflow.com/a/9924463/3111787)
 	static STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-	static ARGUMENT_NAMES = /([^\s,]+)/g;
+	static PARAMETER_NAMES = /([^\s,]+)/g;
 
-	static getFunctionArgs(func) {
+	static getFunctionParams(func) {
 		const fnStr = func.toString().replace(this.STRIP_COMMENTS, '');
-		const result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(this.ARGUMENT_NAMES);
+		const result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(this.PARAMETER_NAMES);
 
 		return result || [];
 	}
@@ -30,50 +30,50 @@ class JSFunctionsToSass {
 	}
 
 	/**
-	 * Parses the Sass function declaration string and auto-fills the argument declaration block in it (only if even the parentheses are missing)
-	 * @param sass_decl The Sass function declaration string (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
+	 * Parses the Sass function signature and generates the parameter declaration block in it (only if even the parentheses are missing)
+	 * @param signature The Sass function signature string (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
 	 * @param fn
 	 * @returns {*}
 	 * @private
 	 */
-	_resolveSassDeclarationArguments(sass_decl, fn) {
-		if (kindOf(sass_decl) !== 'string') {
-			throw new Error('JSFunctionsToSass - pass the Sass function declaration to _resolveSassDeclarationArguments!');
+	_createSassParameterBlock(signature, fn) {
+		if (kindOf(signature) !== 'string') {
+			throw new Error('JSFunctionsToSass - pass the Sass function signature to _createSassParameterBlock!');
 		}
 
-		// Do not do anything if arguments are already defined (even if the parenthesis is empty - that may be a valid, intentional use-case)
-		if (sass_decl.indexOf('(') > -1 && sass_decl.indexOf(')') > -1) {
-			return sass_decl;
+		// Do not do anything if parameters are already defined (even if the parenthesis is empty - that may be a valid, intentional use-case)
+		if (signature.indexOf('(') > -1 && signature.indexOf(')') > -1) {
+			return signature;
 		}
 
-		const js_fn_arguments = this.constructor.getFunctionArgs(fn);
+		const js_fn_params = this.constructor.getFunctionParams(fn);
 
-		let argument_decl;
-		if (js_fn_arguments.length) {
-			argument_decl = js_fn_arguments.map((item) => `$${item}`).join(', ');
+		let sass_params;
+		if (js_fn_params.length) {
+			sass_params = js_fn_params.map((item) => `$${item}`).join(', ');
 		} else {
-			argument_decl = '$arguments...';
+			sass_params = '$arguments...';
 		}
 
-		return `${sass_decl}(${argument_decl})`;
+		return `${signature}(${sass_params})`;
 	}
 
 	/**
-	 * Parses the Sass function declaration string and returns the extracted information in an Object
-	 * @param sass_decl The Sass function declaration string (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
+	 * Parses the Sass function signature and returns the extracted information in an Object
+	 * @param signature The Sass function signature string (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
 	 * @returns {null|{name: string, args: string[], spreadArgs: number[]}}
 	 * @private
 	 */
-	_getSassFunctionData(sass_decl) {
-		const matches = sass_decl.replace(')', '').split('(');
+	_getSassFunctionData(signature) {
+		const matches = signature.replace(')', '').split('(');
 
 		// The name of the Sass function
 		const name = matches[0];
 
-		// The list of the arguments
+		// The list of the parameters
 		const args = matches[1].split(',');
 
-		// The indexes of the arguments, which accepts spread content. This is important, as we also
+		// The indexes of the parameters, which accepts spread content. This is important, as we also
 		const spreadArgs = [];
 		args.forEach((arg, index) => arg.endsWith('...') && spreadArgs.push(index));
 
@@ -96,14 +96,14 @@ class JSFunctionsToSass {
 	}
 
 	/**
-	 * @param sass_decl The Sass function declaration string (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
+	 * @param signature The Sass function signature (the `key` of the Sass `options.functions` object), eg: 'headings($from: 0, $to: 6)'
 	 * @param fn The Javascript function to be called (the `value` of the Sass `options.functions` object)
 	 * @param args The Array of the arguments which has been applied to `fn` by Sass. These are the Sass type arguments
 	 * @param options Option overrides for the current JSFunctionsToSass instance
 	 * @returns {*}
 	 * @private
 	 */
-	_wrapFunction(sass_decl, fn, args = [], options) {
+	_wrapFunction(signature, fn, args = [], options) {
 		if (kindOf(fn) !== 'function') {
 			throw new Error('JSFunctionsToSass - pass a function to wrapFunction!');
 		}
@@ -114,7 +114,7 @@ class JSFunctionsToSass {
 
 		options = Object.assign({}, this._options, options);
 
-		const sassFunctionData = this._getSassFunctionData(sass_decl);
+		const sassFunctionData = this._getSassFunctionData(signature);
 
 		// Sass' asynchronous `render()` provides an additional callback as the last argument, to which we can asynchronously pass the result of the function when it’s complete.
 		// We need to separate this callback from the Sass-type arguments. (`node-sass` provides a `CallbackBridge' type in synchronous mode, which we also need to separate from the Sass-type arguments.)
@@ -132,7 +132,7 @@ class JSFunctionsToSass {
 		sassTypeArgs.forEach((sassTypeArg, index) => {
 			const jsTypeArg = this._sassVarsToJS._convert(sassTypeArg, options);
 
-			// If the Sass function expects the data to be spread for the current argument, we spread the arguments also for the JS function.
+			// If the Sass function expects the arguments to be spread for the current parameter, we spread the arguments also for the JS function.
 			if (kindOf(jsTypeArg) === 'array' && sassFunctionData.spreadArgs.indexOf(index) !== -1) {
 				jsTypeArgs.push(...jsTypeArg);
 			} else {
@@ -166,7 +166,7 @@ class JSFunctionsToSass {
 
 	/**
 	 * Processes the Object passed in Sass's `options.functions`. This is the main method, which will be called with the instance's `convert()` method.
-	 * @param obj The `functions` property of the Sass options, which contains the function declarations (see the Sass documentation in https://sass-lang.com/documentation/js-api#functions)
+	 * @param obj The `functions` property of the Sass options, which contains the function signatures (see the Sass documentation in https://sass-lang.com/documentation/js-api#functions)
 	 * @param options Option overrides for the current JSFunctionsToSass instance
 	 * @private
 	 */
@@ -182,13 +182,13 @@ class JSFunctionsToSass {
 		Object.keys(obj).forEach((key, index) => {
 			const fn = obj[key];
 
-			const sass_decl = this._resolveSassDeclarationArguments(key, fn);
+			const signature = this._createSassParameterBlock(key, fn);
 
 			if (kindOf(fn) !== 'function') {
 				throw new Error('JSFunctionsToSass - pass a function to wrapObject!');
 			}
 
-			newObj[sass_decl] = (...args) => this._wrapFunction(sass_decl, fn, args, options);
+			newObj[signature] = (...args) => this._wrapFunction(signature, fn, args, options);
 		});
 
 		return newObj;

@@ -143,7 +143,7 @@ Output:
 }
 ```
 
-##### It works also with spread arguments
+##### It works also with spread parameters
 
 ```js
 const path = require('path');
