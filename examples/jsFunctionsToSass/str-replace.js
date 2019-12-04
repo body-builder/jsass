@@ -11,7 +11,8 @@ console.log('\nAdding a `str-replace` function to Sass\n');
 sass.render({
   file: path.resolve(__dirname, './str-replace.scss'),
   functions: jsFunctionsToSass.convert({
-    'str-replace($string, $search, $replace: "")': function (string, search, replace) {
+    // Read more about the syntax possibilities in https://github.com/body-builder/jsass#easy-syntax
+    str_replace: function str_replace(string, search, replace) {
       if (typeof string !== 'string') {
         throw new Error('str-replace needs `$string` to be typeof string!');
       }
