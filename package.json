@@ -1,6 +1,6 @@
 {
   "name": "jsass",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Share functions and variables between JS and Sass",
   "homepage": "https://github.com/body-builder/jsass#readme",
   "repository": "https://github.com/body-builder/jsass",

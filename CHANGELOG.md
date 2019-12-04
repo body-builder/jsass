@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/body-builder/jsass/compare/v1.1.2...v1.2.0) (2019-12-04)
+
+
+### Features
+
+* **jsFunctionsToSass:** Automatic parameter resolution for Sass functions ([#5](https://github.com/body-builder/jsass/issues/5)) ([c4f61a2](https://github.com/body-builder/jsass/commit/c4f61a28ea3993b28a6247735fbc382bc3ad5cab))
+
 ### [1.1.2](https://github.com/body-builder/jsass/compare/v1.1.1...v1.1.2) (2019-11-15)
 
 
