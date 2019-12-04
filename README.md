@@ -50,7 +50,7 @@ This functionality is limited only to Sass function signatures **without a param
 The automatic parameter resolution is completely optional and can be used in parallel with the original syntax.
 
 
-### Default syntax
+##### Default syntax
 
 ```js
 const path = require('path');
@@ -78,7 +78,7 @@ sass.render({
 });
 ```
 
-### Easier syntax
+##### Easier syntax
 
 ```js
 const path = require('path');
@@ -106,7 +106,7 @@ sass.render({
 });
 ```
 
-### Syntax sugar
+##### Syntax sugar
 
 ```js
 const path = require('path');
