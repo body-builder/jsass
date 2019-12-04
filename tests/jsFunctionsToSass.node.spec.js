@@ -330,20 +330,57 @@ describe_implementation('jsFunctionsToSass', function(sass) {
 	});
 
 	describe('Simpler syntax for Sass function declaration', function() {
-		it('Should resolve the argument name correctly', function() {
+		it('Should resolve the argument name correctly', async function() {
 			const wrappedObject = jsFunctionsToSass.convert({
-				a_b_c: (a, b, c) => {}
+				a_b_c: (a, b, c) => JSON.stringify({ a, b, c })
 			});
 
 			expect(Object.keys(wrappedObject)).toContain('a_b_c($a, $b, $c)');
+
+			// ordinal arguments
+			const result = await promisified.sass.render({
+				data: '.test { content: "#{a_b_c(1, 2, 3)}"; }',
+				functions: wrappedObject,
+				outputStyle: 'expanded'
+			});
+
+			expect(result.css.toString().trim()).toEqual('.test {\n  content: \'{"a":1,"b":2,"c":3}\';\n}');
+
+			// named arguments
+			const result2 = await promisified.sass.render({
+				data: '.test { content: "#{a_b_c($c: 1, $a: 2, $b: 3)}"; }',
+				functions: wrappedObject,
+				outputStyle: 'expanded'
+			});
+
+			expect(result2.css.toString().trim()).toEqual('.test {\n  content: \'{"a":2,"b":3,"c":1}\';\n}');
+
+			// ordinal and named arguments mixed
+			const result3 = await promisified.sass.render({
+				data: '.test { content: "#{a_b_c(1, $c: 2, $b: 3)}"; }',
+				functions: wrappedObject,
+				outputStyle: 'expanded'
+			});
+
+			expect(result3.css.toString().trim()).toEqual('.test {\n  content: \'{"a":1,"b":3,"c":2}\';\n}');
 		});
 
-		it('Should add a single _spread_ Sass argument if no arguments found in the JS function', function() {
+		it('Should add a single _spread_ Sass argument if no arguments found in the JS function', async function() {
 			const wrappedObject = jsFunctionsToSass.convert({
-				spread_arguments: () => {}
+				spread_arguments: function() {
+					return JSON.stringify([...arguments]);
+				}
 			});
 
 			expect(Object.keys(wrappedObject)).toContain('spread_arguments($arguments...)');
+
+			const result = await promisified.sass.render({
+				data: '.test { content: "#{spread_arguments(1, 2, 3)}"; }',
+				functions: wrappedObject,
+				outputStyle: 'expanded'
+			});
+
+			expect(result.css.toString().trim()).toEqual('.test {\n  content: "[1,2,3]";\n}');
 		});
 
 		it('Should resolve the name and the arguments only from a function reference', function() {
