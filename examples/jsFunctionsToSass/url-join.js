@@ -13,7 +13,8 @@ console.log('\nAdding a `url-join` function to Sass, using the `url-join` NPM pa
 sass.render({
   file: path.resolve(__dirname, './url-join.scss'),
   functions: jsFunctionsToSass.convert({
-    'url-join($paths...)': urljoin
+    // Read more about the syntax possibilities in https://github.com/body-builder/jsass#easy-syntax
+    urljoin
   })
 }, (err, result) => {
   if (err) {

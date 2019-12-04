@@ -18,7 +18,7 @@ describe_implementation('jsFunctionsToSass', function(sass) {
 	const jsFunctionsToSass = new JSFunctionsToSass({ implementation: sass });
 
 	it('Should throw error if calling with wrong arguments', function() {
-		expect(() => jsFunctionsToSass._wrapFunction()).toThrow(new Error('JSFunctionsToSass - pass the Sass function declaration to wrapFunction!'));
+		expect(() => jsFunctionsToSass._createSassParameterBlock()).toThrow(new Error('JSFunctionsToSass - pass the Sass function signature to _createSassParameterBlock!'));
 		expect(() => jsFunctionsToSass._wrapFunction('sass-fn($arg)')).toThrow(new Error('JSFunctionsToSass - pass a function to wrapFunction!'));
 		expect(() => jsFunctionsToSass._wrapObject()).toThrow(new Error('JSFunctionsToSass - pass an object in the following format:\n{\n  \'sass-fn-name($arg1: 0, $arg2: 6)\': function(arg1, arg2) {\n    ...\n  }\n}'));
 		expect(() => jsFunctionsToSass.convert()).toThrow(new Error('JSFunctionsToSass - pass an object in the following format:\n{\n  \'sass-fn-name($arg1: 0, $arg2: 6)\': function(arg1, arg2) {\n    ...\n  }\n}'));
@@ -253,7 +253,7 @@ describe_implementation('jsFunctionsToSass', function(sass) {
 		expect(selectedProp(new sass.types.String('async'), new sass.types.Number(3), () => 'done').getValue()).toEqual(new sass.types.String('async async async').getValue());
 	});
 
-	describe('Should handle spread arguments correctly', function() {
+	describe('Should handle spread parameters correctly', function() {
 		let spy_spread_args, spy_spread_string_args, spy_no_spread_args;
 		const list = new sass.types.List(2);
 		list.setValue(0, new sass.types.String('string'));
@@ -276,7 +276,7 @@ describe_implementation('jsFunctionsToSass', function(sass) {
 			expect(kindOf(spy_spread_string_args[1])).toEqual('undefined');
 		});
 
-		it('Should spread only if the Sass function declaration contains spread argument', function() {
+		it('Should spread only if the Sass function signature contains spread parameter', function() {
 			expect(kindOf(spy_no_spread_args[0])).toEqual('array');
 			expect(kindOf(spy_no_spread_args[0][0])).toEqual('string');
 			expect(spy_no_spread_args[0][0]).toEqual('string');
@@ -326,6 +326,86 @@ describe_implementation('jsFunctionsToSass', function(sass) {
 
 		it('Should throw error in synchronous rendering mode', function() {
 			expect(() => sass.renderSync(sassOptions)).toThrowError();
+		});
+	});
+
+	describe('Simpler syntax for Sass function signature', function() {
+		it('Should resolve the parameter name correctly', async function() {
+			const wrappedObject = jsFunctionsToSass.convert({
+				a_b_c: (a, b, c) => JSON.stringify({ a, b, c })
+			});
+
+			expect(Object.keys(wrappedObject)).toContain('a_b_c($a, $b, $c)');
+
+			// ordinal arguments
+			const result = await promisified.sass.render({
+				data: '.test { content: "#{a_b_c(1, 2, 3)}"; }',
+				functions: wrappedObject,
+				outputStyle: 'expanded'
+			});
+
+			expect(result.css.toString().trim()).toEqual('.test {\n  content: \'{"a":1,"b":2,"c":3}\';\n}');
+
+			// named arguments
+			const result2 = await promisified.sass.render({
+				data: '.test { content: "#{a_b_c($c: 1, $a: 2, $b: 3)}"; }',
+				functions: wrappedObject,
+				outputStyle: 'expanded'
+			});
+
+			expect(result2.css.toString().trim()).toEqual('.test {\n  content: \'{"a":2,"b":3,"c":1}\';\n}');
+
+			// ordinal and named arguments mixed
+			const result3 = await promisified.sass.render({
+				data: '.test { content: "#{a_b_c(1, $c: 2, $b: 3)}"; }',
+				functions: wrappedObject,
+				outputStyle: 'expanded'
+			});
+
+			expect(result3.css.toString().trim()).toEqual('.test {\n  content: \'{"a":1,"b":3,"c":2}\';\n}');
+		});
+
+		it('Should add a single _spread_ Sass parameter if no parameters found in the JS function', async function() {
+			const wrappedObject = jsFunctionsToSass.convert({
+				spread_arguments: function() {
+					return JSON.stringify([...arguments]);
+				}
+			});
+
+			expect(Object.keys(wrappedObject)).toContain('spread_arguments($arguments...)');
+
+			const result = await promisified.sass.render({
+				data: '.test { content: "#{spread_arguments(1, 2, 3)}"; }',
+				functions: wrappedObject,
+				outputStyle: 'expanded'
+			});
+
+			expect(result.css.toString().trim()).toEqual('.test {\n  content: "[1,2,3]";\n}');
+		});
+
+		it('Should resolve the name and the parameters only from a function reference', function() {
+			const function_reference = (a, b, c) => {},
+				function_reference_no_arguments = () => {};
+
+			const wrappedObject = jsFunctionsToSass.convert({
+				function_reference,
+				function_reference_no_arguments
+			});
+
+			expect(Object.keys(wrappedObject)).toContain('function_reference($a, $b, $c)');
+			expect(Object.keys(wrappedObject)).toContain('function_reference_no_arguments($arguments...)');
+		});
+
+		it('Should keep the already defined parameters untouched', function() {
+			const wrappedObject = jsFunctionsToSass.convert({
+				'has_arguments($str, $number)': (a, b, c) => {},
+				'no_arguments()': (a, b, c) => {},
+				'no_arguments_spread()': () => {}
+			});
+
+			expect(Object.keys(wrappedObject)).toContain('has_arguments($str, $number)');
+			expect(Object.keys(wrappedObject)).toContain('no_arguments()');
+			expect(Object.keys(wrappedObject)).toContain('no_arguments_spread()');
 		});
 	});
 });

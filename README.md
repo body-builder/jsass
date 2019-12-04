@@ -37,6 +37,99 @@ This package contains a class (JSFunctionsToSass), which acts like a middleware 
 
 Both **sync** and **async** functions are supported.
 
+#### Easy syntax
+
+JSFunctionsToSass makes it possible to automatically define the parameters of the Sass function.
+
+If the Sass function signature (the _keys_ of the Sass `options.functions` object) doesn't have a parameter block, it tries to get the parameter names of the JS function, and define the same parameter names also in the Sass function. If we cannot get the parameter names of the given JS function (most probably it doesn't have explicitly declared parameters), we add a single spread parameter for the Sass function (`$arguments...`), making it possible to wrap JS functions which use eg. `arguments` in their body.
+
+This functionality is limited only to Sass function signatures **without a parameter block** (parentheses immediately after the function's name). Sass functions _having_ defined parameters remain untouched, and the same applies if explicitly zero parameters are defined (when the parameter block is empty).
+
+**Note:** `JSFunctionsToSass` cannot detect (and therefore define) the _default values_ of the function parameters. If Sass throws error because of a missing (but only optional) argument, you can fall back anytime to the original Sass signature syntax.
+
+The automatic parameter resolution is completely optional and can be used in parallel with the original syntax.
+
+
+### Default syntax
+
+```js
+const path = require('path');
+const sass = require('node-sass');
+const { JSFunctionsToSass } = require('jsass/dist/node');
+const jsFunctionsToSass = new JSFunctionsToSass();
+
+sass.render({
+  file: path.resolve('styles.scss'),
+  functions: jsFunctionsToSass.convert({
+    // Explicitly defined Sass parameter names
+    'str-replace($string, $search, $replace: "")': function str_replace(string, search, replace) {
+      if (typeof string !== 'string') {
+        throw new Error('str-replace needs `$string` to be typeof string!');
+      }
+      return string.replace(new RegExp(search, 'g'), replace);
+    }
+  })
+}, (err, result) => {
+  if (err) {
+    throw new Error(err);
+  }
+
+  console.log(result.css.toString());
+});
+```
+
+### Easier syntax
+
+```js
+const path = require('path');
+const sass = require('node-sass');
+const { JSFunctionsToSass } = require('jsass/dist/node');
+const jsFunctionsToSass = new JSFunctionsToSass();
+
+sass.render({
+  file: path.resolve('styles.scss'),
+  functions: jsFunctionsToSass.convert({
+    // Sass parameter names resolved from the JS function
+    str_replace: function str_replace(string, search, replace) {
+      if (typeof string !== 'string') {
+        throw new Error('str-replace needs `$string` to be typeof string!');
+      }
+      return string.replace(new RegExp(search, 'g'), replace);
+    }
+  })
+}, (err, result) => {
+  if (err) {
+    throw new Error(err);
+  }
+
+  console.log(result.css.toString());
+});
+```
+
+### Syntax sugar
+
+```js
+const path = require('path');
+const sass = require('node-sass');
+const { JSFunctionsToSass } = require('jsass/dist/node');
+const jsFunctionsToSass = new JSFunctionsToSass();
+const str_replace = require('./str_replace');
+
+sass.render({
+  file: path.resolve('styles.scss'),
+  functions: jsFunctionsToSass.convert({
+    // Passing only a JS function reference
+    str_replace
+  })
+}, (err, result) => {
+  if (err) {
+    throw new Error(err);
+  }
+
+  console.log(result.css.toString());
+});
+```
+
 #### Examples
 ##### Implementing missing in Sass `str-replace` function
 
@@ -52,7 +145,7 @@ const jsFunctionsToSass = new JSFunctionsToSass();
 sass.render({
   file: path.resolve(__dirname, './str-replace.scss'),
   functions: jsFunctionsToSass.convert({
-    'str-replace($string, $search, $replace: "")': function (string, search, replace) {
+    'str-replace': function (string, search, replace) {
       if (typeof string !== 'string') {
         throw new Error('str-replace needs `$string` to be typeof string!');
       }
@@ -143,7 +236,7 @@ Output:
 }
 ```
 
-##### It works also with spread arguments
+##### It works also with arbitrary (spread) arguments
 
 ```js
 const path = require('path');
