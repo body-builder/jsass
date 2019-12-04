@@ -4,7 +4,7 @@ const SassVarsToJS = require('./SassVarsToJS');
 
 class JSFunctionsToSass {
 	// Credits to Jack Allan (https://stackoverflow.com/a/9924463/3111787)
-	static STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+	static STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm;
 	static PARAMETER_NAMES = /([^\s,]+)/g;
 
 	static getFunctionParams(func) {
