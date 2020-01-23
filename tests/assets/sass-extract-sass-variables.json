@@ -3,9 +3,6 @@
     "$null": {
       "type": "SassNull",
       "value": null,
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "null",
@@ -13,7 +10,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 1,
             "column": 1
@@ -24,9 +20,6 @@
     "$bool": {
       "type": "SassBoolean",
       "value": true,
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "true",
@@ -34,7 +27,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 2,
             "column": 1
@@ -45,9 +37,6 @@
     "$string_unquoted": {
       "type": "SassString",
       "value": "string",
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "string",
@@ -55,7 +44,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 3,
             "column": 1
@@ -66,9 +54,6 @@
     "$string_quoted": {
       "type": "SassString",
       "value": "string",
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "'string'",
@@ -76,7 +61,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 4,
             "column": 1
@@ -88,9 +72,6 @@
       "type": "SassNumber",
       "value": 1,
       "unit": "",
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "1",
@@ -98,7 +79,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 5,
             "column": 1
@@ -110,9 +90,6 @@
       "type": "SassNumber",
       "value": 1,
       "unit": "px",
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "1px",
@@ -120,7 +97,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 6,
             "column": 1
@@ -137,9 +113,6 @@
         "a": 1,
         "hex": "#000000"
       },
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "#000",
@@ -147,7 +120,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 7,
             "column": 1
@@ -164,9 +136,6 @@
         "a": 0.5,
         "hex": "#000000"
       },
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "rgba(#000, 0.5)",
@@ -174,7 +143,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 8,
             "column": 1
@@ -199,9 +167,6 @@
         }
       ],
       "separator": " ",
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "a b c",
@@ -209,7 +174,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 9,
             "column": 1
@@ -234,9 +198,6 @@
         }
       ],
       "separator": ",",
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "a, b, c",
@@ -244,7 +205,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 10,
             "column": 1
@@ -356,9 +316,6 @@
         }
       ],
       "separator": ",",
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "null, true, string, 'string', 1, 1px, #000, rgba(#000, 0.5), a b c, (a, b, c), (a: a, b: b, c: c)",
@@ -366,7 +323,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 11,
             "column": 1
@@ -390,9 +346,6 @@
           "value": "c"
         }
       },
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "(a: a, b: b, c: c)",
@@ -400,7 +353,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 12,
             "column": 1
@@ -494,9 +446,6 @@
           "separator": ","
         }
       },
-      "sources": [
-        "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss"
-      ],
       "declarations": [
         {
           "expression": "(\n\tnull: null,\n\tbool: true,\n\tstring_unquoted: string,\n\tstring_quoted: 'string',\n\tnumber_without_unit: 1,\n\tnumber_with_unit: 1px,\n\n\tcolor_without_alpha: #000,\n\tcolor_with_alpha: rgba(#000, 0.5),\n\tlist_space: a b c,\n\tlist_comma: (a, b, c)\n)",
@@ -504,7 +453,6 @@
             "default": false,
             "global": false
           },
-          "in": "/Volumes/Work/localhost/body-builder/tests/test-theme/sass/jSass.scss",
           "position": {
             "line": 13,
             "column": 1
