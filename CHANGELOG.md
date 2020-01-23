@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/body-builder/jsass/compare/v1.2.0...v1.2.1) (2020-01-23)
+
+
+### Bug Fixes
+
+* **SassVarsToJS:** Handling Colors in SassMap keys correctly ([ced40ca](https://github.com/body-builder/jsass/commit/ced40ca9b5209758a326916b0796ef747ba02263))
+
 ## [1.2.0](https://github.com/body-builder/jsass/compare/v1.1.2...v1.2.0) (2019-12-04)
 
 
