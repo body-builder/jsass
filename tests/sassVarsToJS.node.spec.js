@@ -100,7 +100,7 @@ describe_implementation('sassVarsToJS', function(sass) {
 	});
 
 	it('Should handle Objects correctly', function() {
-		const map = new sass.types.Map(15);
+		const map = new sass.types.Map(17);
 		map.setKey(0, new sass.types.String('null'));
 		map.setValue(0, sass.types.Null.NULL);
 		map.setKey(1, new sass.types.String('true'));
@@ -128,13 +128,18 @@ describe_implementation('sassVarsToJS', function(sass) {
 		map.setKey(12, new sass.types.String('color_with_alpha'));
 		map.setValue(12, new sass.types.Color(100, 110, 100, 0.5));
 
+		map.setKey(13, new sass.types.Color(255, 255, 255, 1));
+		map.setValue(13, new sass.types.Color(255, 255, 255, 1));
+		map.setKey(14, new sass.types.String('black'));
+		map.setValue(14, new sass.types.Color(0, 0, 0, 1));
+
 		const sublist = new sass.types.List(3);
 		sublist.setValue(0, new sass.types.String('listelem1'));
 		sublist.setValue(1, new sass.types.String('listelem2'));
 		sublist.setValue(2, new sass.types.String('listelem3'));
 
-		map.setKey(13, new sass.types.String('list'));
-		map.setValue(13, sublist);
+		map.setKey(15, new sass.types.String('list'));
+		map.setValue(15, sublist);
 
 		const submap = new sass.types.Map(3);
 		submap.setKey(0, new sass.types.String('prop1'));
@@ -144,11 +149,11 @@ describe_implementation('sassVarsToJS', function(sass) {
 		submap.setKey(2, new sass.types.String('prop3'));
 		submap.setValue(2, new sass.types.String('mappropelem3'));
 
-		map.setKey(14, new sass.types.String('map'));
-		map.setValue(14, submap);
+		map.setKey(16, new sass.types.String('map'));
+		map.setValue(16, submap);
 
-		// map.setKey(15, sass.types.String('variable')); TODO?
-		// map.setValue(15, new sass.types.String('$variable'));
+		// map.setKey(17, sass.types.String('variable')); TODO?
+		// map.setValue(17, new sass.types.String('$variable'));
 
 		const object = sassVarsToJS.convert(map);
 
@@ -189,6 +194,10 @@ describe_implementation('sassVarsToJS', function(sass) {
 		expect(object.color_without_alpha).toEqual('#000000');
 		expect(Object.keys(object)).toContain('color_with_alpha');
 		expect(object.color_with_alpha).toEqual('rgba(100, 110, 100, 0.5)');
+		expect(Object.keys(object)).toContain('white');
+		expect(object.white).toEqual('#FFFFFF');
+		expect(Object.keys(object)).toContain('black');
+		expect(object.black).toEqual('#000000');
 
 		// List
 		expect(Object.keys(object)).toContain('list');

@@ -20,6 +20,10 @@ $map_mixed: (
 
 	color_without_alpha: #000,
 	color_with_alpha: rgba(#000, 0.5),
+
+	white: #fff, // Key is SassColor in Sass, but should be String in JS
+	black: rgb(0, 0, 0), // Key is SassColor in Sass, but should be String in JS
+
 	list_space: a b c,
 	list_comma: (a, b, c)
 );

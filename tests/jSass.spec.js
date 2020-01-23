@@ -47,6 +47,8 @@ describe('jSass', function() {
 
 			color_without_alpha: '#000000',
 			color_with_alpha: 'rgba(0, 0, 0, 0.5)',
+			white: '#ffffff', // Key is SassColor in Sass, but should be String in JS
+			black: '#000000', // Key is SassColor in Sass, but should be String in JS
 			list_space: ['a', 'b', 'c'],
 			list_comma: ['a', 'b', 'c']
 		});

@@ -116,6 +116,8 @@ describe_implementation('jsVarsToSass', function(sass) {
 			fifty_percent: '50%',
 			color_without_alpha: '#000000',
 			color_with_alpha: 'rgb(100, 110, 100, 0.5)',
+			'rgb(255, 255, 255)': '#ffffff', // Key is SassColor in Sass, but should be String in JS
+			black: 'rgb(0, 0, 0, 1)', // Key is SassColor in Sass, but should be String in JS
 			array: ['arrelem1', 'arrelem2', 'arrelem3'],
 			map: { prop1: 'mappropelem1', prop2: 'mappropelem2', prop3: 'mappropelem3' }
 			// variable: '$variable', TODO?
@@ -167,14 +169,32 @@ describe_implementation('jsVarsToSass', function(sass) {
 		expect(map.getValue(12).getB()).toEqual(new sass.types.Color(100, 110, 100, 0.5).getB());
 		expect(map.getValue(12).getA()).toEqual(new sass.types.Color(100, 110, 100, 0.5).getA());
 
+		// Color (the map key is also a color)
+		expect(map.getKey(13).getR()).toEqual(new sass.types.Color(255, 255, 255, 1).getR());
+		expect(map.getKey(13).getG()).toEqual(new sass.types.Color(255, 255, 255, 1).getG());
+		expect(map.getKey(13).getB()).toEqual(new sass.types.Color(255, 255, 255, 1).getB());
+		expect(map.getKey(13).getA()).toEqual(new sass.types.Color(255, 255, 255, 1).getA());
+		expect(map.getValue(13).getR()).toEqual(new sass.types.Color(255, 255, 255, 1).getR());
+		expect(map.getValue(13).getG()).toEqual(new sass.types.Color(255, 255, 255, 1).getG());
+		expect(map.getValue(13).getB()).toEqual(new sass.types.Color(255, 255, 255, 1).getB());
+		expect(map.getValue(13).getA()).toEqual(new sass.types.Color(255, 255, 255, 1).getA());
+		expect(map.getKey(14).getR()).toEqual(new sass.types.Color(0, 0, 0, 1).getR());
+		expect(map.getKey(14).getG()).toEqual(new sass.types.Color(0, 0, 0, 1).getG());
+		expect(map.getKey(14).getB()).toEqual(new sass.types.Color(0, 0, 0, 1).getB());
+		expect(map.getKey(14).getA()).toEqual(new sass.types.Color(0, 0, 0, 1).getA());
+		expect(map.getValue(14).getR()).toEqual(new sass.types.Color(0, 0, 0, 1).getR());
+		expect(map.getValue(14).getG()).toEqual(new sass.types.Color(0, 0, 0, 1).getG());
+		expect(map.getValue(14).getB()).toEqual(new sass.types.Color(0, 0, 0, 1).getB());
+		expect(map.getValue(14).getA()).toEqual(new sass.types.Color(0, 0, 0, 1).getA());
+
 		// List
-		expect(map.getKey(13).getValue()).toEqual('array');
-		expect(map.getValue(13).getLength()).toEqual(3);
-		expect(map.getValue(13).getValue(0).getValue()).toEqual('arrelem1');
+		expect(map.getKey(15).getValue()).toEqual('array');
+		expect(map.getValue(15).getLength()).toEqual(3);
+		expect(map.getValue(15).getValue(0).getValue()).toEqual('arrelem1');
 
 		// Map
-		expect(map.getKey(14).getValue()).toEqual('map');
-		expect(map.getValue(14).getLength()).toEqual(3);
-		expect(map.getValue(14).getValue(0).getValue()).toEqual('mappropelem1');
+		expect(map.getKey(16).getValue()).toEqual('map');
+		expect(map.getValue(16).getLength()).toEqual(3);
+		expect(map.getValue(16).getValue(0).getValue()).toEqual('mappropelem1');
 	});
 });

@@ -409,6 +409,26 @@
             "hex": "#000000"
           }
         },
+        "white": {
+          "type": "SassColor",
+          "value": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 1,
+            "hex": "#ffffff"
+          }
+        },
+        "black": {
+          "type": "SassColor",
+          "value": {
+            "r": 0,
+            "g": 0,
+            "b": 0,
+            "a": 1,
+            "hex": "#000000"
+          }
+        },
         "list_space": {
           "type": "SassList",
           "value": [
@@ -448,7 +468,7 @@
       },
       "declarations": [
         {
-          "expression": "(\n\tnull: null,\n\tbool: true,\n\tstring_unquoted: string,\n\tstring_quoted: 'string',\n\tnumber_without_unit: 1,\n\tnumber_with_unit: 1px,\n\n\tcolor_without_alpha: #000,\n\tcolor_with_alpha: rgba(#000, 0.5),\n\tlist_space: a b c,\n\tlist_comma: (a, b, c)\n)",
+          "expression": "(\n\tnull: null,\n\tbool: true,\n\tstring_unquoted: string,\n\tstring_quoted: 'string',\n\tnumber_without_unit: 1,\n\tnumber_with_unit: 1px,\n\n\tcolor_without_alpha: #000,\n\tcolor_with_alpha: rgba(#000, 0.5),\n\n\twhite: #fff,  Key is SassColor in Sass, but should be String in JS\n\tblack: rgb(0, 0, 0),  Key is SassColor in Sass, but should be String in JS\n\n\tlist_space: a b c,\n\tlist_comma: (a, b, c)\n)",
           "flags": {
             "default": false,
             "global": false
