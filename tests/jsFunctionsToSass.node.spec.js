@@ -30,8 +30,8 @@ describe_implementation('jsFunctionsToSass', function(sass) {
 	});
 
 	it('Should throw error if the converter cannot handle the given variable type', function() {
-		expect(() => jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => {}, ['string', () => 'done'])).toThrow(new Error('SassVarsToJS - Unexpected Sass variable type `string`'));
-		expect(() => jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => {}, [2, () => 'done'])).toThrow(new Error('SassVarsToJS - Unexpected Sass variable type `number`'));
+		expect(() => jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => {}, ['string', () => 'done'])).toThrow(new Error(`Unsupported Sass constructor 'String'`));
+		expect(() => jsFunctionsToSass._wrapFunction('sass-fn($arg)', () => {}, [2, () => 'done'])).toThrow(new Error(`Unsupported Sass constructor 'Number'`));
 	});
 
 	it('Should return the values in the equivalent Sass type', function() {

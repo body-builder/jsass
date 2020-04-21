@@ -1,3 +1,4 @@
+import { getSassImplementation, getConstructorName } from './utils';
 const colorString = require('color-string');
 
 class SassVarsToJS {
@@ -5,6 +6,7 @@ class SassVarsToJS {
 		this._default_options = {};
 
 		this._options = Object.assign({}, this._default_options, options);
+		this.implementation = getSassImplementation(this._options);
 
 		this.convert = this._convert;
 
@@ -83,8 +85,8 @@ class SassVarsToJS {
 				// This works in most of the cases, but some Sass types, which can also be keys of a `SassMap` (like `SassColor`) don't have a `getValue()` method.
 				jsKey = sassKey.getValue();
 			} catch (e) {
-				switch (this._kindOf(sassKey)) {
-					case 'sasscolor':
+				switch (getConstructorName(sassKey, this.implementation)) {
+					case 'SassColor':
 						// Decoding the keyword of the color (or use the `hex` or `rgb()` string as a fallback).
 						// We cannot decode how the `key` was named in the source file, so if it was eg. `rgba(0, 0, 0, 1)`, we willrename the JS Object property to `black`.
 						// But we cover the most general use cases (like `(..., black: #000, ...)` ) properly.
@@ -100,42 +102,34 @@ class SassVarsToJS {
 		return object;
 	}
 
-	_kindOf(value) {
-		if (value.dartValue) {
-			return value.dartValue.constructor.name.toLowerCase();
-		} else {
-			// This does not rule it out that we are using _not_ a Dart Sass implementation. For example, `types.Null.NULL` in `Dart Sass` doesn't have a `dartValue` property.
-			return value.constructor.name.toLowerCase();
-		}
-	}
-
 	_convert(value, options = this._options) {
-		const kindOfValue = this._kindOf(value);
+		const kindOfValue = getConstructorName(value, this.implementation);
 
 		switch (kindOfValue) {
-			case 'sassnull':
+			case 'SassNull':
 				return this._convert_null(value, options);
 
-			case 'sassboolean':
+			case 'SassBoolean':
 				return this._convert_boolean(value, options);
 
-			case 'sassnumber':
+			case 'SassNumber':
 				return this._convert_number(value, options);
 
-			case 'sasscolor':
+			case 'SassColor':
 				return this._convert_color(value, options);
 
-			case 'sassstring':
+			case 'SassString':
 				return this._convert_string(value, options);
 
-			case 'sasslist':
-			case 'sassargumentlist':
+			case 'SassList':
+			case 'SassArgumentList':
 				return this._convert_array(value, options);
 
-			case 'sassmap':
+			case 'SassMap':
 				return this._convert_object(value, options);
 
 			default:
+				// We should not fall to here, as `getConstructorName()` should catch any invalid value types.
 				throw new Error('SassVarsToJS - Unexpected Sass variable type `' + kindOfValue + '`');
 		}
 	}

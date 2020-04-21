@@ -1,11 +1,11 @@
 const SassVarsToJS = require('../src/SassVarsToJS');
 
 describe_implementation('sassVarsToJS', function(sass) {
-	const sassVarsToJS = new SassVarsToJS();
+	const sassVarsToJS = new SassVarsToJS({ implementation: sass });
 
 	it('Should throw error if the converter cannot handle the given variable type', function() {
-		expect(() => sassVarsToJS.convert(new RegExp(/.*/))).toThrow(new Error('SassVarsToJS - Unexpected Sass variable type `regexp`'));
-		expect(() => sassVarsToJS.convert(() => {})).toThrow(new Error('SassVarsToJS - Unexpected Sass variable type `function`'));
+		expect(() => sassVarsToJS.convert(new RegExp(/.*/))).toThrow(new Error(`Unsupported Sass constructor 'RegExp'`));
+		expect(() => sassVarsToJS.convert(() => {})).toThrow(new Error(`Unsupported Sass constructor 'Function'`));
 	});
 	it('Should return the values in the equivalent JS type', function() {
 		// Null

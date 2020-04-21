@@ -1,3 +1,4 @@
+import { getSassImplementation } from './utils';
 const kindOf = require('kind-of');
 const JSVarsToSass = require('./JSVarsToSass');
 const SassVarsToJS = require('./SassVarsToJS');
@@ -21,10 +22,10 @@ class JSFunctionsToSass {
 		};
 
 		this._options = Object.assign({}, this._default_options, options);
-		this.implementation = this._options.implementation || require('node-sass');
+		this.implementation = getSassImplementation(this._options);
 
 		this._jsVarsToSass = new JSVarsToSass({ implementation: this.implementation });
-		this._sassVarsToJS = new SassVarsToJS();
+		this._sassVarsToJS = new SassVarsToJS({ implementation: this.implementation });
 
 		this.convert = this._wrapObject;
 	}

@@ -1,3 +1,4 @@
+import { getSassImplementation } from './utils';
 const colorString = require('color-string');
 const kindOf = require('kind-of');
 
@@ -9,7 +10,7 @@ class JSVarsToSass {
 		};
 
 		this._options = Object.assign({}, this._default_options, options);
-		this.implementation = this._options.implementation || require('node-sass');
+		this.implementation = getSassImplementation(this._options);
 
 		this.unitKeywords_spec = ['cm', 'mm', 'in', 'px', 'pt', 'pc', 'em', 'ex', 'ch', 'rem', 'vh', 'vw', 'vmin', 'vmax', '%'];
 		this.unitKeywords_experimental = ['Q', 'cap', 'ic', 'lh', 'rlh', 'vi', 'vb'];
