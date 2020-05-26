@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/body-builder/jsass/compare/v1.2.1...v1.2.2) (2020-05-26)
+
+
+### Bug Fixes
+
+* Handling Sass types correctly for Dart Sass before 1.22.5 and from 1.26.0 ([eab558e](https://github.com/body-builder/jsass/commit/eab558ec99e69f6eefb02090ef64ef01c93148a5)), closes [/github.com/sass/dart-sass/blob/master/CHANGELOG.md#1174](https://github.com/body-builder//github.com/sass/dart-sass/blob/master/CHANGELOG.md/issues/1174)
+
 ### [1.2.1](https://github.com/body-builder/jsass/compare/v1.2.0...v1.2.1) (2020-01-23)
 
 
