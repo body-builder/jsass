@@ -21,9 +21,9 @@ class JSVarsToSassData extends JSVarsToSass {
 			flags: {
 				important: false,
 				default: false,
-				global: false
+				global: false,
 			},
-			implementation: options.implementation || require('node-sass')
+			implementation: options.implementation || require('node-sass'),
 		};
 
 		super(Object.assign({}, _default_options, options));
@@ -31,7 +31,7 @@ class JSVarsToSassData extends JSVarsToSass {
 
 		this.convert = this._iterator;
 		this._sassVarsToJS = new SassVarsToJS({
-			implementation: this._options.implementation
+			implementation: this._options.implementation,
 		});
 
 		return this;

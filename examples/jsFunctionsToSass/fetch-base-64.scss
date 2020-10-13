@@ -1,6 +1,6 @@
 #do-not-try-this-at-home {
-  url-to-fetch: url('https://raw.githubusercontent.com/sass/node-sass/master/media/logo.svg');
-  background-image: url(fetch-base-64('https://raw.githubusercontent.com/sass/node-sass/master/media/logo.svg', 'image/svg+xml'));
-  background-size: contain;
-  background-repeat: no-repeat;
+	url-to-fetch: url('https://raw.githubusercontent.com/sass/node-sass/master/media/logo.svg');
+	background-image: url(fetch-base-64('https://raw.githubusercontent.com/sass/node-sass/master/media/logo.svg', 'image/svg+xml'));
+	background-size: contain;
+	background-repeat: no-repeat;
 }

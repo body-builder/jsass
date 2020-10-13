@@ -1,7 +1,7 @@
 .string-replace {
-  $string: 'The answer to life the universe and everything is 42.';
-  string: '#{$string}';
-  search: 'e';
-  replace: 'xoxo';
-  content-replaced: '#{str-replace($string, 'e', 'xoxo')}';
+	$string: 'The answer to life the universe and everything is 42.';
+	string: '#{$string}';
+	search: 'e';
+	replace: 'xoxo';
+	content-replaced: '#{str-replace($string, 'e', 'xoxo')}';
 }

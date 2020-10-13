@@ -5,8 +5,8 @@
  * @param obj
  * @returns {{}}
  */
-const jsVarsToDefinePlugin = function(obj) {
-	return Object.keys(obj).reduce(function(previous, current) {
+const jsVarsToDefinePlugin = function (obj) {
+	return Object.keys(obj).reduce(function (previous, current) {
 		previous[current] = JSON.stringify(obj[current]);
 		return previous;
 	}, {});

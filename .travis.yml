@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - 8 # legacy
+  - 10 # legacy
   - 12 # latest
   - 13 # next
 
@@ -23,9 +23,9 @@ before_script:
 
 matrix:
   exclude:
-    - node_js: 8
+    - node_js: 10
       env: SASS_VERSION=latest
-    - node_js: 8
+    - node_js: 10
       env: SASS_VERSION=next
     - node_js: 12
       env: SASS_VERSION=legacy

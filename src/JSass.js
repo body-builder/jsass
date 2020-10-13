@@ -120,12 +120,12 @@ class JSass {
  * Checks whether the given String is a valid CSS selector
  * @see https://stackoverflow.com/a/42149818/3111787
  */
-const isValidSelector = (function(selector) {
+const isValidSelector = (function (selector) {
 	if (typeof document === 'undefined') return true;
 
 	const dummy = document.createElement('br');
 
-	return function(selector) {
+	return function (selector) {
 		try {
 			dummy.querySelector(selector);
 		} catch (e) {
@@ -168,9 +168,9 @@ function jSass_resolve(selector, jSass = window.jSass) {
 function JSass_mod_jQuery(jSass = window.jSass, jQuery = window.jQuery) {
 	jQuery.fn.extend({
 		initCore: jQuery.fn.init,
-		init: function(selector, context, root) {
+		init: function (selector, context, root) {
 			return this.initCore(jSass_resolve(selector, jSass), jSass_resolve(context, jSass), root);
-		}
+		},
 	});
 
 	jQuery.fn.init.prototype = jQuery.fn;
@@ -178,5 +178,5 @@ function JSass_mod_jQuery(jSass = window.jSass, jQuery = window.jQuery) {
 
 module.exports = {
 	JSass,
-	JSass_mod_jQuery
+	JSass_mod_jQuery,
 };
