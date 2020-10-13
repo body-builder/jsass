@@ -11,15 +11,15 @@ module.exports = {
 				const jSass = new JSass(extractedVariables),
 					compactedVariables = {};
 
-				Object.keys(extractedVariables).forEach(function(context) {
+				Object.keys(extractedVariables).forEach(function (context) {
 					compactedVariables[context] = {};
-					Object.keys(extractedVariables[context]).forEach(function(key) {
+					Object.keys(extractedVariables[context]).forEach(function (key) {
 						compactedVariables[context][key] = jSass.get(key);
 					});
 				});
 
 				return compactedVariables;
-			}
+			},
 		};
-	}
+	},
 };

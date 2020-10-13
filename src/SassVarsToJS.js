@@ -24,7 +24,7 @@ class SassVarsToJS {
 	_convert_number(value, options) {
 		const result = {
 			value: value.getValue(),
-			unit: value.getUnit()
+			unit: value.getUnit(),
 		};
 
 		if (result.unit) {
@@ -39,7 +39,7 @@ class SassVarsToJS {
 			r: value.getR(),
 			g: value.getG(),
 			b: value.getB(),
-			a: value.getA()
+			a: value.getA(),
 		};
 
 		if (options.toKeyword) {

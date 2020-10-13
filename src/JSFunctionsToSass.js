@@ -18,7 +18,7 @@ class JSFunctionsToSass {
 	constructor(options = {}) {
 		this._default_options = {
 			listSeparator: ', ',
-			quote: "'" // prettier-ignore
+			quote: "'", // prettier-ignore
 		};
 
 		this._options = Object.assign({}, this._default_options, options);
@@ -81,7 +81,7 @@ class JSFunctionsToSass {
 		return {
 			name,
 			args,
-			spreadArgs
+			spreadArgs,
 		};
 	}
 

@@ -6,7 +6,7 @@ class JSVarsToSass {
 	constructor(options = {}) {
 		this._default_options = {
 			listSeparator: ', ',
-			strict: true
+			strict: true,
 		};
 
 		this._options = Object.assign({}, this._default_options, options);
@@ -80,7 +80,7 @@ class JSVarsToSass {
 			if (valueNumber + unit.toLowerCase() === value.toLowerCase()) {
 				returnObj = {
 					value: valueNumber,
-					unit: valueUnit
+					unit: valueUnit,
 				};
 				return true;
 			}
