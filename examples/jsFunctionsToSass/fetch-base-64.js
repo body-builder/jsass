@@ -1,6 +1,6 @@
 const path = require('path');
 const sass = require('node-sass');
-const JSFunctionsToSass = require('../../src/JSFunctionsToSass');
+const JSFunctionsToSass = require('../../dist/JSFunctionsToSass');
 const jsFunctionsToSass = new JSFunctionsToSass({ implementation: sass });
 
 console.log('\nUsing an async JS function in JSFunctionsToSass\n');
