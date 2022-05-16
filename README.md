@@ -4,7 +4,7 @@
 [![dependencies Status](https://david-dm.org/body-builder/jsass/status.svg)](https://david-dm.org/body-builder/jsass)
 [![devDependencies Status](https://david-dm.org/body-builder/jsass/dev-status.svg)](https://david-dm.org/body-builder/jsass?type=dev)
 [![peerDependencies Status](https://david-dm.org/body-builder/jsass/peer-status.svg)](https://david-dm.org/body-builder/jsass?type=peer)
-[![Build Status](https://travis-ci.com/body-builder/jsass.svg?branch=master)](https://travis-ci.com/body-builder/jsass)
+[![Build Status](https://app.travis-ci.com/body-builder/jsass.svg?branch=master)](https://app.travis-ci.com/body-builder/jsass)
 
 Share functions and variables between JS and Sass.  
 Supports both [Node Sass](https://github.com/sass/node-sass) and [Dart Sass](https://github.com/sass/dart-sass).

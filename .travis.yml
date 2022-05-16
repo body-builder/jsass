@@ -2,8 +2,8 @@ language: node_js
 
 node_js:
   - 10 # legacy
-  - 12 # latest
-  - 13 # next
+  - 16 # latest
+  - 18 # next
 
 os:
   - linux
@@ -27,7 +27,7 @@ matrix:
       env: SASS_VERSION=latest
     - node_js: 10
       env: SASS_VERSION=next
-    - node_js: 12
+    - node_js: 16
       env: SASS_VERSION=legacy
-    - node_js: 13
+    - node_js: 18
       env: SASS_VERSION=legacy
