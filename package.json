@@ -42,7 +42,7 @@
     "kind-of": "^6.0.3"
   },
   "peerDependencies": {
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.5.3 || 5 || 6 || 7",
     "sass": "^1.17.4"
   },
   "devDependencies": {

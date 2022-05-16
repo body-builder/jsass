@@ -122,7 +122,7 @@ class JSFunctionsToSass {
 		const cb = args.slice(-1)[0],
 			kindOfCb = kindOf(cb),
 			hasCb = (kindOfCb === 'function'), // eslint-disable-line prettier/prettier
-			hasFalseCb = (kindOfCb === 'callbackbridge'); // eslint-disable-line prettier/prettier
+			hasFalseCb = (kindOfCb === 'callbackbridge' || (kindOfCb === 'object' && cb.constructor.name === 'CallbackBridge')); // eslint-disable-line prettier/prettier
 
 		// Removing the optional callback from the Sass function arguments list
 		const sassTypeArgs = (hasCb || hasFalseCb) ? args.slice(0, -1) : args; // eslint-disable-line prettier/prettier
